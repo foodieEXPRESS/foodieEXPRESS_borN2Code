@@ -4,12 +4,22 @@
   "description": "MVP-Repo-Starter",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate",
+    "seed": "node database/seed.js",
+    "db:reset": "npx prisma migrate reset --force",
+    "db:migrate": "npx prisma migrate deploy",
+    "db:generate": "npx prisma generate",
+    "db:seed": "node database/seed.js",
+    "db:setup": "npm run db:reset && npm run db:generate && npm run db:migrate && npm run db:seed"
   },
   "author": "Houssem Bouraoui",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@prisma/client": "^6.13.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "mongoose": "^8.0.1",
