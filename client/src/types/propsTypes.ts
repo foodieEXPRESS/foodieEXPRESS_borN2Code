@@ -1,0 +1,4 @@
+    interface Order {
+  id: string;
+
+}
