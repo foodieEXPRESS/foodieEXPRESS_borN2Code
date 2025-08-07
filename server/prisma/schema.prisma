@@ -1,0 +1,428 @@
+//📁 This is part of your schema.prisma file
+//This file tells Prisma how to connect to your database and how to generate the client you will use in your app (like in Node.js or Express).
+//------------------------------------------------------------
+//✅ What it does:
+//This block tells Prisma how to generate the Prisma Client (a special JavaScript/TypeScript library that lets you talk to your database easily).
+generator client {
+  provider = "prisma-client-js"
+  // This is where the generated Prisma Client will be stored.
+  output   = "../generated/prisma"
+  // This is the path where the Prisma Client will be generated.
+}
+//------------------------------------------------------------
+// ✅ What it does:
+// This block tells Prisma how to connect to your database.
+datasource db {
+  provider = "mysql"
+  //👉 You are using a MySQL database. Prisma also supports PostgreSQL, SQLite, MongoDB, etc.
+  url      = env("DATABASE_URL")
+  //👉 Prisma will read the database connection string from a .env file in your project. This is a secure way to manage passwords and credentials.
+}
+//----------------------------------------------------------
+
+
+
+//1. -------------User Model
+enum Role {
+  CUSTOMER
+  RESTAURANT
+  DRIVER
+}
+// An enum (short for "enumeration") is a list of fixed values.
+// Here, each user must have a role, and the role can only be one of these values: CUSTOMER, RESTAURANT, or DRIVER.
+model User {
+  id           String      @id @default(uuid())
+//   id: Unique ID for every user.
+// @id: Marks it as the primary key.
+// @default(uuid()): Automatically generate a unique ID for every new user using UUID format (like c4a1...).
+  fullName     String
+  email        String      @unique
+  password     String
+//fullName: Required name of the user.
+// email: Required and must be unique (no two users can have the same email).
+// password: User's password (stored as a string, usually hashed).
+  role         Role
+  //role: The user's role (must be one of the enum values: CUSTOMER, RESTAURANT, or DRIVER).
+  phoneNumber  String?
+  address      String?
+  //These are optional fields (because of ?)
+// The user can have a phoneNumber and address, but it's not required.
+  media   Media[]  // One-to-many relationship with Media
+  // Relations
+
+  restaurant   Restaurant? // No fields or references here// A User can own a Restaurant (one-to-one relationship)
+  //why one to one?
+  // A User can be a Restaurant owner, but not all users are restaurants.
+  driver         Driver?
+  // A User can be a Driver (one-to-one relationship)
+// A User can be a Driver, but not all users are drivers.
+  customerOrders Order[]   @relation("CustomerOrders")
+  reviews      Review[]
+  creditCards  CreditCard[]  // One user => many cards
+  notifications Notification[] // One user => many notifications
+  rooms    UserRooms[]    // many rooms a user can be part of
+  messages Message[] // many messages a user can send
+
+  @@map("Users") // optional: if your DB table is named "Users"
+}
+
+
+//2.----------------------Room Model--------------------------
+
+
+
+// This model represents a chat room where users can communicate.
+// It includes fields for the room's ID and name (optional for group chats).
+// It has a many-to-many relationship with users (participants) and a one-to-many relationship with messages.
+// Each room can have multiple participants (users) and multiple messages.  
+model Room {
+  id        String   @id @default(uuid())
+  name      String?  // Optional: for group chats
+
+  // Many-to-Many: users in this room
+ participants UserRooms[]  // Each room can have multiple users (participants)
+
+  // One-to-Many: messages in this room
+  messages    Message[]// Each room can have multiple messages
+}
+//--------------UserRooms join table --------------------------
+// This model represents the many-to-many relationship between users and rooms.
+// It allows users to be part of multiple rooms and rooms to have multiple users.
+model UserRooms {
+  userId     String// Foreign key to User
+  user       User    @relation(fields: [userId], references: [id])// Each user can be part of multiple rooms
+  roomId     String// Foreign key to Room
+  room       Room    @relation(fields: [roomId], references: [id])// Each room can have multiple users
+  joinedAt DateTime @default(now())// Timestamp when the user joined the room
+  role      String? // Optional: role of the user in the room (e.g., admin, member)
+  @@id([userId, roomId])//  Composite primary key to ensure uniqueness of user-room pairs
+  @@map("UserRooms") // optional: if your DB table is named "UserRooms
+}
+//3.----------------------Message Model--------------------------
+// This model represents a message sent in a chat room.
+// It includes fields for the message's content, creation date, and relations to the sender (User) and the room (Room).
+model Message {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  // Relation to sender
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id])//each message is sent by one user
+
+  // Relation to room
+  roomId    String
+  room      Room     @relation(fields: [roomId], references: [id])//each message belongs to one room
+}
+
+
+
+
+
+// 4.----------------------CreditCard Model--------------------------
+
+
+
+
+
+
+
+
+// This model represents a user's credit card information.
+// It includes fields for the card's last 4 digits, brand, and whether it's the user's default card.
+// It also has a foreign key to link the card to a specific user.
+// This is a one-to-many relationship: one user can have multiple credit cards.
+model CreditCard {
+  // Unique identifier for the card (UUID)
+  id                 String   @id @default(uuid())
+
+  // Last 4 digits of the card number (for reference only)
+  cardLast4          String
+
+  // Card brand, e.g., "Visa", "MasterCard"
+  cardBrand          String
+
+  // Whether this is the user's default card for payment
+  isDefault          Boolean  @default(false)
+
+  // Foreign key linking this card to a specific user
+  userId             String
+
+  // Relation: This card belongs to one user
+  user               User     @relation(fields: [userId], references: [id])
+}
+
+// 5.-----------------Notification Model---------------------------------
+// This model represents notifications sent to users.
+// It includes fields for the notification's title, message, read status, and creation date.
+// It also has a foreign key to link the notification to a specific user.
+// This is a one-to-many relationship: one user can have multiple notifications.
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  
+  // Foreign Key
+  userId    String
+
+  // Relation
+  user      User     @relation(fields: [userId], references: [id])
+  // A Notification belongs to one User
+  // A User can have many Notifications
+
+  restaurantId String?
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+  // A Notification can be related to a Restaurant (optional)
+  // A Restaurant can have many Notifications
+  driverId     String?
+  driver       Driver? @relation(fields: [driverId], references: [id])
+  // A Notification can be related to a Driver (optional)
+  // A Driver can have many Notifications
+  orderId      String?
+  order        Order? @relation(fields: [orderId], references: [id])
+  // A Notification can be related to an Order (optional)
+  // An Order can have many Notifications
+}
+
+//----------------------Restaurant Model--------------------------
+model Restaurant {
+  id            String   @id @default(uuid())
+  name          String
+  cuisineType   String?
+  description   String?
+  location      String?
+  contactEmail  String?
+  contactPhone  String?
+  openingHours  String?
+  closingHours  String?
+  rating        Float?   @default(0.0) // Average rating of the restaurant
+
+  // Relations
+  ownerId       String   @unique
+  owner         User     @relation(fields: [ownerId], references: [id])// A Restaurant is owned by one User (the owner)
+  cuisineId     String
+  cuisine       Cuisine  @relation(fields: [cuisineId], references: [id])// A Restaurant belongs to one Cuisine
+  menus    Menu[]
+  orders  RestaurantOrder[] // A Restaurant can have many Orders through the RestaurantOrder join table
+  reviews  Review[]// A Restaurant can have many Reviews
+  notifications Notification[] // One restaurant => many notifications
+    media   Media[]  // One-to-many relationship with Media
+}
+//-----------------------Cuisine Model--------------------------
+// This model represents different types of cuisines.
+// It includes fields for the cuisine's ID and name.
+// It has a one-to-many relationship with the Restaurant model, meaning one cuisine can be associated with many restaurants.
+// This allows you to categorize restaurants by their cuisine type (e.g., Italian, Chinese, Indian, etc.).
+// Each restaurant can have one cuisine type, but many restaurants can share the same cuisine type.
+// This is useful for filtering restaurants by cuisine in your application.
+model Cuisine {
+  id           String        @id @default(uuid())
+  name         String        @unique
+  restaurants  Restaurant[]  // One cuisine => many restaurants
+}
+
+
+//---3. Menu Model
+
+//---------- model of menu---------------------
+model Menu {
+  id           String      @id @default(uuid())
+  name         String
+  description  String?
+  available    Boolean     @default(true)
+
+  // Relations
+  restaurantId String
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])// A Menu belongs to one Restaurant
+
+   items        MenuItem[]   // 👈 A menu has many items
+  orderItems   OrderItem[]// A Menu can have many OrderItems
+  media   Media[]  // One-to-many
+}
+//-------------------MenuItem Model--------------------------
+// This model represents individual items on a restaurant's menu.
+// It includes fields for the item's ID, name, description, price, and an optional image URL.
+// It has a foreign key to link the item to a specific menu, establishing a one-to-many relationship.
+// This means each menu can have multiple items, but each item belongs to only one menu
+model MenuItem {
+  id       String   @id @default(uuid())
+  name     String
+  description String?
+  price    Float
+  available Boolean @default(true)// Indicates if the item is available for order
+//relations
+  // Foreign key to Menu
+  menuId   String
+  menu     Menu     @relation(fields: [menuId], references: [id]) // 👈 Each MenuItem belongs to one Menu
+  tags     ItemTags[] // A MenuItem can have multiple tags through the ItemTags join table
+  media   Media[]  // One-to-many relationship with Media
+}
+//---------------Tag Model--------------------------
+// This model represents tags that can be associated with menu items.
+// Tags can be used to categorize items (e.g., vegetarian, spicy, gluten-free).
+// It includes fields for the tag's ID and name, and it has a many-to-many relationship with the MenuItem model.
+// This means each tag can be associated with multiple menu items, and each menu item can have multiple tags.
+// The relationship is established through a join table (ItemTags)
+model Tag {
+  id        String       @id @default(uuid())
+  name      String       @unique
+  items     ItemTags[] // A Tag can be associated with many MenuItems
+}
+//join Table: ItemTags
+model ItemTags {
+  itemId    String
+  item      MenuItem     @relation(fields: [itemId], references: [id])
+  tagId     String
+  tag       Tag          @relation(fields: [tagId], references: [id])
+
+  @@id([itemId, tagId]) // Composite primary key to ensure uniqueness of item-tag pairs
+  @@map("ItemTags") // optional: if your DB table is named "ItemTags"
+}
+model Media {
+  id            String   @id @default(uuid())
+  url           String
+  type          String?   // e.g. "image", "video", etc.
+  uploadedAt    DateTime  @default(now())
+
+  // Foreign keys (optional - only one should be non-null per record)
+  userId        String? 
+  restaurantId  String?
+  menuId        String?
+  menuItemId    String?
+  driverId      String?
+
+  // Relations
+  user          User?       @relation(fields: [userId], references: [id])
+  restaurant    Restaurant? @relation(fields: [restaurantId], references: [id])
+  menu          Menu?       @relation(fields: [menuId], references: [id])
+  menuItem      MenuItem?   @relation(fields: [menuItemId], references: [id])
+  driver        Driver?     @relation(fields: [driverId], references: [id])
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//4. Order Model
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id           String        @id @default(uuid())
+  status       OrderStatus   @default(PENDING)
+  totalAmount  Float?
+
+  // Relations
+  customerId   String
+  customer     User          @relation("CustomerOrders", fields: [customerId], references: [id])// A Order belongs to one User (the customer)
+
+  restaurantId String
+  restaurant   RestaurantOrder[] // A Order can be associated with one Restaurant through the RestaurantOrder join table
+
+  driverId     String?
+  driver       Driver?       @relation(fields: [driverId], references: [id])// A Order can be assigned to one Driver (optional)
+
+  orderItems   OrderItem[] // A Order can have many OrderItems
+  payment      Payment?
+  orderTracking OrderTracking?
+  notifications Notification[] // One order => many notifications
+}
+
+model RestaurantOrder {
+  restaurantId String
+  orderId      String
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  order        Order      @relation(fields: [orderId], references: [id])
+
+  @@id([restaurantId, orderId]) // composite PK
+}
+
+//5. ------------------OrderItem Model-----------------
+model OrderItem {
+  id        String   @id @default(uuid())
+  quantity  Int
+  price     Float
+
+  // Relations
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])// A OrderItem belongs to one Order
+
+  menuId    String
+  menu      Menu     @relation(fields: [menuId], references: [id])
+}
+
+//6.------------------- Driver Model----------------------
+model Driver {
+  id          String   @id @default(uuid())
+  vehicleInfo String?
+  isAvailable Boolean @default(true)
+
+  // Relations
+  // FK to User
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+  orders     Order[]// A Driver can have many Orders
+  notifications Notification[] // One driver => many notifications
+  media   Media[]  // One-to-many
+}
+//7. ---------------Review Model-----------------
+model Review {
+  id           String      @id @default(uuid())
+  rating       Int
+  comment      String?
+
+  // Relations
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+// A Review belongs to one User
+// A User can write many Reviews  
+
+  restaurantId String
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+// A Review belongs to one Restaurant
+// A Restaurant can have many Reviews
+}
+//8. -----------------Payment Model-----------------
+// This model represents payment information for an order.
+// It includes fields for the payment method, amount, and status.
+// It has a foreign key to link the payment to a specific order, establishing a one-to
+model Payment {
+  id        String   @id @default(uuid())
+  method    String?
+  amount    Float?
+  status    String?
+
+  // Relations
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id])// A Payment belongs to one Order
+  // An Order can have one Payment
+}
+
+//9. OrderTracking Model
+model OrderTracking {
+  id           String       @id @default(cuid())
+  status       OrderStatus
+  lastLocation String?
+  updatedAt    DateTime     @updatedAt
+
+  // Foreign key to Order
+  orderId      String       @unique
+  order        Order        @relation(fields: [orderId], references: [id])
+}
+
