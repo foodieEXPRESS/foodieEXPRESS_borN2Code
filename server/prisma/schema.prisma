@@ -6,8 +6,6 @@
 generator client {
   provider = "prisma-client-js"
   // This is where the generated Prisma Client will be stored.
-  output   = "../generated/prisma"
-  // This is the path where the Prisma Client will be generated.
 }
 //------------------------------------------------------------
 // ✅ What it does:
@@ -45,6 +43,8 @@ model User {
   //role: The user's role (must be one of the enum values: CUSTOMER, RESTAURANT, or DRIVER).
   phoneNumber  String?
   address      String?
+  latitude      Float?
+  longitude     Float?
   //These are optional fields (because of ?)
 // The user can have a phoneNumber and address, but it's not required.
   media   Media[]  // One-to-many relationship with Media
@@ -191,8 +191,9 @@ model Restaurant {
   id            String   @id @default(uuid())
   name          String
   cuisineType   String?
-  description   String?
-  location      String?
+  description String? @db.LongText
+  latitude      Float?
+  longitude     Float?
   contactEmail  String?
   contactPhone  String?
   openingHours  String?
@@ -230,8 +231,9 @@ model Cuisine {
 model Menu {
   id           String      @id @default(uuid())
   name         String
-  description  String?
+description String? @db.LongText
   available    Boolean     @default(true)
+
 
   // Relations
   restaurantId String
@@ -249,7 +251,7 @@ model Menu {
 model MenuItem {
   id       String   @id @default(uuid())
   name     String
-  description String?
+  description String? @db.LongText
   price    Float
   available Boolean @default(true)// Indicates if the item is available for order
 //relations
@@ -280,10 +282,17 @@ model ItemTags {
   @@id([itemId, tagId]) // Composite primary key to ensure uniqueness of item-tag pairs
   @@map("ItemTags") // optional: if your DB table is named "ItemTags"
 }
+enum typeFile {
+  video
+  audio
+  image
+  document
+  other
+}
 model Media {
   id            String   @id @default(uuid())
   url           String
-  type          String?   // e.g. "image", "video", etc.
+  type          typeFile   // e.g. "image", "video", etc.
   uploadedAt    DateTime  @default(now())
 
   // Foreign keys (optional - only one should be non-null per record)
@@ -300,14 +309,6 @@ model Media {
   menuItem      MenuItem?   @relation(fields: [menuItemId], references: [id])
   driver        Driver?     @relation(fields: [driverId], references: [id])
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -372,6 +373,8 @@ model Driver {
   id          String   @id @default(uuid())
   vehicleInfo String?
   isAvailable Boolean @default(true)
+  latitude      Float?
+  longitude     Float?
 
   // Relations
   // FK to User
