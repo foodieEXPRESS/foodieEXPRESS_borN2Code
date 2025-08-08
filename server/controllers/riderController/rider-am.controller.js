@@ -73,32 +73,41 @@ const updateDriverPhoneNumber = async (req, res) => {
     const userId = '2d9fe74a-2f0a-4a93-b0ee-cfc2db54078b';
     const { phoneNumber } = req.body;
 
-        const updatedDriver = await prisma.driver.update({
-            where: { userId },
-            data: { phoneNumber },
-            include: {
-                user: {
-                    include: {
-                        media: true
-                    }
-                },
-                media: true
-            }
-        });
+    // First update the user's phoneNumber
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { phoneNumber },
+      include: {
+        media: true
+      }
+    });
 
-        res.status(200).json({
-            success: true,
-            message: 'Driver phone number updated successfully',
-            data: updatedDriver
-        });
-    } catch (error) {
-        console.error('Error updating driver phone number:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Internal server error',
-            error: error.message
-        });
-    }
+    // Then get the updated driver with the updated user
+    const updatedDriver = await prisma.driver.findUnique({
+      where: { userId },
+      include: {
+        user: {
+          include: {
+            media: true
+          }
+        },
+        media: true
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Driver phone number updated successfully',
+      data: updatedDriver
+    });
+  } catch (error) {
+    console.error('Error updating driver phone number:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
 }
 //update driver full name
 const updateDriverFullName = async (req, res) => {
@@ -107,9 +116,18 @@ const updateDriverFullName = async (req, res) => {
     const userId = '2d9fe74a-2f0a-4a93-b0ee-cfc2db54078b';
     const { fullName } = req.body;
 
-    const updatedDriver = await prisma.driver.update({
-      where: { userId },
+    // First update the user's fullName
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
       data: { fullName },
+      include: {
+        media: true
+      }
+    });
+
+    // Then get the updated driver with the updated user
+    const updatedDriver = await prisma.driver.findUnique({
+      where: { userId },
       include: {
         user: {
           include: {
