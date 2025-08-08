@@ -44,6 +44,11 @@ const riderSlice = createSlice({
         state.user.phoneNumber = action.payload;
       }
     },
+    updateDriverVehicleInfo: (state, action: PayloadAction<string>) => {
+      if (state.driver) {
+        state.driver.vehicleInfo = action.payload;
+      }
+    },
     clearRiderData: (state) => {
       state.driver = null;
       state.user = null;
@@ -59,6 +64,7 @@ export const {
   updateDriverAvailability,
   updateDriverFullName,
   updateDriverPhoneNumber,
+  updateDriverVehicleInfo,
   clearRiderData 
 } = riderSlice.actions;
 

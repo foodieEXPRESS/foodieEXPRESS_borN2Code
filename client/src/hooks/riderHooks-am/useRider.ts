@@ -5,7 +5,7 @@ import {
   updateAvailability, 
   updateFullName, 
   updatePhoneNumber 
-} from '../../store/riderThunks';
+} from '../../store/riderThunks-am';
 
 export const useRider = () => {
   const dispatch = useDispatch<AppDispatch>();

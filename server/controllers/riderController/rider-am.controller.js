@@ -208,11 +208,47 @@ const updateDriverAvailability = async (req, res) => {
   }
 };
 
+// Update driver vehicle info
+const updateDriverVehicleInfo = async (req, res) => {
+  try {
+    // const { userId } = req.user;
+    const userId = '2d9fe74a-2f0a-4a93-b0ee-cfc2db54078b';
+    const { vehicleInfo } = req.body;
+
+    const updatedDriver = await prisma.driver.update({
+      where: { userId },
+      data: { vehicleInfo },
+      include: {
+        user: {
+          include: {
+            media: true
+          }
+        },
+        media: true
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Driver vehicle info updated successfully',
+      data: updatedDriver
+    });
+  } catch (error) {
+    console.error('Error updating driver vehicle info:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   getDriverProfile,
   getDriverById,
   updateDriverAvailability,
   updateDriverFullName,
   updateDriverPhoneNumber,
- getAllDrivers
+  updateDriverVehicleInfo,
+  getAllDrivers
 };

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../../../store';
-import { fetchDriverProfile } from '../../../store/riderThunks';
-import Header from '../../../components/rider profile/Header';
-import PageTitle from '../../../components/rider profile/PageTitle';
-import Sidebar from '../../../components/rider profile/Sidebar';
-import ProfileCard from '../../../components/rider profile/ProfileCard';
+import { fetchDriverProfile } from '../../../store/riderThunks-am';
+import Header from '../../../components/rider profile/Header-am';
+import PageTitle from '../../../components/rider profile/PageTitle-am';
+import Sidebar from '../../../components/rider profile/Sidebar-am';
+import ProfileCard from '../../../components/rider profile/ProfileCard-am';
 
 const RiderProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

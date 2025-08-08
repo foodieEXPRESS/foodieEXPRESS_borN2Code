@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setLoading, setError, setDriver, updateDriverAvailability, updateDriverFullName, updateDriverPhoneNumber } from './riderSlice';
+import { setLoading, setError, setDriver, updateDriverAvailability, updateDriverFullName, updateDriverPhoneNumber, updateDriverVehicleInfo } from './riderSlice-am';
 import * as riderService from '../services/riderService';
 import type { AppDispatch } from './index';
 
@@ -83,6 +83,28 @@ export const updatePhoneNumber = createAsyncThunk(
       return driver;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to update phone number';
+      dispatch(setError(errorMessage));
+      throw error;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+// Update driver vehicle info
+export const updateVehicleInfo = createAsyncThunk(
+  'rider/updateVehicleInfo',
+  async (vehicleInfo: string, { dispatch }) => {
+    try {
+      dispatch(setLoading(true));
+      dispatch(setError(null));
+      
+      const driver = await riderService.updateDriverVehicleInfo(vehicleInfo);
+      dispatch(updateDriverVehicleInfo(vehicleInfo));
+      
+      return driver;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update vehicle info';
       dispatch(setError(errorMessage));
       throw error;
     } finally {

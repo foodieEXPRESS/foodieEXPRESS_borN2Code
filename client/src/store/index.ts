@@ -1,10 +1,13 @@
     import { configureStore } from '@reduxjs/toolkit';
     import counterReducer from './counterSlice';
-    import riderReducer from './riderSlice';
+    import restaurantReducer from './restaurantDetailsSlice';
+    import riderReducer from './riderSlice-am';
 
     export const store = configureStore({
       reducer: {
         counter: counterReducer,
+        restaurant: restaurantReducer,
+
         rider: riderReducer,
       },
     });

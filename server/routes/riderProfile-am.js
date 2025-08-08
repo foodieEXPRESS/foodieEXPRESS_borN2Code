@@ -6,12 +6,12 @@ const {
   getAllDrivers,
   updateDriverAvailability,
   updateDriverFullName,
-  updateDriverPhoneNumber
+  updateDriverPhoneNumber,
+  updateDriverVehicleInfo
 } = require('../controllers/riderController/rider-am.controller');
 
 // Get current driver profile
 router.get('/me', getDriverProfile);
-
 
 // Get driver by ID
 router.get('/:id', getDriverById);
@@ -23,5 +23,6 @@ router.get('/', getAllDrivers);
 router.put('/me/availability', updateDriverAvailability);
 router.put('/me/fullname', updateDriverFullName);
 router.put('/me/phonenumber', updateDriverPhoneNumber);
+router.put('/me/vehicle', updateDriverVehicleInfo);
 
 module.exports = router;

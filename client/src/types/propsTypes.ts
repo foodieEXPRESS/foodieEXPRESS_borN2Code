@@ -1,19 +1,15 @@
-
 export interface Order {
   id: string;
 }
-
 
 export interface SidebarProps {
   activeItem: string;
 }
 
-
 export interface PageTitleProps {
   title: string;
   subtitle: string;
 }
-
 
 export interface UserAvatarProps {
   name: string;
@@ -22,11 +18,13 @@ export interface UserAvatarProps {
   isActive: boolean;
 }
 
-
 export interface ProfileFieldProps {
   label: string;
   value: string;
   showEdit?: boolean;
   showNote?: string;
   customValueColor?: string;
+  onEdit?: (fieldKey: string, value: string) => void;
+  fieldKey?: string;
 }
+

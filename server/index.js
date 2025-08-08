@@ -49,6 +49,9 @@ app.get("/:restId", async (req, res) => {
   }
 });
 
+const RestDetailsRoutes = require('./routes/RestDetailsRoute')
+app.use("/api/details",RestDetailsRoutes);
+
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
 });

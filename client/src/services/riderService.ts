@@ -68,3 +68,15 @@ export const updateDriverPhoneNumber = async (phoneNumber: string): Promise<Driv
     throw new Error('Failed to update driver phone number');
   }
 };
+
+// Update driver vehicle info
+export const updateDriverVehicleInfo = async (vehicleInfo: string): Promise<Driver> => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/me/vehicle`, {
+      vehicleInfo
+    });
+    return response.data.data;
+  } catch (error) {
+    throw new Error('Failed to update driver vehicle info');
+  }
+};
