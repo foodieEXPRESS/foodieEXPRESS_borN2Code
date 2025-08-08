@@ -6,11 +6,12 @@ const dummyMenu: MenuItem[] = [
   {
     id: "114654165416",
     name: "Margherita Pizza",
-    category: "🍕 Pizza",
-    tags: ["Popular", "Vegetarian"],
     description:
       "Fresh mozzarella, tomato sauce, basil, and olive oil on our signature wood-fired crust",
     price: 16.99,
+    category: "🍕 Pizza",
+    tags: ["Popular", "Vegetarian"],
+    
   },
   {
     id: "48468468416446",
