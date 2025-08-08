@@ -10,7 +10,7 @@ import Counter from './pages/counter';
 
 import CartView from './pages/hazem/cartView';
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
-import RiderProfile from './pages/profles/RiderProfile';{/* TO DELETE LATER*/}
+import RiderProfile from './pages/profles/riderProfile-am/RiderProfile';{/* TO DELETE LATER*/}
 function App() {
   return (
     

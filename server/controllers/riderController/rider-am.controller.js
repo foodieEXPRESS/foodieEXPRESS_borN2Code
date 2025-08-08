@@ -4,7 +4,9 @@ const prisma = new PrismaClient();
 // Get current driver profile
 const getDriverProfile = async (req, res) => {
   try {
-    const { userId } = req.user; // Assuming authentication middleware sets this
+    // const { userId } = req.user; 
+    // // Assuming authentication middleware sets this
+    const userId = '2d9fe74a-2f0a-4a93-b0ee-cfc2db54078b';
 
     const driver = await prisma.driver.findUnique({
       where: { userId },
@@ -67,7 +69,8 @@ const getAllDrivers = async (req, res) => {
 
 const updateDriverPhoneNumber = async (req, res) => {
   try {
-    const { userId } = req.user;
+    // const { userId } = req.user;
+    const userId = '2d9fe74a-2f0a-4a93-b0ee-cfc2db54078b';
     const { phoneNumber } = req.body;
 
         const updatedDriver = await prisma.driver.update({
@@ -100,7 +103,8 @@ const updateDriverPhoneNumber = async (req, res) => {
 //update driver full name
 const updateDriverFullName = async (req, res) => {
   try {
-    const { userId } = req.user;
+    // const { userId } = req.user;
+    const userId = '2d9fe74a-2f0a-4a93-b0ee-cfc2db54078b';
     const { fullName } = req.body;
 
     const updatedDriver = await prisma.driver.update({
@@ -172,7 +176,8 @@ const getDriverById = async (req, res) => {
 // Update driver availability
 const updateDriverAvailability = async (req, res) => {
   try {
-    const { userId } = req.user;
+    // const { userId } = req.user;
+    const userId = '2d9fe74a-2f0a-4a93-b0ee-cfc2db54078b';
     const { isAvailable } = req.body;
 
     const updatedDriver = await prisma.driver.update({

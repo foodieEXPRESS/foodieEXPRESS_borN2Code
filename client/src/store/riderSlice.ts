@@ -29,14 +29,19 @@ const riderSlice = createSlice({
       state.driver = action.payload;
       state.user = action.payload.user || null;
     },
-    updateDriver: (state, action: PayloadAction<Partial<Driver>>) => {
+    updateDriverAvailability: (state, action: PayloadAction<boolean>) => {
       if (state.driver) {
-        state.driver = { ...state.driver, ...action.payload };
+        state.driver.isAvailable = action.payload;
       }
     },
-    updateUser: (state, action: PayloadAction<Partial<User>>) => {
+    updateDriverFullName: (state, action: PayloadAction<string>) => {
       if (state.user) {
-        state.user = { ...state.user, ...action.payload };
+        state.user.fullName = action.payload;
+      }
+    },
+    updateDriverPhoneNumber: (state, action: PayloadAction<string>) => {
+      if (state.user) {
+        state.user.phoneNumber = action.payload;
       }
     },
     clearRiderData: (state) => {
@@ -51,8 +56,9 @@ export const {
   setLoading, 
   setError, 
   setDriver, 
-  updateDriver, 
-  updateUser, 
+  updateDriverAvailability,
+  updateDriverFullName,
+  updateDriverPhoneNumber,
   clearRiderData 
 } = riderSlice.actions;
 

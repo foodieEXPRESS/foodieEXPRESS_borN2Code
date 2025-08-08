@@ -9,7 +9,7 @@ const riderProfileRoutes = require("./routes/riderProfile-am");{/* TO DELETE LAT
 
 app.use(express.json());
 app.use(cors());
-const router_restaurant = require("./routes/restaurant");
+// const router_restaurant = require("./routes/restaurant");
 
 // Use routes
 app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}

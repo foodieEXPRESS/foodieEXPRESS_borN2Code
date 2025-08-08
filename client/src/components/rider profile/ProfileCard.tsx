@@ -1,11 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../store';
+import { useRider } from '../../hooks/riderHooks-am/useRider';
 import UserAvatar from './UserAvatar';
 import ProfileField from './ProfileField';
 
 const ProfileCard: React.FC = () => {
-  const { driver, user, loading, error } = useSelector((state: RootState) => state.rider);
+  const { driver, user, loading, error } = useRider();
 
   if (loading) {
     return (
