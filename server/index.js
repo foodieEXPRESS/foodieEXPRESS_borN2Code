@@ -5,10 +5,11 @@ const app = express();
 const prisma = require("./database");
 
 // Import routes
-const riderProfileRoutes = require("./routes/riderProfile");{/* TO DELETE LATER*/}
+const riderProfileRoutes = require("./routes/riderProfile-am");{/* TO DELETE LATER*/}
 
 app.use(express.json());
 app.use(cors());
+const router_restaurant = require("./routes/restaurant");
 
 // Use routes
 app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}

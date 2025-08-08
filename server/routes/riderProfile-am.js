@@ -7,7 +7,7 @@ const {
   updateDriverAvailability,
   updateDriverFullName,
   updateDriverPhoneNumber
-} = require('../controllers/riderController/rider.controller');
+} = require('../controllers/riderController/rider-am.controller');
 
 // Get current driver profile
 router.get('/me', getDriverProfile);
