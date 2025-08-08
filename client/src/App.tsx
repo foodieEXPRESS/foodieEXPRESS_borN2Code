@@ -6,11 +6,14 @@ import { Routes, Route,BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Counter from './pages/counter';
+
+
 import CartView from './pages/hazem/cartView';
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
 import RiderProfile from './pages/profles/RiderProfile';{/* TO DELETE LATER*/}
 function App() {
   return (
+    
     <div className="App">
       <BrowserRouter>
         <Routes>
