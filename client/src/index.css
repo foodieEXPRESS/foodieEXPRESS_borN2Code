@@ -36,3 +36,26 @@
   --btn-padding-lg: 1rem 2rem;
   --btn-padding-xl: 1.25rem 2.5rem;
 }
+@theme {
+  --color-primary: #4318D1;
+  --color-primary-alt: #10B981;
+  --color-secondary-dark: #1A1A1A;
+  --color-secondary-gray: #666666;
+  --color-secondary-light: #E5E5E5;
+  --color-secondary-lighter: #FAFAFA;
+  --font-primary: 'Inter', sans-serif;
+  --font-brand: 'Italiana', serif;
+  --font-heading-1: 42px;
+  --line-heading-1: 63px;
+  --font-heading-2: 24px;
+  --line-heading-2: 36px;
+  --font-weight-bold: 700;
+  --button-radius: 8px;
+  --shadow-success: 0 4px 15px 0 rgba(16, 185, 129, 0.3);
+  --btn-padding-sm: 0.5rem 1rem;
+  --btn-padding-md: 0.75rem 1.5rem;
+  --btn-padding-lg: 1rem 2rem;
+  --btn-padding-xl: 1.25rem 2.5rem;
+  --radius-md: 8px;
+  
+}
