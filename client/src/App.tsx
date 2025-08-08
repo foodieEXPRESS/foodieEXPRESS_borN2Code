@@ -21,6 +21,7 @@ function App() {
   console.log('App component loaded');
   
   return (
+    
     <div className="App">
       <BrowserRouter>
         <Routes>
