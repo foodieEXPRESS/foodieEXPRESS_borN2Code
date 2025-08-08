@@ -4,7 +4,7 @@ import type { RestaurantState } from '../types/mc_Components';
 
 export const fetchRestaurantById = createAsyncThunk(
   'restaurant/fetchById',
-  
+
    
   async (restId: string) => {
     const res = await fetch(`http://localhost:8080/api/details/${restId}`);

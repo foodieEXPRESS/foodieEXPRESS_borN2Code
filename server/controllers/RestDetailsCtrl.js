@@ -1,8 +1,8 @@
 const prisma = require("../database");
+const restId = "cc796f7d-cb80-4f58-ad9a-390c5b6b15cb";
 
 const getRestbyId = async (req, res) => {
   try {
-    const { restId } = req.params;
     const restaurant = await prisma.restaurant.findUnique({
       where: {
         id: restId,
@@ -28,6 +28,28 @@ const getRestbyId = async (req, res) => {
   }
 }
 
+const getRestMediaById = async (req, res) => {
+  try {
+    const restaurant = await prisma.restaurant.findUnique({
+      where: { id: restId },
+      include: {
+        media: {
+          where: { type: 'image' },
+          take: 1
+        }
+      }
+    });
 
+    if (!restaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
+    }
 
-module.exports = {getRestbyId}
+    const mediaUrl = restaurant.media[0]?.url || null;
+    res.json({ mediaUrl });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { getRestbyId, getRestMediaById }

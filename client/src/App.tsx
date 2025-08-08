@@ -23,7 +23,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/list" element={<RestaurantList />} />
-          <Route path="/list/OneRest/details" element={<RestaurantDetails restId={"OneRest"} />} />
+          <Route path="/list/details" element={<RestaurantDetails restId={"restId"} />} />
           <Route path="/custProfile" element={<CustomerProfile />} />
           <Route path="/cart" element={<CartView />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
