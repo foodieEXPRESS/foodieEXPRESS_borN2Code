@@ -5,7 +5,7 @@ import { Routes, Route,BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Counter from './pages/counter';
-import RiderProfile from './pages/profles/RiderProfile';
+import RiderProfile from './pages/profles/RiderProfile';{/* TO DELETE LATER*/}
 function App() {
   return (
     <div className="App">
@@ -14,7 +14,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
-          <Route path="/rider-profile" element={<RiderProfile />} />
+          <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
+    
     
         </Routes>
       </BrowserRouter>

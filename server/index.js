@@ -3,8 +3,15 @@ const cors = require("cors");
 const PORT = 8080;
 const app = express();
 const prisma = require("./database");
+
+// Import routes
+const riderProfileRoutes = require("./routes/riderProfile");{/* TO DELETE LATER*/}
+
 app.use(express.json());
 app.use(cors());
+
+// Use routes
+app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}
 
 app.get("/:restId", async (req, res) => {
   try {
