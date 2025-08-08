@@ -1,4 +1,4 @@
-import type { CartItem, OrderSummary, OrderItem, DeliveryInfo } from './dataTypes';
+import type { CartItem, OrderSummary, OrderItem, DeliveryInfo, CheckoutFormData, CheckoutStep } from './dataTypes';
 
 export interface CartViewProps {
   items: CartItem[];
@@ -17,4 +17,10 @@ export interface OrderBeforePaymentProps {
   onAddPromoCode?: () => void;
   onChangeAddress?: () => void;
   onProceedToCheckout?: () => void;
+}
+
+export interface CheckoutProps {
+  initialStep?: CheckoutStep;
+  initialValues?: Partial<CheckoutFormData>;
+  onSubmit?: (values: CheckoutFormData) => void;
 }

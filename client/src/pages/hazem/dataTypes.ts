@@ -27,3 +27,20 @@ export interface DeliveryInfo {
   estimatedTime: string;
   fastestTime: string;
 }
+
+// Checkout types
+export type CheckoutStep = 'delivery' | 'payment' | 'review';
+
+export interface CheckoutFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  streetAddress: string;
+  apartment?: string;
+  city: string;
+  zipCode: string;
+  deliveryInstructions?: string;
+}
+
+export type CheckoutFormErrors = Partial<Record<keyof CheckoutFormData, string>>;
