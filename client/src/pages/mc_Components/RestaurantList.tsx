@@ -4,7 +4,6 @@ import { OneRestaurant } from "./OneRestaurant";
 import type { RestaurantCardProps } from '../../types/mc_Components'
 
 
-// Dummy restaurant data
 const dummyRestaurants: RestaurantCardProps[] = [
   {
     name: "Bella Italia",

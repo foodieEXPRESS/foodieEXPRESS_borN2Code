@@ -1,8 +1,6 @@
 import React from "react";
 import type { AboutCardProps } from '../../types/mc_Components';
-// Define the interface here (or import it if you want)
 
-// Dummy data for About section
 export const aboutCardData: AboutCardProps = {
   description: "Enjoy authentic Italian cuisine made with fresh ingredients and love.",
   rating: 4.8,
