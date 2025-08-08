@@ -33,88 +33,49 @@ export const AboutRestaurant: React.FC<AboutCardProps> = ({
       </p>
 
       {/* Values with labels below */}
-      <div className="flex flex-row gap-10">
-        {/* Rating */}
-        <div className="flex flex-col items-center">
-          <span
-            style={{
-              fontFamily: "Inter",
-              fontWeight: 700,
-              fontSize: "24px",
-              lineHeight: "36px",
-              textAlign: "center",
-              color: "#4318D1",
-            }}
-          >
-            {rating ?? "N/A"}
-          </span>
-          <span
-            style={{
-              fontFamily: "Inter",
-              fontWeight: 400,
-              fontSize: "12px",
-              lineHeight: "18px",
-              textAlign: "center",
-            }}
-          >
-            Rating
-          </span>
-        </div>
+     <div className="flex flex-row gap-6">
+  <div className="flex flex-col items-center">
+    <span
+      className="font-inter font-bold text-2xl leading-[36px] text-center"
+      style={{ color: "#4318D1" }}
+    >
+      {rating !== undefined && rating !== null ? rating.toFixed(2) : "N/A"}
+    </span>
+    <span
+      className="font-inter font-normal text-xs leading-[18px] text-center"
+    >
+      Rating
+    </span>
+  </div>
 
-        {/* Delivery Time */}
-        <div className="flex flex-col items-center">
-          <span
-            style={{
-              fontFamily: "Inter",
-              fontWeight: 700,
-              fontSize: "24px",
-              lineHeight: "36px",
-              textAlign: "center",
-              color: "#10B981",
-            }}
-          >
-            {deliveryTime || "N/A"}
-          </span>
-          <span
-            style={{
-              fontFamily: "Inter",
-              fontWeight: 400,
-              fontSize: "12px",
-              lineHeight: "18px",
-              textAlign: "center",
-            }}
-          >
-            Delivery Time
-          </span>
-        </div>
+  <div className="flex flex-col items-center">
+    <span
+      className="font-inter font-bold text-2xl leading-[36px] text-center"
+      style={{ color: "#10B981" }}
+    >
+      {deliveryTime || "N/A"}
+    </span>
+    <span
+      className="font-inter font-normal text-xs leading-[18px] text-center"
+    >
+      Delivery Time
+    </span>
+  </div>
 
-        {/* Delivery Fee */}
-        <div className="flex flex-col items-center">
-          <span
-            style={{
-              fontFamily: "Inter",
-              fontWeight: 700,
-              fontSize: "24px",
-              lineHeight: "36px",
-              textAlign: "center",
-              color: "#F59E0B",
-            }}
-          >
-            {deliveryFee || "N/A"}
-          </span>
-          <span
-            style={{
-              fontFamily: "Inter",
-              fontWeight: 400,
-              fontSize: "12px",
-              lineHeight: "18px",
-              textAlign: "center",
-            }}
-          >
-            Delivery Fee
-          </span>
-        </div>
-      </div>
+  <div className="flex flex-col items-center">
+    <span
+      className="font-inter font-bold text-2xl leading-[36px] text-center"
+      style={{ color: "#F59E0B" }}
+    >
+      {deliveryFee || "N/A"}
+    </span>
+    <span
+      className="font-inter font-normal text-xs leading-[18px] text-center"
+    >
+      Delivery Fee
+    </span>
+  </div>
+</div>
     </div>
 
     {/* Address and phone with icons side by side */}
