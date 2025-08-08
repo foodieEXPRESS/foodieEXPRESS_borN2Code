@@ -3,9 +3,3 @@
 
 }
 
-export interface RestaurantState {
-  data: any | null;
-  loading: boolean;
-  error: string | null;
-}
-

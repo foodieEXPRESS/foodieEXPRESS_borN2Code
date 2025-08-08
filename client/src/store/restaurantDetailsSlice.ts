@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { RestaurantState } from '../types/propsTypes';
+import type { RestaurantState } from '../types/mc_Components';
+
 
 export const fetchRestaurantById = createAsyncThunk(
   'restaurant/fetchById',
-
+  
+   
   async (restId: string) => {
     const res = await fetch(`http://localhost:8080/api/details/${restId}`);
     if (!res.ok) throw new Error('Failed to fetch restaurant');
@@ -11,12 +13,11 @@ export const fetchRestaurantById = createAsyncThunk(
   }
 )
 
-const initialState: RestaurantState = {
+export const initialState: RestaurantState = {
   data: null,
   loading: false,
   error: null,
 }
-
 
 const restaurantSlice = createSlice({
   name: 'restaurant',
