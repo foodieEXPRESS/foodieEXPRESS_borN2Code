@@ -18,8 +18,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/list" element={<RestaurantList />} />
-          <Route path="/list/OneRest/details" element={<RestaurantDetails />} /> 
-          <Route path="/custProfile" element={<CustomerProfile/>}/>
+          <Route path="/list/OneRest/details" element={<RestaurantDetails restId={"OneRest"} />} />
+          <Route path="/custProfile" element={<CustomerProfile />} />
         </Routes>
       </BrowserRouter>
     </div>

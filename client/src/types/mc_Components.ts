@@ -1,7 +1,6 @@
 export interface MenuItem {
   id: string;
   name: string;
-  category: string;
   tags?: string[];
   description: string;
   price: number;
@@ -51,3 +50,4 @@ export interface StatisticCardProps {
   dateLabel: string;
 
 }
+
