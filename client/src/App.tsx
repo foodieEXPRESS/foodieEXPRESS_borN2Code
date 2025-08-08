@@ -2,9 +2,12 @@
 // import React from 'react';
 import { Routes, Route,BrowserRouter } from 'react-router-dom';
 
+
 import Home from './pages/Home';
 import About from './pages/About';
 import Counter from './pages/counter';
+import CartView from './pages/hazem/cartView';
+import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
 function App() {
   return (
     <div className="App">
@@ -13,7 +16,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
-
+          <Route path="/cart" element={<CartView />} />
+          <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
         </Routes>
       </BrowserRouter>
     </div>
