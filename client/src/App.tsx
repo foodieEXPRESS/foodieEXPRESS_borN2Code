@@ -10,10 +10,12 @@ import RestaurantList from './pages/mc_Components/RestaurantList';
 import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
 import CustomerProfile from './pages/mc_Components/CustomerProfile'
 
+
 import CartView from './pages/hazem/cartView';
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
 function App() {
   return (
+    
     <div className="App">
       <BrowserRouter>
         <Routes>
