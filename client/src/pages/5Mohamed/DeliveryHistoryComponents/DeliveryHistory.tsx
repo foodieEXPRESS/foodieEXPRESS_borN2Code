@@ -20,6 +20,7 @@ const DeliveryHistory: React.FC = () => {
   console.log('deliverySummary:', deliverySummary);
   console.log('deliveryRecords:', deliveryRecords);
 console.log("mohamed")
+console.log("mohamed")
   return (
     <div className="MA__delivery-history-container">
       <h1>Delivery History Page</h1>
