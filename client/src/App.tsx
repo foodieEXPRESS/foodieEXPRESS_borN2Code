@@ -10,11 +10,20 @@ import RestaurantList from './pages/mc_Components/RestaurantList';
 import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
 import CustomerProfile from './pages/mc_Components/CustomerProfile'
 
+// Import All 5Mohamed Components
+import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
+import RestaurantSearch from './pages/5Mohamed/RestaurantSearch';
+import LandingPage from './pages/5Mohamed/LandingPage';
+
+// Import 5Mohamed Components CSS
+import './pages/5Mohamed/styles.css';
 
 import CartView from './pages/hazem/cartView';
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
 import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 function App() {
+  console.log('App component loaded');
+  
   return (
     
     <div className="App">
@@ -23,6 +32,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
+          
+          {/* All 5Mohamed Component Routes */}
+          {/* http://localhost:5173/delivery-history */}
+          <Route path="/delivery-history" element={<DeliveryHistory />} />
+          {/* http://localhost:5173/restaurant-search */}
+          <Route path="/restaurant-search" element={<RestaurantSearch />} />
+          {/* http://localhost:5173/landing-page */}
+          <Route path="/landing-page" element={<LandingPage />} />
           <Route path="/list" element={<RestaurantList />} />
           <Route path="/list/OneRest/details" element={<RestaurantDetails restId={"OneRest"} />} />
           <Route path="/custProfile" element={<CustomerProfile />} />
@@ -36,6 +53,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
