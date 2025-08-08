@@ -6,6 +6,9 @@ import AuthPage from './pages/auth.component/AuthPage';
 import Home from './pages/Home';
 import About from './pages/About';
 import Counter from './pages/counter';
+import RestaurantList from './pages/mc_Components/RestaurantList';
+import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
+import CustomerProfile from './pages/mc_Components/CustomerProfile'
 
 
 import CartView from './pages/hazem/cartView';
@@ -20,6 +23,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
+          <Route path="/list" element={<RestaurantList />} />
+          <Route path="/list/OneRest/details" element={<RestaurantDetails restId={"OneRest"} />} />
+          <Route path="/custProfile" element={<CustomerProfile />} />
           <Route path="/cart" element={<CartView />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
           <Route path="/checkout" element={<Checkout />} />
