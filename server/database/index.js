@@ -1,4 +1,4 @@
-const { PrismaClient }=require('@prisma/client')
+const {PrismaClient} =require('@prisma/client')
 
 const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'],
@@ -15,4 +15,4 @@ const checkModels = async () => {
 // Execute the check
 checkModels()
 
-export default prisma
+module.exports = prisma

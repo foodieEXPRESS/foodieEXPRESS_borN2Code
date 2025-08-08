@@ -47,8 +47,11 @@ model User {
   longitude     Float?
   //These are optional fields (because of ?)
 // The user can have a phoneNumber and address, but it's not required.
-  media   Media[]  // One-to-many relationship with Media
-  // Relations
+///------------------------------------------------------------
+
+
+
+  media   Media[]  // One-to-many relationship with Media Relations
 
   restaurant   Restaurant? // No fields or references here// A User can own a Restaurant (one-to-one relationship)
   //why one to one?
@@ -165,8 +168,7 @@ model Notification {
   createdAt DateTime @default(now())
   
   // Foreign Key
-  userId    String
-
+  userId    String @unique
   // Relation
   user      User     @relation(fields: [userId], references: [id])
   // A Notification belongs to one User
@@ -421,7 +423,8 @@ model Payment {
 model OrderTracking {
   id           String       @id @default(cuid())
   status       OrderStatus
-  lastLocation String?
+  latitude      Float?
+  longitude     Float?
   updatedAt    DateTime     @updatedAt
 
   // Foreign key to Order
