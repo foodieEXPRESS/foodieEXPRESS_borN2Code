@@ -130,4 +130,4 @@ const CartPage: React.FC = () => {
   return <Cart cartItems={cartItems} addToCart={addToCart} removeFromCart={removeFromCart} />;
 };
 
-export default CartPage;
+export default Cart;
