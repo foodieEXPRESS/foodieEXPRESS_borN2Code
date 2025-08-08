@@ -5,7 +5,7 @@ const app = express();
 const prisma = require("./database");
 app.use(express.json());
 app.use(cors());
-
+const router_restaurant = require("./routes/restaurant");
 app.get("/:restId", async (req, res) => {
   try {
     const { restId } = req.params;

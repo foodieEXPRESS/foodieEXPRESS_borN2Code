@@ -37,8 +37,19 @@
         'btn-md': '0.75rem 1.5rem',
         'btn-lg': '1rem 2rem',
         'btn-xl': '1.25rem 2.5rem',
+      },
+      backgroundColor: {
+        'primary-DEFAULT': '#4318D1',
+        'primary-alt': '#10B981',
+        'secondary-dark': '#1A1A1A',
+        'secondary-gray': '#666666',
+        'secondary-light': '#E5E5E5',
+        'secondary-lighter': '#FAFAFA'
       }
+    
     }
+
+    
   },
       plugins: [],
     }
