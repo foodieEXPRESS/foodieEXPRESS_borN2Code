@@ -1,22 +1,20 @@
 // src/App.jsx
 // import React from 'react';
-import { Routes, Route,BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-import AuthPage from './pages/auth.component/AuthPage';
-import Home from './pages/Home';
-import About from './pages/About';
-import Counter from './pages/counter';
-import RestaurantList from './pages/mc_Components/RestaurantList';
-import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
-import CustomerProfile from './pages/mc_Components/CustomerProfile'
+import AuthPage from "./pages/auth.component/AuthPage";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Counter from "./pages/counter";
+import RestaurantList from "./pages/mc_Components/RestaurantList";
+import RestaurantDetails from "./pages/mc_Components/RestaurantDetails";
+import CustomerProfile from "./pages/mc_Components/CustomerProfile";
 
-
-import CartView from './pages/hazem/cartView';
-import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
-import Checkout from './pages/hazem/checkout';
+import CartView from "./pages/hazem/cartView";
+import OrderViewBeforePayment from "./pages/hazem/order_view_before_payment";
+import Checkout from "./pages/hazem/checkout";
 function App() {
   return (
-    
     <div className="App">
       <BrowserRouter>
         <Routes>
@@ -24,10 +22,16 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/list" element={<RestaurantList />} />
-          <Route path="/list/OneRest/details" element={<RestaurantDetails restId={"OneRest"} />} />
+          <Route
+            path="/list/OneRest/details"
+            element={<RestaurantDetails restId={"OneRest"} />}
+          />
           <Route path="/custProfile" element={<CustomerProfile />} />
           <Route path="/cart" element={<CartView />} />
-          <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
+          <Route
+            path="/order-view-before-payment"
+            element={<OrderViewBeforePayment />}
+          />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/auth" element={<AuthPage />} />
         </Routes>
@@ -35,6 +39,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
