@@ -6,6 +6,9 @@ import { Routes, Route,BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Counter from './pages/counter';
+import RestaurantList from './pages/mc_Components/RestaurantList';
+import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
+import CustomerProfile from './pages/mc_Components/CustomerProfile'
 
 // Import All 5Mohamed Components
 import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
@@ -36,6 +39,9 @@ function App() {
           <Route path="/restaurant-search" element={<RestaurantSearch />} />
           {/* http://localhost:5173/landing-page */}
           <Route path="/landing-page" element={<LandingPage />} />
+          <Route path="/list" element={<RestaurantList />} />
+          <Route path="/list/OneRest/details" element={<RestaurantDetails restId={"OneRest"} />} />
+          <Route path="/custProfile" element={<CustomerProfile />} />
           <Route path="/cart" element={<CartView />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
         </Routes>
