@@ -6,7 +6,7 @@ import OneRestaurant from './OneRestaurant';
 import type { Restaurant } from '../../types/mc_Types';
 import { useNavigate } from 'react-router-dom';
 
-export const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
+const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { user, restaurants, loading, error } = useSelector(
@@ -100,3 +100,5 @@ export const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
     
   );
 };
+
+export default RestaurantList;
