@@ -12,14 +12,6 @@ const Navbar: React.FC = () => {
           </div>
           <span className="MA__logo-text">FoodieExpress</span>
         </div>
-        
-        <div className={`MA__navbar-nav ${isMenuOpen ? 'active' : ''}`}>
-          <a href="#home" className="MA__nav-link">Home</a>
-          <a href="#restaurants" className="MA__nav-link">Restaurants</a>
-          <a href="#about" className="MA__nav-link">About</a>
-          <a href="#contact" className="MA__nav-link">Contact</a>
-        </div>
-        
         <div className="MA__navbar-auth">
           <a href="#signin" className="MA__sign-in-link">Sign In</a>
           <button className="MA__navbar-order-btn">Order Now</button>

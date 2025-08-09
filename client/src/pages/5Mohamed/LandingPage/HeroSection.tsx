@@ -11,7 +11,7 @@ interface HeroSectionProps {
   onNavigateToDelivery?: () => void;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ onNavigateToSearch, onNavigateToDelivery }) => {
+const HeroSection: React.FC<HeroSectionProps> = () => {
   return (
     <section className="MA__hero">
       <div className="MA__hero-content">
@@ -37,21 +37,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onNavigateToSearch, onNavigat
         <div className="MA__cta-buttons">
           <button className="MA__order-noww-btn">Order Now</button>
           <button className="MA__view-menu-btn">New Menu</button>
-        </div>
-
-        <div className="MA__navigation-buttons">
-          <button 
-            className="MA__nav-btn MA__search-btn"
-            onClick={onNavigateToSearch}
-          >
-            🔍 Search Restaurants
-          </button>
-          <button 
-            className="MA__nav-btn MA__delivery-btn"
-            onClick={onNavigateToDelivery}
-          >
-            📊 Delivery History
-          </button>
         </div>
       </div>
     </section>

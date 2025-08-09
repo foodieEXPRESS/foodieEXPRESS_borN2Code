@@ -1,43 +1,42 @@
 import React, { useState } from 'react';
-import SearchBar from './SearchBar';
-import FilterCategories from './FilterCategories';
-import SpecialOffers from './SpecialOffers';
-import ResultsFooter from './ResultsFooter';
+import NavBar from './NavBar';
+import Hero from './Hero';
+import SearchControls from './SearchControls';
+import Filters from './Filters';
+import FooterControls from './FooterControls';
 
-const RestaurantSearch: React.FC = () => {
-  const [selectedView, setSelectedView] = useState<'grid' | 'list'>('grid');
+interface RestaurantSearchProps {
+  title?: string;
+  subtitle?: string;
+  resultsCount?: number;
+  defaultView?: 'grid' | 'list';
+  className?: string;
+}
+
+const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
+  title = 'Find Your Perfect Meal',
+  subtitle = "Filter through thousands of restaurants to find exactly what you're craving",
+  resultsCount = 8,
+  defaultView = 'grid',
+  className = '',
+}) => {
+  const [view, setView] = useState<'grid' | 'list'>(defaultView);
 
   return (
-    <div className="MA__restaurant-search">
-      {/* Custom Header for Restaurant Search */}
-      <div className="MA__search-header">
-        <div className="MA__filter-view-text">Filter view</div>
-        <div className="MA__search-logo">
-          <div className="MA__search-logo-icon">
-            <span>+</span>
-          </div>
-          <span className="MA__search-logo-text">FoodieExpress</span>
-        </div>
-        <div className="MA__search-auth">
-          <a href="#signin" className="MA__search-signin">Sign In</a>
-          <button className="MA__search-order-btn">Order Now</button>
-        </div>
-      </div>
+    <div className={`rs-page ${className}`}>
+      <NavBar />
 
-      <div className="MA__search-main">
-        <div className="MA__search-title">Find Your Perfect Meal</div>
-        <div className="MA__search-subtitle">
-          Filter through thousands of restaurants to find exactly what you're craving
-        </div>
+      <main className="rs-container rs-main">
+        <Hero title={title} subtitle={subtitle} />
 
-        <div className="MA__search-card">
-          <SearchBar />
-          <FilterCategories />
-          <SpecialOffers />
-        </div>
+        <section className="rs-card">
+          <SearchControls />
+          <div className="rs-divider" />
+          <Filters />
+        </section>
 
-        <ResultsFooter selectedView={selectedView} onChange={setSelectedView} />
-      </div>
+        <FooterControls resultsCount={resultsCount} view={view} onChange={setView} />
+      </main>
     </div>
   );
 };
