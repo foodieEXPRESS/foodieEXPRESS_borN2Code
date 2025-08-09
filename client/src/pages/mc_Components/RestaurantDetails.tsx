@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchRestaurantById } from '../../store/restaurantDetailsSlice';
 import type { RootState, AppDispatch } from '../../store';
-import type { MenuItem } from '../../types/mc_Components';
+import type { MenuItem } from '../../types/mc_Types'
 import { AboutRestaurant } from './AboutRestaurant';
 
 const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {

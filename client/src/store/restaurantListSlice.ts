@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type {  PayloadAction } from '@reduxjs/toolkit';
-import type {RestaurantListState,User,Restaurant,} from '../types/mc_Components';
+import type {RestaurantListState,User,Restaurant,} from '../types/mc_Types';
 import axios from 'axios';
 
 
@@ -33,6 +33,7 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
   const restaurants: Restaurant[] = res.data;
 
   const getDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+
     const R = 6371;
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLon = ((lon2 - lon1) * Math.PI) / 180;
@@ -78,10 +79,7 @@ const restaurantListSlice = createSlice({
         state.error = action.error.message || 'Failed to fetch user';
       })
 
-
      // <<<<<< fetching the Restaurants >>>>>>
-
-
 
       // either still loading ... ⏳
       .addCase(fetchRestaurantsNearUser.pending, (state) => {

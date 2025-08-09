@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import type { RestaurantCardProps } from  '../../types/mc_Components';
+import type { RestaurantCardProps } from  '../../types/mc_Types'
 
 
 export const OneRestaurant: React.FC<RestaurantCardProps> = ({

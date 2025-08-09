@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { RestaurantDetailsState } from '../types/mc_Components';
+import type { RestaurantDetailsState } from '../types/mc_Types';
 import axios from 'axios';
 
 export const fetchRestaurantById = createAsyncThunk(

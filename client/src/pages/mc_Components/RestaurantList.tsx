@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
 import { fetchUserById, fetchRestaurantsNearUser } from '../../store/restaurantListSlice';
 import { OneRestaurant } from './OneRestaurant';
-import type { Restaurant } from '../../types/mc_Components'
+import type { Restaurant } from '../../types/mc_Types'
 
 export const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
 

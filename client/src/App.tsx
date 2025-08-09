@@ -6,7 +6,7 @@ import { Routes, Route,BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import Counter from './pages/counter';
 import { RestaurantList } from './pages/mc_Components/RestaurantList';
-import RestaurantDetailsWrapper from './pages/mc_Components/RestaurantDetails';
+import RestaurantDetail from './pages/mc_Components/RestaurantDetails';
 import CustomerProfile from './pages/mc_Components/CustomerProfile'
 
 
@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/list" element={<RestaurantList userId={"userId"} />} />
-          <Route path="/list/details/:id" element={<RestaurantDetailsWrapper  restId={"userId"}/>} />
+          <Route path="/list/details/" element={<RestaurantDetail  restId={"restId"}/>} />
           <Route path="/custProfile" element={<CustomerProfile />} />
           
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
