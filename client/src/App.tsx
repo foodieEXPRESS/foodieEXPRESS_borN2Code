@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Counter from './pages/counter';
 
 import { RestaurantList } from './pages/mc_Components/RestaurantList';
-import CustomerProfile from './pages/profiles/mc_profile/CustomerProfile';
+import CustomerProfile from './pages/profiles/mc_Customerprofile/CustomerProfile';
 import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
 
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';

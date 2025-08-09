@@ -28,10 +28,10 @@ const getRestbyId = async (req, res) => {
   }
 }
 
-const getRestMediaById = async (req, res) => {
+const getImageById = async (req, res) => {
   try {
     const restaurant = await prisma.restaurant.findUnique({
-      where: { id: restId },
+      where: { id: req.params.restId },
       include: {
         media: {
           where: { type: 'image' },
@@ -53,4 +53,4 @@ const getRestMediaById = async (req, res) => {
 };
 
 
-module.exports = { getRestbyId, getRestMediaById }
+module.exports = { getRestbyId, getImageById }

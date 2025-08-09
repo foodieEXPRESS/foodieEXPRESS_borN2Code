@@ -2,26 +2,23 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import type { Restaurant } from  '../../types/mc_Types'
 
-
  const OneRestaurant: React.FC<Restaurant> = ({
   id,
   name,
   category,
   cuisine,
+  cuisineType,
   description,
   rating,
   eta,
   priceLevel,
-  logoText,
   freeDelivery = true,
-
 }) => {
   const navigate = useNavigate();
 
  const handleOrderNow = () => {
   navigate(`/list/details/${id}`);
 };
-
   const bgColors = [
     "bg-red-500",
     "bg-blue-500",
@@ -32,6 +29,12 @@ import type { Restaurant } from  '../../types/mc_Types'
     "bg-indigo-500",
     "bg-teal-500",
   ];
+  const initials = name
+  .split(" ")
+  .filter(Boolean)
+  .map((word, idx, arr) => (idx === 0 || idx === arr.length - 1 ? word[0].toUpperCase() : null))
+  .filter(Boolean)
+  .join("");
 
   const randomColor = bgColors[Math.floor(Math.random() * bgColors.length)];
 
@@ -43,7 +46,7 @@ import type { Restaurant } from  '../../types/mc_Types'
       <div
         className={`relative ${randomColor} h-60 flex items-center justify-center text-white text-7xl font-semibold`}
       >
-        {category}
+        {cuisineType}
         {freeDelivery && (
           <span className="absolute top-2 left-2 text-xs bg-green-400 text-white px-2 py-1 rounded-full">
             Free Delivery
@@ -59,10 +62,11 @@ import type { Restaurant } from  '../../types/mc_Types'
       <div className="p-4 space-y-2">
         <div className="flex items-center gap-3">
           <div
-            className={`${randomColor} text-white font-bold text-sm px-3 py-2 rounded-md`}
-          >
-            {logoText}
-          </div>
+  className={`${randomColor} text-white font-bold text-sm px-3 py-2 rounded-md`}
+>
+  {initials}
+</div>
+
           <div>
             <h3 className="font-semibold">{name}</h3>
             <p className="text-sm text-gray-500">{cuisine}</p>
@@ -88,7 +92,7 @@ import type { Restaurant } from  '../../types/mc_Types'
               >
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
               </svg>
-              {rating}
+              {rating.toFixed(1)}
             </span>
             <span className="flex items-center gap-1">
 

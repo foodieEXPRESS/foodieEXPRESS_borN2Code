@@ -56,6 +56,7 @@ export interface Restaurant {
   name: string;
   category: string;
   cuisine: string;
+  cuisineType: string;
   description: string;
   rating: number;
   eta: string;
