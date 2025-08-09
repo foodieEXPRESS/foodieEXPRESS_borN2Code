@@ -6,12 +6,26 @@ import { Routes, Route,BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import Counter from './pages/counter';
 
-import { RestaurantList } from './pages/mc_Components/RestaurantList';
 import CustomerProfile from './pages/profiles/mc_Customerprofile/CustomerProfile';
+import AuthPage from './pages/auth.component/AuthPage';
+import RestaurantList from './pages/mc_Components/RestaurantList';
 import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
 
+
+// Import All 5Mohamed Components
+import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
+import RestaurantSearch from './pages/5Mohamed/RestaurantSearch';
+import LandingPage from './pages/5Mohamed/LandingPage';
+
+// Import 5Mohamed Components CSS
+import './pages/5Mohamed/styles.css';
+
+import CartView from './pages/hazem/cartView';
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
+import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 function App() {
+  console.log('App component loaded');
+  
   return (
     
     <div className="App">
@@ -24,12 +38,27 @@ function App() {
           <Route path="/list/details/:restId" element={<RestaurantDetails />} />
           <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
 
-          <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
+          <Route path="/auth" element={<AuthPage />} />
+
+          {/* All 5Mohamed Component Routes */}
+          {/* http://localhost:5173/delivery-history */}
+          <Route path="/delivery-history" element={<DeliveryHistory />} />
+          {/* http://localhost:5173/restaurant-search */}
+          <Route path="/restaurant-search" element={<RestaurantSearch />} />
+          {/* http://localhost:5173/landing-page */}
+          <Route path="/landing-page" element={<LandingPage />} />
+          <Route path="/list" element={<RestaurantList userId={"userId"} />} />
+          <Route path="/list/OneRest/details" element={<RestaurantDetails />} />
+          <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
+          <Route path="/cart" element={<CartView  />} />
+          <Route path="/order-view-before-payment" element={<OrderViewBeforePayment  />} />
+          <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
+
+
         </Routes>
       </BrowserRouter>
     </div>
   );
 }
-
 
 export default App;

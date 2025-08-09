@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../../store';
+import { login, clearError } from '../../store/authSlice';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookF } from 'react-icons/fa';
+import './auth.css';
 
 const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading, error } = useSelector((state: RootState) => state.auth);
   const [form, setForm] = useState({
     email: '',
     password: '',
     rememberMe: false
   });
-  const [error, setError] = useState<string | null>(null);
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
+    if (error) {
+      dispatch(clearError());
+    }
     setForm(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -23,20 +31,16 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    try {
-      // Replace with your actual endpoint
-      const response = await axios.post('/api/auth/signin', {
-        email: form.email,
-        password: form.password,
-        rememberMe: form.rememberMe,
+    // Dispatch Redux login thunk; navigation happens on success via state
+    dispatch(login({ email: form.email, password: form.password }))
+      .unwrap()
+      .then(() => {
+        // optional rememberMe handling could persist token differently if needed
+        navigate('/restaurant-profile');
+      })
+      .catch(() => {
+        // error is already set in the store via rejected case
       });
-      // Handle success - navigate to dashboard
-      console.log('Sign in success:', response.data);
-      navigate('/restaurant-profile'); // Navigate to dashboard after successful sign in
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Sign in failed.');
-    }
   };
 
   const handleGoogleSignIn = () => {
@@ -110,8 +114,8 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           <a href="#" className="forgot-link">Forgot password?</a>
         </div>
 
-        <button type="submit" className="foodie-btn primary">
-          Sign In
+        <button type="submit" className="foodie-btn primary" disabled={isLoading}>
+          {isLoading ? 'Signing In...' : 'Sign In'}
         </button>
       </form>
 
