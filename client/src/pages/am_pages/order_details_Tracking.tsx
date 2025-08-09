@@ -16,7 +16,7 @@ const OrderDetailsTracking: React.FC = () => {
           </div>
           <button
             onClick={() => setShowMap(!showMap)}
-            className="text-white px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer"
+            className="text-white px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
             style={{ 
               backgroundColor: 'var(--color-primary)', 
               borderRadius: 'var(--button-radius)',
@@ -40,7 +40,7 @@ const OrderDetailsTracking: React.FC = () => {
               </div>
 
               {/* Live Navigation Card */}
-              <div className="bg-white rounded-2xl p-6 shadow-xl w-xs mx-4">
+              <div className="bg-white rounded-2xl p-6 shadow-xl max-w-sm mx-4">
                 <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="var(--color-primary)"/>
@@ -96,11 +96,9 @@ const OrderDetailsTracking: React.FC = () => {
               
               <div className="p-4 space-y-4  ">
                 {/* Customer Info */}
-                <div className="p-4 flex items-start space-x-3 rounded-md mb-8 " style={{ backgroundColor: '#F8F9FA' }}>
-                  <div className=" w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#4318D1' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#FAFAFA"/>
-                    </svg>
+                <div className="flex items-start space-x-3 rounded-md mb-8 " style={{ backgroundColor: '#F8F9FA' }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(67, 24, 209, 0.1)' }}>
+                    <span className="font-medium text-sm" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}>S</span>
                   </div>
                   <div className="flex-1">
                     <h3 className="font-medium mb-2" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Sarah Johnson</h3>
@@ -115,10 +113,8 @@ const OrderDetailsTracking: React.FC = () => {
 
                 {/* Restaurant Info */}
                 <div className="p-4 flex items-start space-x-3 rounded-md mb-8" style={{ backgroundColor: '#F8F9FA' }}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#10B981' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="var(--color-secondary-lighter)"/>
-                    </svg>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)' }}>
+                    <span className="font-medium text-sm" style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary)' }}>B</span>
                   </div>
                   <div className=" flex-1">
                     <h3 className="font-medium mb-2" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Bella Italia</h3>
@@ -153,8 +149,8 @@ const OrderDetailsTracking: React.FC = () => {
                 {/* Order Item 1 */}
                 <div className="p-4 flex items-center justify-between border " style={{ borderColor: '#E5E5E5', borderRadius: 'var(--button-radius)'}}>
                   <div className="flex items-center space-x-3">
-                    <div className="px-2 py-1 rounded flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', borderRadius: 'var(--button-radius)' }}>
-                      <span className="font-medium text-sm text-white" style={{ fontFamily: 'var(--font-primary)' }}>1x</span>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(67, 24, 209, 0.1)', borderRadius: 'var(--button-radius)' }}>
+                      <span className="font-medium text-sm" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}>M</span>
                     </div>
                     <div >
                       <p className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Margherita Pizza</p>
@@ -167,8 +163,8 @@ const OrderDetailsTracking: React.FC = () => {
                 {/* Order Item 2 */}
                 <div className="p-4 flex items-center justify-between border " style={{ borderColor: '#E5E5E5', borderRadius: 'var(--button-radius)'}}>
                   <div className="flex items-center space-x-3">
-                    <div className="px-2 py-1 rounded flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', borderRadius: 'var(--button-radius)' }}>
-                      <span className="font-medium text-sm text-white" style={{ fontFamily: 'var(--font-primary)' }}>1x</span>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(67, 24, 209, 0.1)', borderRadius: 'var(--button-radius)' }}>
+                      <span className="font-medium text-sm" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}>C</span>
                     </div>
                     <div>
                       <p className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Caesar Salad</p>
@@ -181,8 +177,8 @@ const OrderDetailsTracking: React.FC = () => {
                 {/* Order Item 3 */}
                 <div className=" p-4 flex items-center justify-between border" style={{ borderColor: '#E5E5E5', borderRadius: 'var(--button-radius)'}}>
                   <div className="flex items-center space-x-3">
-                    <div className="px-2 py-1 rounded flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', borderRadius: 'var(--button-radius)' }}>
-                      <span className="font-medium text-sm text-white" style={{ fontFamily: 'var(--font-primary)' }}>2x</span>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(67, 24, 209, 0.1)', borderRadius: 'var(--button-radius)' }}>
+                      <span className="font-medium text-sm" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}>G</span>
                     </div>
                     <div>
                       <p className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Garlic Bread</p>
@@ -194,8 +190,8 @@ const OrderDetailsTracking: React.FC = () => {
 
                 {/* Pricing Summary */}
                 <div className=" p-4 space-y-2 mt-2 ">
-                  <div className="flex justify-between text-sm border-t  " style={{ borderColor: 'var(--color-secondary-light)' }}>
-                    <span className="mt-3" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '400' }}>Subtotal</span>
+                  <div className="flex justify-between text-sm border-t " style={{ borderColor: 'var(--color-secondary-light)' }}>
+                    <span style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '400' }}>Subtotal</span>
                     <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>$38.97</span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -207,7 +203,7 @@ const OrderDetailsTracking: React.FC = () => {
                     <span style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>$7.80</span>
                   </div>
                   <div className="flex justify-between font-semibold text-lg border-t pt-2" style={{ borderColor: 'var(--color-secondary-light)' }}>
-                    <span className="mb-8" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '700' }}>Total</span>
+                    <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '700' }}>Total</span>
                     <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '700' }}>$50.76</span>
                   </div>
                 </div>
@@ -215,7 +211,7 @@ const OrderDetailsTracking: React.FC = () => {
             </div>
 
             {/* Delivery Status */}
-            <div className="bg-white rounded-lg  shadow-md w-4/5 mx-auto " style={{ borderRadius: 'var(--button-radius)' }}>
+            <div className="bg-white rounded-lg  shadow-md w-3/5 mx-auto " style={{ borderRadius: 'var(--button-radius)' }}>
               <div className="p-4 ">
                 <h2 className="text-lg font-semibold" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)' }}>Delivery Status</h2>
               </div>
@@ -264,3 +260,5 @@ const OrderDetailsTracking: React.FC = () => {
 };
 
 export default OrderDetailsTracking;
+
+
