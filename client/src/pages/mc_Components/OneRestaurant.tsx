@@ -5,7 +5,6 @@ import type { Restaurant } from  '../../types/mc_Types'
  const OneRestaurant: React.FC<Restaurant> = ({
   id,
   name,
-  category,
   cuisine,
   cuisineType,
   description,

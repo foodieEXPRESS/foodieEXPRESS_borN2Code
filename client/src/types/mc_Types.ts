@@ -45,8 +45,16 @@ export interface RestaurantDetailsState {
   imageUrl: string | null;
 }
 
+
 export interface User {
   id: string;
+  name: string;
+  contactEmail: string;
+  contactPhone: string;
+  memberSince: string;
+  totalOrders: number;
+  rating: number;
+  cuisineType: string;
   latitude: number;
   longitude: number;
 }
@@ -76,4 +84,15 @@ export interface RestaurantListState {
 
 export interface RestaurantListProps {
   userId: string;
+}
+
+export interface CustomerProfileProps {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  memberSince: string;
+  totalOrders: number;
+  avgRating: number;
+  favoriteRestaurant: string;
 }

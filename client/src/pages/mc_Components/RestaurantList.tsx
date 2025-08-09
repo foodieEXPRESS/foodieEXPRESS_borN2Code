@@ -37,7 +37,7 @@ export const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
   // Filter only if restaurants exist
   const filteredRestaurants = safeRestaurants.filter((rest: Restaurant) =>
     rest.name && rest.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    rest.cuisine && rest.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
+    rest.cuisineType && rest.cuisineType.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) return <p className="text-center py-4">Loading...</p>;
@@ -94,6 +94,9 @@ export const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
           <OneRestaurant key={rest.id} {...rest} />
         ))}
       </div>
+      
+      
     </div>
+    
   );
 };

@@ -22,8 +22,8 @@ function App() {
 
           <Route path="/list" element={<RestaurantList userId={"userId"} />} />
           <Route path="/list/details/:restId" element={<RestaurantDetails />} />
-          <Route path="/custProfile" element={<CustomerProfile />} />
-  
+          <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
+
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
         </Routes>
       </BrowserRouter>
