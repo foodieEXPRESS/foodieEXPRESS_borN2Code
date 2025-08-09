@@ -5,8 +5,8 @@ const prisma = require("./database");
 const app = express();
 app.use(express.json());
 app.use(cors());
-const RestDetailsRoutes = require('./mc_routes/RestDetailsRoute')
-const RestaurantListRoutes = require('./mc_routes/RestaurantListRoute');
+const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute');
+const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
 app.use("/api/details",RestDetailsRoutes);
 app.use("/api/restaurants", RestaurantListRoutes);
 

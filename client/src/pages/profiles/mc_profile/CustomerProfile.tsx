@@ -1,5 +1,5 @@
 import React from 'react';
-import type {StatisticCardProps} from '../../types/mc_Components'
+import type {StatisticCardProps} from '../../../types/mc_Types';
 
 const StatisticCard: React.FC<StatisticCardProps> = ({ value, label, date, dateLabel }) => (
   <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[200px] max-w-[300px] flex flex-col items-center text-center">
@@ -84,7 +84,7 @@ const CustomerProfile = () => (
       </aside>
 
       {/* Main Content */}
-      <section className="flex-1 h-[600px] w-full bg-white rounded-lg p-8 shadow flex flex-col space-y-8">
+      <section className=" rounded-xl flex-1 h-[600px] w-full bg-white rounded-lg p-8 shadow flex flex-col space-y-8">
         {/* Edit Button */}
         <div className="flex justify-end mb-4">
           <button className="flex items-center bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 text-lg">

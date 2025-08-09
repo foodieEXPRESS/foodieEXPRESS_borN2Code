@@ -1,10 +1,11 @@
-const prisma = require("../database");
+const prisma = require("../../database");
+// const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501";
 
 const getRestbyId = async (req, res) => {
   try {
     const restaurant = await prisma.restaurant.findUnique({
       where: {
-        id: req.params.id,
+        id: req.params.restId
       },
       include: {
         menus: {

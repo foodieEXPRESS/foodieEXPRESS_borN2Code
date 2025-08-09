@@ -56,6 +56,7 @@ export interface RestaurantDetailsState {
   data: any | null;
   loading: boolean;
   error: string | null;
+  imageUrl: string | null;
 }
 
 export interface User {

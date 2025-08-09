@@ -3,24 +3,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchRestaurantById } from '../../store/restaurantDetailsSlice';
 import type { RootState, AppDispatch } from '../../store';
 import type { MenuItem } from '../../types/mc_Types'
-import { AboutRestaurant } from './AboutRestaurant';
-
+import { AboutRestaurant } from '../../components/RestaurantList/AboutRestaurant';
+import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
 const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { data, loading, error } = useSelector((state: RootState) => state.restaurantDetails);
+  const { data, loading, error, imageUrl } = useSelector((state: RootState) => state.restaurantDetails);
   const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  useEffect(() => {
-    dispatch(fetchRestaurantById(restId));
+ useEffect(() => {
+  dispatch(fetchRestaurantById(restId));
+  dispatch(fetchRestaurantImage(restId));
+}, [dispatch, restId]);
 
-    // Fetch image URL from backend
-
-    fetch(`http://localhost:8080/api/details/image/${restId}`)
-      .then(res => res.json())
-      .then(data => setImageUrl(data.mediaUrl || null))
-      .catch(() => setImageUrl(null));
-  }, [dispatch, restId]);
 
   useEffect(() => {
     if (data && data.menus && data.menus.length > 0) {

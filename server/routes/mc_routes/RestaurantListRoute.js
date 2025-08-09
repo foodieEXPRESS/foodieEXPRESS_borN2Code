@@ -1,5 +1,5 @@
 const express = require("express")
-const {getUserById,getAllRestaurants} =require('../mc_controllers/RestaurantListCtrl.js') 
+const {getUserById,getAllRestaurants} =require('../../controllers/mc_controllers/RestaurantListCtrl') 
 const router = express.Router()
 
 

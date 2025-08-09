@@ -1,5 +1,5 @@
 import React from "react";
-import type { AboutCardProps } from '../../types/mc_Components';
+import type { AboutCardProps } from '../../types/mc_Types';
 
 export const AboutRestaurant: React.FC<AboutCardProps> = ({
   description,

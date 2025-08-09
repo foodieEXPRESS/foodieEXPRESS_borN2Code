@@ -4,8 +4,6 @@ import axios from 'axios';
 
 export const fetchRestaurantById = createAsyncThunk(
   'restaurant/fetchById',
-
-   
   async (restId: string) => {
     try {
       const res = await axios.get(`http://localhost:8080/api/details/${restId}`);
@@ -17,12 +15,20 @@ export const fetchRestaurantById = createAsyncThunk(
   }
 )
 
+export const fetchRestaurantImage = createAsyncThunk(
+  'restaurant/fetchImage',
+  async (restId: string) => {
+    const res = await axios.get(`http://localhost:8080/api/details/image/${restId}`);
+    return res.data.mediaUrl || null;
+  }
+)
+
 export const initialState: RestaurantDetailsState = {
   data: null,
   loading: false,
   error: null,
-}
-
+  imageUrl: null,
+};
 
 const restaurantDetailsSlice = createSlice({
   name: 'restaurant',
@@ -41,6 +47,9 @@ const restaurantDetailsSlice = createSlice({
       .addCase(fetchRestaurantById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Error';
+      })
+      .addCase(fetchRestaurantImage.fulfilled, (state, action) => {
+        state.imageUrl = action.payload;
       });
   },
 });

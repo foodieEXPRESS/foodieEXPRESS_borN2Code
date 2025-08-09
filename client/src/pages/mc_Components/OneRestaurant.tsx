@@ -4,6 +4,7 @@ import type { RestaurantCardProps } from  '../../types/mc_Types'
 
 
 export const OneRestaurant: React.FC<RestaurantCardProps> = ({
+
   name,
   category,
   cuisine,
@@ -13,6 +14,7 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
   priceLevel,
   logoText,
   freeDelivery = true,
+
 }) => {
   const navigate = useNavigate();
 
@@ -128,6 +130,16 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
             className="text-xs bg-purple-700 text-white px-3 py-1 rounded-md hover:bg-purple-800 transition"
           >
             Order Now
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4 inline-block ml-1"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path d="M12 2L2 12h3v8h6v-6h4v6h6v-8h3L12 2z" />
+            </svg>
           </button>
         </div>
       </div>
