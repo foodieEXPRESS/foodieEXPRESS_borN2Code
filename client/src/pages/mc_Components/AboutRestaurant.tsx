@@ -39,7 +39,7 @@ export const AboutRestaurant: React.FC<AboutCardProps> = ({
       className="font-inter font-bold text-2xl leading-[36px] text-center"
       style={{ color: "#4318D1" }}
     >
-      {rating !== undefined && rating !== null ? rating.toFixed(2) : "N/A"}
+      {rating !== undefined ? rating.toFixed(1) : "N/A"}
     </span>
     <span
       className="font-inter font-normal text-xs leading-[18px] text-center"

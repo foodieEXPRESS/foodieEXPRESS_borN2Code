@@ -1,5 +1,5 @@
 const express = require("express")
-const {getRestbyId ,getRestMediaById} =require('../controllers/RestDetailsCtrl') 
+const {getRestbyId ,getRestMediaById} =require('../mc_controllers/RestDetailsCtrl') 
 const router = express.Router()
 
 

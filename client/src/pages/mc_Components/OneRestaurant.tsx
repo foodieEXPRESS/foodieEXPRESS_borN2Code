@@ -3,62 +3,6 @@ import { useNavigate } from "react-router-dom";
 import type { RestaurantCardProps } from  '../../types/mc_Components';
 
 
-// Dummy restaurant data defined here
-export const dummyRestaurants: RestaurantCardProps[] = [
-  {
-    name: "Bella Italia",
-    category: "Italian",
-    cuisine: "Pizza",
-    description: "Authentic Italian dishes from Naples",
-    rating: 4.7,
-    eta: "25-35 min",
-    priceLevel: "$$",
-    logoText: "BI",
-    freeDelivery: true,
-    lat: 36.8,
-    lng: 10.2,
-  },
-  {
-    name: "Tokyo Sushi",
-    category: "Japanese",
-    cuisine: "Sushi",
-    description: "Fresh sushi & sashimi with wasabi kick",
-    rating: 4.5,
-    eta: "20-30 min",
-    priceLevel: "$$$",
-    logoText: "TS",
-    freeDelivery: false,
-    lat: 36.9,
-    lng: 10.3,
-  },
-  {
-    name: "Spicy Kitchen",
-    category: "Indian",
-    cuisine: "Curry",
-    description: "Bold flavors and hot spices",
-    rating: 4.3,
-    eta: "30-40 min",
-    priceLevel: "$",
-    logoText: "SK",
-    freeDelivery: true,
-    lat: 36.7,
-    lng: 10.1,
-  },
-  {
-    name: "Le Gourmet",
-    category: "French",
-    cuisine: "Fine Dining",
-    description: "Elegant French meals and wine",
-    rating: 4.9,
-    eta: "40-50 min",
-    priceLevel: "$$$$",
-    logoText: "LG",
-    freeDelivery: false,
-    lat: 36.85,
-    lng: 10.25,
-  },
-];
-
 export const OneRestaurant: React.FC<RestaurantCardProps> = ({
   name,
   category,

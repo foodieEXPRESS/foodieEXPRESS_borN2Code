@@ -1,5 +1,6 @@
 const prisma = require("../database");
-const restId = "cc796f7d-cb80-4f58-ad9a-390c5b6b15cb";
+const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501";
+const userId = "4a801848-d4d7-45bf-b1dc-6bddad61037b";
 
 const getRestbyId = async (req, res) => {
   try {
@@ -51,5 +52,6 @@ const getRestMediaById = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 module.exports = { getRestbyId, getRestMediaById }

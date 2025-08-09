@@ -26,16 +26,19 @@ const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
     }
   }, [data]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div
+  className="w-[50px] aspect-square rounded-full border-[8px] border-black border-r-transparent animate-spin"
+  style={{ animationDuration: "1s" }}
+></div>
   if (error) return <div>{error}</div>;
   if (!data) return <div>No data</div>;
 
   const displayImage =
     imageUrl ||
-    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80';
+    '';
 
   return (
-    <main className="font-sans mx-auto px-4 pt-4 pb-10">
+    <main className="font-sans mx-auto px-4 pb-10">
       {/* Restaurant image and name */}
       <div className="w-full h-64 rounded-lg overflow-hidden mb-6 shadow-lg">
         <img

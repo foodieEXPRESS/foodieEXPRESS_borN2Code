@@ -5,8 +5,10 @@ const prisma = require("./database");
 const app = express();
 app.use(express.json());
 app.use(cors());
-const RestDetailsRoutes = require('./routes/RestDetailsRoute')
+const RestDetailsRoutes = require('./mc_routes/RestDetailsRoute')
+const RestaurantListRoutes = require('./mc_routes/RestaurantListRoute');
 app.use("/api/details",RestDetailsRoutes);
+app.use("/api/restaurants", RestaurantListRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
