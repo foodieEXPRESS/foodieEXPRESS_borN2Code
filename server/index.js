@@ -6,12 +6,13 @@ const prisma = require("./database");
 
 // Import routes
 const riderProfileRoutes = require("./routes/riderProfile-am");{/* TO DELETE LATER*/}
-
+const authRoutes = require('./routes/auth');
 app.use(express.json());
 app.use(cors());
 // const router_restaurant = require("./routes/restaurant");
 
 // Use routes
+app.use("/api/auth", authRoutes);
 app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}
 
 app.get("/:restId", async (req, res) => {
