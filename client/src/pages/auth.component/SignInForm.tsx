@@ -5,7 +5,7 @@ import type { RootState, AppDispatch } from '../../store';
 import { login, clearError } from '../../store/authSlice';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookF } from 'react-icons/fa';
-import './auth.css';
+
 
 const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const navigate = useNavigate();

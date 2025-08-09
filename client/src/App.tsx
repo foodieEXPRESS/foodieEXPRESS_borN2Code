@@ -1,26 +1,12 @@
 // src/App.jsx
 // import React from 'react';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-
-
-import Home from './pages/Home';
-import About from './pages/About';
-import Counter from './pages/counter';
-import AuthPage from './pages/auth.component/AuthPage';
-import RestaurantList from './pages/mc_Components/RestaurantList';
-import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
-import CustomerProfile from './pages/mc_Components/CustomerProfile'
-
-
 // Import All 5Mohamed Components
 import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
 import RestaurantSearch from './pages/5Mohamed/RestaurantSearch';
 import LandingPage from './pages/5Mohamed/LandingPage';
 // Import 5Mohamed Components CSS
 import './pages/5Mohamed/styles.css';
-
-import CartView from './pages/hazem/cartView';
-import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
 import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 import AuthPage from "./pages/auth.component/AuthPage";
 import Home from "./pages/Home";
@@ -29,7 +15,6 @@ import Counter from "./pages/counter";
 import RestaurantList from "./pages/mc_Components/RestaurantList";
 import RestaurantDetails from "./pages/mc_Components/RestaurantDetails";
 import CustomerProfile from "./pages/mc_Components/CustomerProfile";
-
 import CartView from "./pages/hazem/cartView";
 import OrderViewBeforePayment from "./pages/hazem/order_view_before_payment";
 import Checkout from "./pages/hazem/checkout";
