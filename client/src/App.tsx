@@ -20,7 +20,9 @@ import './pages/5Mohamed/styles.css';
 
 import CartView from './pages/hazem/cartView';
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
-import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
+import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';
+import OrderDetailsTracking from './pages/am_pages/order_details_Tracking';
+
 function App() {
   console.log('App component loaded');
   
@@ -46,7 +48,7 @@ function App() {
           <Route path="/cart" element={<CartView />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
           <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
-    
+          <Route path="/order-details-tracking" element={<OrderDetailsTracking />} />
     
         </Routes>
       </BrowserRouter>
