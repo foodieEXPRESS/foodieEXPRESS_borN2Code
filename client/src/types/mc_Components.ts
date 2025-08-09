@@ -58,3 +58,34 @@ export interface RestaurantState {
   error: string | null;
 }
 
+export interface User {
+  id: string;
+  latitude: number;
+  longitude: number;
+}
+
+export interface Restaurant {
+  id: string;
+  name: string;
+  category: string;
+  cuisine: string;
+  description: string;
+  rating: number;
+  eta: string;
+  priceLevel: string;
+  logoText: string;
+  freeDelivery?: boolean;
+  latitude: number;
+  longitude: number;
+}
+
+export interface RestaurantListState {
+  user: User | null;
+  restaurants: Restaurant[];
+  loading: boolean;
+  error: string | null;
+}
+
+export interface RestaurantListProps {
+  userId: string;
+}

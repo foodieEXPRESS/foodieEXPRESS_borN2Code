@@ -1,6 +1,5 @@
 const prisma = require("../database");
 const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501";
-const userId = "4a801848-d4d7-45bf-b1dc-6bddad61037b";
 
 const getRestbyId = async (req, res) => {
   try {

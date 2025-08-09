@@ -35,7 +35,9 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
 
   return (
     <div className="w-[373px] h-[403px] rounded-xl shadow-lg bg-white overflow-hidden">
-      {/* Top banner */}
+
+      {/* Top Image/Banner */}
+
       <div
         className={`relative ${randomColor} h-60 flex items-center justify-center text-white text-7xl font-semibold`}
       >
@@ -51,6 +53,7 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
       </div>
 
       {/* Info Section */}
+
       <div className="p-4 space-y-2">
         <div className="flex items-center gap-3">
           <div
@@ -67,10 +70,13 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
         <p className="text-sm text-gray-600">{description}</p>
 
         {/* Rating, ETA, Price + Order */}
+
         <div className="flex items-center justify-between text-sm text-gray-600 mt-2">
           <div className="flex gap-3">
             <span className="flex items-center gap-1">
+
               {/* Star SVG */}
+
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4 text-yellow-500 fill-yellow-500"
@@ -83,7 +89,9 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
               {rating}
             </span>
             <span className="flex items-center gap-1">
+
               {/* Clock SVG */}
+
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4"

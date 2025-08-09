@@ -13,7 +13,9 @@ const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
 
   useEffect(() => {
     dispatch(fetchRestaurantById(restId));
+
     // Fetch image URL from backend
+
     fetch(`http://localhost:8080/api/details/image/${restId}`)
       .then(res => res.json())
       .then(data => setImageUrl(data.mediaUrl || null))
@@ -39,7 +41,9 @@ const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
 
   return (
     <main className="font-sans mx-auto px-4 pb-10">
+    
       {/* Restaurant image and name */}
+
       <div className="w-full h-64 rounded-lg overflow-hidden mb-6 shadow-lg">
         <img
           src={displayImage}
@@ -50,6 +54,7 @@ const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
       <h1 className="text-4xl font-extrabold text-gray-900 mb-2 text-center">{data.name}</h1>
 
       {/* About section using AboutRestaurant component */}
+
       <section className="mb-8 flex flex-col items-center">
         <AboutRestaurant
           description={data.description}
@@ -62,6 +67,7 @@ const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
       </section>
 
       {/* Tabs for food types */}
+
       <section className="mb-6">
         <div className="flex flex-wrap gap-2 border-b border-gray-200 mb-4">
           {data.menus.map((menu: any) => (
@@ -81,6 +87,7 @@ const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
       </section>
 
       {/* Menu items for active tab */}
+      
       <section>
         <h2 className="text-2xl font-bold text-gray-800 mb-2">{activeTab}</h2>
         {data.menus

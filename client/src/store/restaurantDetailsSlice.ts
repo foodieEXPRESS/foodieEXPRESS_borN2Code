@@ -19,8 +19,8 @@ export const initialState: RestaurantState = {
   error: null,
 }
 
-const restaurantSlice = createSlice({
-  name: 'restaurant',
+const restaurantDetailsSlice = createSlice({
+  name: 'restaurantDetails',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -40,4 +40,4 @@ const restaurantSlice = createSlice({
   },
 });
 
-export default restaurantSlice.reducer
+export default restaurantDetailsSlice.reducer
