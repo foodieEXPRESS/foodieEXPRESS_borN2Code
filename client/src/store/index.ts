@@ -1,13 +1,15 @@
     import { configureStore } from '@reduxjs/toolkit';
     import counterReducer from './counterSlice';
-    import restaurantReducer from './restaurantDetailsSlice';
+    import restaurantDetailReducer from './restaurantDetailsSlice';
+    import restaurantListReducer  from './restaurantListSlice';
     import riderReducer from './riderSlice-am';
     import authReducer from './authSlice';
 
     export const store = configureStore({
       reducer: {
         counter: counterReducer,
-        restaurant: restaurantReducer,
+        restaurantDetails: restaurantDetailReducer,
+        restaurantList: restaurantListReducer,
 
         rider: riderReducer,
         auth: authReducer

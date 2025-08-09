@@ -1,5 +1,17 @@
 // src/App.jsx
 // import React from 'react';
+import { Routes, Route,BrowserRouter } from 'react-router-dom';
+
+
+import Home from './pages/Home';
+import Counter from './pages/counter';
+
+import CustomerProfile from './pages/profiles/mc_Customerprofile/CustomerProfile';
+import AuthPage from './pages/auth.component/AuthPage';
+import RestaurantList from './pages/mc_Components/RestaurantList';
+import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
+
+
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 // Import All 5Mohamed Components
 import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
@@ -27,8 +39,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
+
+          <Route path="/list" element={<RestaurantList userId={"userId"} />} />
+          <Route path="/list/details/:restId" element={<RestaurantDetails />} />
+          <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
+
           <Route path="/auth" element={<AuthPage />} />
 
           {/* All 5Mohamed Component Routes */}
@@ -38,6 +54,11 @@ function App() {
           <Route path="/restaurant-search" element={<RestaurantSearch />} />
           {/* http://localhost:5173/landing-page */}
           <Route path="/landing-page" element={<LandingPage />} />
+          <Route path="/list" element={<RestaurantList userId={"userId"} />} />
+          <Route path="/list/OneRest/details" element={<RestaurantDetails />} />
+          <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
+          <Route path="/cart" element={<CartView  />} />
+          <Route path="/order-view-before-payment" element={<OrderViewBeforePayment  />} />
           <Route path="/list" element={<RestaurantList />} />
           <Route
             path="/list/OneRest/details"
@@ -54,8 +75,8 @@ function App() {
           <Route path="/add-payment-card" element={<AddPaymentCard />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
           <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
-    
-    
+
+
         </Routes>
       </BrowserRouter>
     </div>
