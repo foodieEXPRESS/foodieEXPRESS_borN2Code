@@ -5,7 +5,7 @@ import type { RootState, AppDispatch } from '../../store';
 import type { MenuItem } from '../../types/mc_Types'
 import { AboutRestaurant } from '../../components/RestaurantList/AboutRestaurant';
 import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const RestaurantDetails: React.FC = () => {
   const { restId } = useParams<{ restId: string }>(); 
@@ -142,6 +142,12 @@ const MenuItem: React.FC<MenuItem & {}> = ({
         return "bg-red-100 text-gray-800";
     }
   };
+    const navigate = useNavigate(); 
+
+  const handleToCart = () => {
+    navigate(`/cart`);
+  };
+
 
   return (
     <article className="rounded-lg p-5 bg-white shadow hover:shadow-lg transition-shadow flex flex-col sm:flex-row gap-x-6">
@@ -166,7 +172,7 @@ const MenuItem: React.FC<MenuItem & {}> = ({
             ))}
           </div>
           <p className="text-gray-700 text-sm leading-relaxed mt-1">{description}</p>
-          <button
+          <button onClick={handleToCart}
             className="mt-4 bg-indigo-500 text-white rounded px-6 py-2 font-semibold transition hover:bg-indigo-800 w-fit"
           >
             Add to Cart

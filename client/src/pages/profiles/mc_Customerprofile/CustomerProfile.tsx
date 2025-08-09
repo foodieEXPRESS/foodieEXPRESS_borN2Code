@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
-import { fetchUserById } from '../../../store/restaurantListSlice'; // adjust path if needed
+import{ fetchUserPictureById,  fetchUserById } from '../../../store/restaurantListSlice';
 import type { StatisticCardProps } from '../../../types/mc_Types';
-
+import type { CustomerProfileWithFetchProps } from '../../../types/mc_Types';
 const StatisticCard: React.FC<StatisticCardProps & { className?: string }> = ({
   value,
   label,
@@ -35,34 +35,34 @@ const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value })
   </div>
 );
 
-interface CustomerProfileWithFetchProps {
-  userId: string;
-}
+
 
 const CustomerProfile: React.FC<CustomerProfileWithFetchProps> = ({ userId }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, loading, error } = useSelector((state: RootState) => state.restaurantList);
-
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchUserById(userId));
-    }
-  }, [dispatch, userId]);
+  const { user, userPictureUrl, loading, error } = useSelector((state: RootState) => state.restaurantList);
+  console.log("userPictureUrl data:", userPictureUrl);
+useEffect(() => {
+  if (userId) {
+    dispatch(fetchUserById(userId));           
+    dispatch(fetchUserPictureById(userId));    
+  }
+}, [dispatch, userId]);
 
   if (loading) return <p className="text-center py-4">Loading profile...</p>;
   if (error) return <p className="text-red-500 text-center py-4">{error}</p>;
   if (!user) return <p className="text-center py-4">No user data found.</p>;
 
-  // Extract user info safely, adjust keys if your API differs
-  const name = user.name || 'John Doe';
-  const email = user.contactEmail || '';
-  const phone = user.contactPhone || '';
-  const memberSince = user.memberSince || 'March 2023';
-  const totalOrders = user.totalOrders || 0;
-  const rating = user.rating || 0;
-  const cuisineType = user.cuisineType || 'Italian';
+  //mc :  Extract user info safely
+  const name = user.fullName || 'Anonymous';
+  const email = user.email || 'N/A';
+  const phone = user.phoneNumber || 'N/A';
+  const address = user.address || 'N/A';
+  const memberSince = 'N/A'; 
+  const totalOrders = 0;
+  const rating = 0; 
+  const cuisineType = 'N/A'; 
 
-  const initials = `${name[0]}${name[1]}`.toUpperCase();
+  const initials = `${name[0] || ''}${name.split(' ')[1]?.[0] || ''}`.toUpperCase();
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8 overflow-x-hidden">
@@ -75,15 +75,28 @@ const CustomerProfile: React.FC<CustomerProfileWithFetchProps> = ({ userId }) =>
       <div className="w-full max-w-7xl flex flex-col md:flex-row flex-wrap gap-8">
         {/* Sidebar */}
         <aside className="flex-1 md:max-w-sm w-full bg-white rounded-lg p-8 shadow flex flex-col items-center">
-          <div className="flex flex-col items-center mb-6">
-            <div className="w-32 h-32 bg-indigo-700 rounded-full flex items-center justify-center text-white text-7xl font-bold mb-4">
-              {initials}
-            </div>
-            <h2 className="text-xl font-semibold mb-2">{name}</h2>
-            <p className="text-gray-500 text-sm">Member since {memberSince}</p>
-          </div>
-
-          {/* Navigation (keep your nav buttons here) */}
+            <div className="flex flex-col items-center mb-6">
+  {userPictureUrl ? (
+    <img
+      src={userPictureUrl}
+      alt={`Profile picture of `}
+      className="w-32 h-32 rounded-full object-cover mb-4"
+      loading="lazy"
+    />
+  ) : (
+    <div
+      aria-label={`User initials avatar for ${name}`}
+      role="img"
+      className="w-32 h-32 bg-indigo-700 rounded-full flex items-center justify-center text-white text-7xl font-bold mb-4 select-none"
+    >
+      {initials}
+    </div>
+  )}
+  <h2 className="text-xl font-semibold mb-2">{name}</h2>
+  <p className="text-gray-500 text-sm">Member since {memberSince}</p>
+</div>
+          
+          {/* Navigation */}
           <nav className="w-full space-y-3 mb-8">{/* ... */}</nav>
 
           {/* Profile Stats */}
@@ -104,7 +117,6 @@ const CustomerProfile: React.FC<CustomerProfileWithFetchProps> = ({ userId }) =>
           {/* Edit Button */}
           <div className="flex justify-end mb-4">
             <button className="flex items-center bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-800 text-lg">
-              {/* Edit Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -130,6 +142,7 @@ const CustomerProfile: React.FC<CustomerProfileWithFetchProps> = ({ userId }) =>
               <InfoBlock label="Name" value={name} />
               <InfoBlock label="Email Address" value={email} />
               <InfoBlock label="Phone Number" value={phone} />
+              <InfoBlock label="Address" value={address} />
             </div>
           </div>
 

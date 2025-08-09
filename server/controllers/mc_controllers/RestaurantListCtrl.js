@@ -1,8 +1,8 @@
 const prisma = require("../../database");
-const userId = "4a801848-d4d7-45bf-b1dc-6bddad61037b";
+const userId = "93b90399-f562-4b4c-9d33-d678f93a45e1";
 
 
-const getUserById = async (req,res)=> {
+const getUserById = async (req,res)=> { // mc : temporary until using Aziz's Auth token
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -19,6 +19,54 @@ const getUserById = async (req,res)=> {
   }
 }
 
+const getUserPictureById = async(req,res)=> { // mc : temporary until using Aziz's Auth token
+
+  try {
+     const userPic = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        media: {
+          where: { type: 'image' },
+          take: 1
+        }
+      }
+    });
+console.log('userPic:', userPic);
+  if (!userPic || !userPic.media || userPic.media.length === 0) {
+  return res.status(404).json({ error: "User picture not found" });
+}
+
+    res.json(userPic.media[0]?.url || null);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const updateUserProfile = async (req, res) => {
+  const { userId } = req.params;
+  const { fullName, email, phoneNumber, address } = req.body;
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        fullName,
+        email,
+        phoneNumber,
+        address,
+      },
+    });
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+
 const getAllRestaurants = async (req, res) => {
   try {
     const restaurants = await prisma.restaurant.findMany();
@@ -34,4 +82,4 @@ const getAllRestaurants = async (req, res) => {
   }
 };
 
-module.exports = { getUserById, getAllRestaurants }
+module.exports = { getUserById, getAllRestaurants ,updateUserProfile ,getUserPictureById}

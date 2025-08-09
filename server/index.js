@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const PORT = 8080;
-const prisma = require("./database");
 const app = express();
 const prisma = require("./database");
 
@@ -11,7 +10,6 @@ const authRoutes = require('./routes/auth');
 app.use(express.json());
 app.use(cors());
 
-const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute');
 
 // const router_restaurant = require("./routes/restaurant");
 

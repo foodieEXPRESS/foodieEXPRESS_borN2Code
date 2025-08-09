@@ -7,22 +7,36 @@ import axios from 'axios';
 
 const initialState: RestaurantListState = {
   user: null,
+  userPictureUrl: null, 
   restaurants: [],
   loading: false,
   error: null,
 };
 
-// Fetch the user by his ID
+// mc : Fetch the user by his ID
 
 export const fetchUserById = createAsyncThunk<User, string>(
   'restaurantList/fetchUserById',
   async (userId) => {
     const res = await axios.get(`http://localhost:8080/api/restaurants/${userId}`);
-    return res.data;
+    return res.data; 
+  }
+);
+// mc : Fetch the picture of the user by his ID
+
+export const fetchUserPictureById = createAsyncThunk<string | null, string>(
+  'restaurantList/fetchUserPictureById',
+  async (userId) => {
+    try {
+      const picRes = await axios.get(`http://localhost:8080/api/restaurants/picture/${userId}`);
+      return picRes.data;  
+    } catch (err) {
+      return null; 
+    }
   }
 );
 
-// Fetch the restaurants >>>>>> then >>>>>>>> sort by proximity meaning closed to user location
+//mc : Fetch the restaurants >>>>>> then >>>>>>>> sort by proximity meaning closed to user location
 
 export const fetchRestaurantsNearUser = createAsyncThunk<
   Restaurant[],
@@ -61,19 +75,30 @@ const restaurantListSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // <<<<<< fetching the user >>>>>>
+      // mc : <<<<<< fetching the user picture >>>>>>
+     .addCase(fetchUserPictureById.pending, (state) => {
+      state.userPictureUrl = null;
+    })
+    .addCase(fetchUserPictureById.fulfilled, (state, action: PayloadAction<string | null>) => {
+      state.userPictureUrl = action.payload;
+    })
+    .addCase(fetchUserPictureById.rejected, (state) => {
+      state.userPictureUrl = null;
+    })
 
-      // either still loading ... ⏳
+      // mc : <<<<<< fetching the user >>>>>>
+
+      // mc : either still loading ... ⏳
       .addCase(fetchUserById.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-       // either fetched successfully ... 👌
+       // mc : either fetched successfully ... 👌
       .addCase(fetchUserById.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
         state.user = action.payload;
       })
-      //either failed to fetch  👎
+      // mc :either failed to fetch  👎
       .addCase(fetchUserById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch user';

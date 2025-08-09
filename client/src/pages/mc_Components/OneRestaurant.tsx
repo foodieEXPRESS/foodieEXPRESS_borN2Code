@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import type { Restaurant } from  '../../types/mc_Types'
+import type { Restaurant } from '../../types/mc_Types';
 
- const OneRestaurant: React.FC<Restaurant> = ({
+const OneRestaurant: React.FC<Restaurant> = ({
   id,
   name,
   cuisine,
@@ -15,9 +15,10 @@ import type { Restaurant } from  '../../types/mc_Types'
 }) => {
   const navigate = useNavigate();
 
- const handleOrderNow = () => {
-  navigate(`/list/details/${id}`);
-};
+  const handleOrderNow = () => {
+    navigate(`/list/details/${id}`);
+  };
+
   const bgColors = [
     "bg-red-500",
     "bg-blue-500",
@@ -29,19 +30,17 @@ import type { Restaurant } from  '../../types/mc_Types'
     "bg-teal-500",
   ];
   const initials = name
-  .split(" ")
-  .filter(Boolean)
-  .map((word, idx, arr) => (idx === 0 || idx === arr.length - 1 ? word[0].toUpperCase() : null))
-  .filter(Boolean)
-  .join("");
+    .split(" ")
+    .filter(Boolean)
+    .map((word, idx, arr) => (idx === 0 || idx === arr.length - 1 ? word[0].toUpperCase() : null))
+    .filter(Boolean)
+    .join("");
 
   const randomColor = bgColors[Math.floor(Math.random() * bgColors.length)];
 
   return (
-    <div className="w-[373px] h-[403px] rounded-xl shadow-lg bg-white overflow-hidden">
-
+    <div className="max-w-[373px] w-full rounded-xl shadow-lg bg-white overflow-hidden flex flex-col h-[403px]">
       {/* Top Image/Banner */}
-
       <div
         className={`relative ${randomColor} h-60 flex items-center justify-center text-white text-7xl font-semibold`}
       >
@@ -57,14 +56,11 @@ import type { Restaurant } from  '../../types/mc_Types'
       </div>
 
       {/* Info Section */}
-
-      <div className="p-4 space-y-2">
+      <div className="p-4 space-y-2 flex flex-col flex-grow justify-between">
         <div className="flex items-center gap-3">
-          <div
-  className={`${randomColor} text-white font-bold text-sm px-3 py-2 rounded-md`}
->
-  {initials}
-</div>
+          <div className={`${randomColor} text-white font-bold text-sm px-3 py-2 rounded-md`}>
+            {initials}
+          </div>
 
           <div>
             <h3 className="font-semibold">{name}</h3>
@@ -75,13 +71,10 @@ import type { Restaurant } from  '../../types/mc_Types'
         <p className="text-sm text-gray-600">{description}</p>
 
         {/* Rating, ETA, Price + Order */}
-
         <div className="flex items-center justify-between text-sm text-gray-600 mt-2">
           <div className="flex gap-3">
             <span className="flex items-center gap-1">
-
               {/* Star SVG */}
-
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4 text-yellow-500 fill-yellow-500"
@@ -94,9 +87,7 @@ import type { Restaurant } from  '../../types/mc_Types'
               {rating.toFixed(1)}
             </span>
             <span className="flex items-center gap-1">
-
               {/* Clock SVG */}
-
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4"
@@ -106,22 +97,8 @@ import type { Restaurant } from  '../../types/mc_Types'
                 strokeWidth={2}
               >
                 <circle cx="12" cy="12" r="10" />
-                <line
-                  x1="12"
-                  y1="6"
-                  x2="12"
-                  y2="12"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <line
-                  x1="12"
-                  y1="12"
-                  x2="16"
-                  y2="14"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+                <line x1="12" y1="6" x2="12" y2="12" strokeLinecap="round" strokeLinejoin="round" />
+                <line x1="12" y1="12" x2="16" y2="14" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               {eta}
             </span>
@@ -150,4 +127,4 @@ import type { Restaurant } from  '../../types/mc_Types'
   );
 };
 
-export default OneRestaurant; 
+export default OneRestaurant;

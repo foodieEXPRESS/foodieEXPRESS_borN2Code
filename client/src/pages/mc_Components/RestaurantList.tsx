@@ -46,7 +46,7 @@ const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Heading */}
-      <h1 className="text-3xl font-bold mb-2">for restaurant near you</h1>
+      <h1 className="text-3xl font-bold mb-2">Restaurant near you</h1>
 
       {/* Number of restaurants found */}
       <p className="mb-4 text-gray-600">{filteredRestaurants.length} restaurants found</p>
@@ -89,7 +89,7 @@ const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
       </div>
 
       {/* Restaurant Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {filteredRestaurants.map((rest: Restaurant) => (
           <OneRestaurant key={rest.id} {...rest} />
         ))}
