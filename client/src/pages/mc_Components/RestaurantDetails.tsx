@@ -5,19 +5,24 @@ import type { RootState, AppDispatch } from '../../store';
 import type { MenuItem } from '../../types/mc_Types'
 import { AboutRestaurant } from '../../components/RestaurantList/AboutRestaurant';
 import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
-const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
+import { useParams } from "react-router-dom";
+
+const RestaurantDetails: React.FC = () => {
+  const { restId } = useParams<{ restId: string }>(); 
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error, imageUrl } = useSelector((state: RootState) => state.restaurantDetails);
   const [activeTab, setActiveTab] = useState<string | null>(null);
-
- useEffect(() => {
-  dispatch(fetchRestaurantById(restId));
-  dispatch(fetchRestaurantImage(restId));
-}, [dispatch, restId]);
-
-
+  
   useEffect(() => {
-    if (data && data.menus && data.menus.length > 0) {
+    if (restId) {
+      dispatch(fetchRestaurantById(restId));
+      dispatch(fetchRestaurantImage(restId));
+    }
+  }, [dispatch, restId]);
+
+
+   useEffect(() => {
+    if (data && data.menus.length > 0) {
       setActiveTab(data.menus[0].name);
     }
   }, [data]);

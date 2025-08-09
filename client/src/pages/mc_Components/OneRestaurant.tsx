@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import type { RestaurantCardProps } from  '../../types/mc_Types'
+import type { Restaurant } from  '../../types/mc_Types'
 
 
-export const OneRestaurant: React.FC<RestaurantCardProps> = ({
-
+ const OneRestaurant: React.FC<Restaurant> = ({
+  id,
   name,
   category,
   cuisine,
@@ -18,9 +18,9 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleOrderNow = () => {
-    navigate(`/list/details`);
-  };
+ const handleOrderNow = () => {
+  navigate(`/list/details/${id}`);
+};
 
   const bgColors = [
     "bg-red-500",
@@ -146,3 +146,5 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
     </div>
   );
 };
+
+export default OneRestaurant; 

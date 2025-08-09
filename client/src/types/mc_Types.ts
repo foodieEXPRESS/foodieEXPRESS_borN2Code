@@ -18,20 +18,6 @@ export interface AboutCardProps {
   phone: string;
 }
 
-export interface RestaurantCardProps {
-  name: string;
-  category: string;
-  cuisine: string;
-  description: string;
-  rating: number;
-  eta: string;
-  priceLevel: string;
-  logoText: string;
-  freeDelivery?: boolean;
-  lat?: number;
-  lng?: number;
-}
-
 
 export interface AboutCardProps {
   description: string;

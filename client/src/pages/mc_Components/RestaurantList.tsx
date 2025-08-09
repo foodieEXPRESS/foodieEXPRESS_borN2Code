@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
 import { fetchUserById, fetchRestaurantsNearUser } from '../../store/restaurantListSlice';
-import { OneRestaurant } from './OneRestaurant';
+import  OneRestaurant  from './OneRestaurant';
 import type { Restaurant } from '../../types/mc_Types'
 
 export const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
@@ -11,14 +11,17 @@ export const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
   const { user, restaurants, loading, error } = useSelector(
     (state: RootState) => state.restaurantList
   );
+  
 
   //  Get user data by ID from props
+
 
   useEffect(() => {
     if (userId) {
       dispatch(fetchUserById(userId));
     }
   }, [dispatch, userId]);
+
 
   //  Once we have user location, fetch nearest restaurants
 

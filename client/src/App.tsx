@@ -5,10 +5,10 @@ import { Routes, Route,BrowserRouter } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Counter from './pages/counter';
-import { RestaurantList } from './pages/mc_Components/RestaurantList';
-import RestaurantDetail from './pages/mc_Components/RestaurantDetails';
-import CustomerProfile from './pages/profiles/mc_profile/CustomerProfile';
 
+import { RestaurantList } from './pages/mc_Components/RestaurantList';
+import CustomerProfile from './pages/profiles/mc_profile/CustomerProfile';
+import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
 
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
 function App() {
@@ -19,8 +19,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/counter" element={<Counter />} />
+
           <Route path="/list" element={<RestaurantList userId={"userId"} />} />
-          <Route path="/list/details/" element={<RestaurantDetail  restId={"restId"}/>} />
+          <Route path="/list/details/:restId" element={<RestaurantDetails />} />
           <Route path="/custProfile" element={<CustomerProfile />} />
   
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
