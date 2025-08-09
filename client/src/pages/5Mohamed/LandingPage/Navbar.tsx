@@ -1,26 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   return (
-    <nav className="MA__navbar">
-      <div className="MA__navbar-container">
-        <div className="MA__navbar-logo">
-          <div className="MA__logo-icon">
-            <span className="MA__plus-sign">+</span>
-          </div>
-          <span className="MA__logo-text">FoodieExpress</span>
+    <nav className="rs-nav">
+      <div className="rs-container rs-nav__inner">
+        <div className="rs-brand">
+          <div className="rs-brand__logo">+</div>
+          <span className="rs-brand__name">FoodieExpress</span>
         </div>
-        <div className="MA__navbar-auth">
-          <a href="#signin" className="MA__sign-in-link">Sign In</a>
-          <button className="MA__navbar-order-btn">Order Now</button>
-        </div>
-        
-        <div className="MA__navbar-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          <div className={`MA__hamburger ${isMenuOpen ? 'active' : ''}`}></div>
-          <div className={`MA__hamburger ${isMenuOpen ? 'active' : ''}`}></div>
-          <div className={`MA__hamburger ${isMenuOpen ? 'active' : ''}`}></div>
+        <div className="rs-actions">
+          <button className="rs-link">Sign In</button>
+          <button className="rs-btn rs-btn--primary">Order Now</button>
         </div>
       </div>
     </nav>
