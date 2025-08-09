@@ -23,4 +23,15 @@ export interface CheckoutProps {
   initialStep?: CheckoutStep;
   initialValues?: Partial<CheckoutFormData>;
   onSubmit?: (values: CheckoutFormData) => void;
+  onStepChange?: (step: CheckoutStep) => void;
+}
+
+export interface AddPaymentCardProps {
+  savedCards?: import('./dataTypes').SavedCard[];
+  selectedPaymentMethod?: import('./dataTypes').PaymentMethod;
+  selectedCardId?: string;
+  onSelectCard?: (id: string) => void;
+  onAddNewCard?: () => void;
+  onCompletePayment?: () => void;
+  onSelectPaymentMethod?: (method: import('./dataTypes').PaymentMethod) => void;
 }

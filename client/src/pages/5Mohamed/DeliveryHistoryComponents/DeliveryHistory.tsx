@@ -22,8 +22,6 @@ const DeliveryHistory: React.FC = () => {
 console.log("mohamed")
   return (
     <div className="MA__delivery-history-container">
-      <h1>Delivery History Page</h1>
-      
       {/* Header Bar */}
       <div className="MA__header-bar">
         <div className="MA__header-logo">

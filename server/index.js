@@ -5,6 +5,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 const RestDetailsRoutes = require('./routes/RestDetailsRoute')
+const restaurant=require('./routes/RestaurantRoute')
+app.use("/api/restaurants", restaurant);
 app.use("/api/details",RestDetailsRoutes);
 
 app.listen(PORT, () => {

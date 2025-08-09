@@ -3,12 +3,6 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 
-import Home from './pages/Home';
-import About from './pages/About';
-import Counter from './pages/counter';
-import RestaurantList from './pages/mc_Components/RestaurantList';
-import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
-import CustomerProfile from './pages/mc_Components/CustomerProfile'
 
 // Import All 5Mohamed Components
 import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
@@ -28,6 +22,7 @@ import CustomerProfile from "./pages/mc_Components/CustomerProfile";
 import CartView from "./pages/hazem/cartView";
 import OrderViewBeforePayment from "./pages/hazem/order_view_before_payment";
 import Checkout from "./pages/hazem/checkout";
+import AddPaymentCard from './pages/hazem/add_payment_card';
 function App() {
   console.log('App component loaded');
   
@@ -59,6 +54,7 @@ function App() {
           />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/add-payment-card" element={<AddPaymentCard />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,7 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import Header from '../../components/Header';
 import type { CheckoutFormData, CheckoutStep, CheckoutFormErrors } from './dataTypes';
 import type { CheckoutProps } from './propsTypes';
+
+// Italiana font for logo (ensure it's loaded in your project)
+const Logo = () => (
+  <span className="font-italiana text-[1.7rem] tracking-tight text-[#1A1A1A]">FoodieExpress</span>
+);
 
 const steps: Array<{ key: CheckoutStep; label: string; number: number }> = [
   { key: 'delivery', label: 'Delivery Info', number: 1 },
@@ -18,23 +22,30 @@ const defaultValues: CheckoutFormData = {
   apartment: '',
   city: '',
   zipCode: '',
-  deliveryInstructions: ''
+  deliveryInstructions: '',
+  paymentMethod: 'card',
+  cardName: '',
+  cardNumber: '',
+  cardExpiry: '',
+  cardCvc: ''
 };
 
 const Checkout: React.FC<CheckoutProps> = ({
   initialStep = 'delivery',
   initialValues = {},
-  onSubmit = () => {}
+  onSubmit = () => {},
+  onStepChange
 }) => {
-  const [currentStep] = useState<CheckoutStep>(initialStep);
+  const [currentStep, setCurrentStep] = useState<CheckoutStep>(initialStep);
   const [form, setForm] = useState<CheckoutFormData>({ ...defaultValues, ...initialValues });
   const [errors, setErrors] = useState<CheckoutFormErrors>({});
 
   const isActive = (key: CheckoutStep) => currentStep === key;
 
+  // Input base classes for theme
   const inputBaseClasses =
-    'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder-secondary-gray bg-white';
-  const inputNormalBorder = ' border-secondary-light';
+    'w-full px-4 py-3 border rounded-md font-inter text-[#1A1A1A] placeholder-[#666666] bg-white transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-[#4318D1] focus:border-[#4318D1]';
+  const inputNormalBorder = ' border-[#E5E5E5]';
   const inputErrorBorder = ' border-red-300 ring-red-400 focus:ring-red-400';
 
   const handleChange = (field: keyof CheckoutFormData) => (
@@ -44,88 +55,131 @@ const Checkout: React.FC<CheckoutProps> = ({
     setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
-  const validate = useMemo(() => {
-    const required: Array<keyof CheckoutFormData> = [
-      'firstName',
-      'lastName',
-      'email',
-      'phone',
-      'streetAddress',
-      'city',
-      'zipCode'
-    ];
-    return (values: CheckoutFormData): CheckoutFormErrors => {
+  const stepOrder: CheckoutStep[] = ['delivery', 'payment', 'review'];
+
+  const goToStep = (step: CheckoutStep) => {
+    setCurrentStep(step);
+    setErrors({});
+    if (typeof onStepChange === 'function') onStepChange(step);
+  };
+
+  // Validation logic (unchanged)
+  const validateForStep = useMemo(() => {
+    return (values: CheckoutFormData, step: CheckoutStep): CheckoutFormErrors => {
       const next: CheckoutFormErrors = {};
-      required.forEach((key) => {
-        if (!values[key] || String(values[key]).trim() === '') {
-          next[key] = 'Required';
+      if (step === 'delivery') {
+        const required: Array<keyof CheckoutFormData> = [
+          'firstName',
+          'lastName',
+          'email',
+          'phone',
+          'streetAddress',
+          'city',
+          'zipCode'
+        ];
+        required.forEach((key) => {
+          if (!values[key] || String(values[key]).trim() === '') {
+            next[key] = 'Required';
+          }
+        });
+        // Simple email/phone sanity checks
+        if (values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+          next.email = 'Invalid email';
         }
-      });
+        if (values.phone && !/^\+?[0-9\s-]{6,}$/.test(values.phone)) {
+          next.phone = 'Invalid phone';
+        }
+      }
       return next;
     };
-  }, []);
+  }, [onStepChange]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const nextErrors = validate(form);
+    const nextErrors = validateForStep(form, currentStep);
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length === 0) {
-      onSubmit(form);
+    if (Object.keys(nextErrors).length > 0) return;
+    if (currentStep === 'delivery') {
+      goToStep('payment');
+      return;
     }
+    if (currentStep === 'payment') {
+      goToStep('review');
+      return;
+    }
+    onSubmit(form);
   };
 
   return (
-    <div className="min-h-screen bg-secondary-lighter">
-      <Header />
+    <div className="min-h-screen bg-[#FAFAFA] font-inter">
+      {/* Header Bar */}
+      <header className="w-full bg-white shadow-sm py-3 px-4 sm:px-8 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-[#4318D1] flex items-center justify-center mr-2">
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="10" rx="2" fill="#fff"/><rect x="4" y="7" width="16" height="10" rx="2" stroke="#4318D1" strokeWidth="2"/></svg>
+          </div>
+          <Logo />
+        </div>
+        <div className="flex items-center gap-4">
+          <a href="#" className="text-[#1A1A1A] font-medium text-sm hover:underline">Sign In</a>
+          <button className="bg-[#4318D1] hover:bg-[#10B981] text-white font-semibold px-4 py-1.5 rounded-lg text-sm transition-all">Help</button>
+        </div>
+      </header>
 
-      <div className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 py-8">
-        {/* Title */}
-        <div className="mb-6">
-          <h1 className="text-heading-1 font-sans text-secondary-dark">Checkout</h1>
-          <p className="text-secondary-gray mt-1">
-            Complete your order and get your food delivered
-          </p>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        {/* Title & Subtext */}
+        <div className="mb-12">
+          <h2 className="text-[24px] leading-[36px] font-bold text-[#1A1A1A] mb-1">Checkout</h2>
+          <p className="text-base text-[#666666]">Complete your order and get your food delivered</p>
         </div>
 
-        {/* Steps */}
-        <div className="flex items-center justify-center gap-6 mb-8">
-          {steps.map((s, idx) => (
-            <div key={s.key} className="flex items-center gap-3">
-              <div
-                className={
-                  'w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ' +
-                  (isActive(s.key)
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'bg-white text-secondary-dark border border-secondary-light')
-                }
-              >
-                {s.number}
-              </div>
-              <span className={`text-sm font-medium ${isActive(s.key) ? 'text-primary' : 'text-secondary-gray'}`}>
-                {s.label}
-              </span>
-              {idx < steps.length - 1 && (
-                <div className="w-8 h-px bg-secondary-light ml-3" />
-              )}
-            </div>
-          ))}
-        </div>
+        {/* Progress Stepper */}
+        <nav aria-label="Progress" className="max-w-3xl mx-auto mb-12">
+          <ol className="flex items-center justify-center gap-8">
+            {steps.map((s, idx) => (
+              <li key={s.key} className="flex items-center">
+                <div className="flex flex-col items-center">
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-base font-semibold mb-2
+                      ${isActive(s.key)
+                        ? 'bg-[#4318D1] text-white'
+                        : 'bg-white text-[#1A1A1A] border-2 border-[#E5E5E5]'}
+                    `}
+                    aria-current={isActive(s.key) ? 'step' : undefined}
+                  >
+                    {s.number}
+                  </div>
+                  <span className={`text-sm font-medium ${isActive(s.key) ? 'text-[#4318D1]' : 'text-[#666666]'}`}>{s.label}</span>
+                </div>
+                {idx < steps.length - 1 && (
+                  <div className="w-24 h-0.5 mx-4 bg-[#E5E5E5]" />
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
 
         {/* Form Card */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-3xl mx-auto ring-1 ring-black/5">
+        <form onSubmit={handleSubmit} className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8 space-y-8">
+          {/* Section Header */}
           <div className="flex items-center gap-3 mb-6">
-            <svg className="w-5 h-5 text-secondary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+            <svg className="w-5 h-5 text-[#1A1A1A]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            <h2 className="text-heading-2 text-secondary-dark">Delivery Information</h2>
+            <h3 className="text-[20px] leading-[30px] font-bold text-[#1A1A1A]">Delivery Information</h3>
           </div>
 
+          {/* Divider */}
+          <hr className="border-[#E5E5E5] -mt-4 mb-6" />
+
+          {/* Form Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
             {/* First Name */}
             <div>
-              <label className="block text-sm font-medium text-secondary-dark mb-2">
-                First Name <span className="text-primary">*</span>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                First Name <span className="text-[#10B981]">*</span>
               </label>
               <input
                 type="text"
@@ -137,15 +191,12 @@ const Checkout: React.FC<CheckoutProps> = ({
                 className={`${inputBaseClasses}${errors.firstName ? inputErrorBorder : inputNormalBorder}`}
                 aria-invalid={!!errors.firstName}
               />
-              {errors.firstName && (
-                <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
-              )}
+              {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
             </div>
-
             {/* Last Name */}
             <div>
-              <label className="block text-sm font-medium text-secondary-dark mb-2">
-                Last Name <span className="text-primary">*</span>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Last Name <span className="text-[#10B981]">*</span>
               </label>
               <input
                 type="text"
@@ -157,15 +208,12 @@ const Checkout: React.FC<CheckoutProps> = ({
                 className={`${inputBaseClasses}${errors.lastName ? inputErrorBorder : inputNormalBorder}`}
                 aria-invalid={!!errors.lastName}
               />
-              {errors.lastName && (
-                <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
-              )}
+              {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
             </div>
-
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-secondary-dark mb-2">
-                Email Address <span className="text-primary">*</span>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Email Address <span className="text-[#10B981]">*</span>
               </label>
               <input
                 type="email"
@@ -177,15 +225,12 @@ const Checkout: React.FC<CheckoutProps> = ({
                 className={`${inputBaseClasses}${errors.email ? inputErrorBorder : inputNormalBorder}`}
                 aria-invalid={!!errors.email}
               />
-              {errors.email && (
-                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-              )}
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
-
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-secondary-dark mb-2">
-                Phone Number <span className="text-primary">*</span>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Phone Number <span className="text-[#10B981]">*</span>
               </label>
               <input
                 type="tel"
@@ -197,15 +242,12 @@ const Checkout: React.FC<CheckoutProps> = ({
                 className={`${inputBaseClasses}${errors.phone ? inputErrorBorder : inputNormalBorder}`}
                 aria-invalid={!!errors.phone}
               />
-              {errors.phone && (
-                <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
-              )}
+              {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
             </div>
-
-            {/* Street Address */}
+            {/* Street Address (full width) */}
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-secondary-dark mb-2">
-                Street Address <span className="text-primary">*</span>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Street Address <span className="text-[#10B981]">*</span>
               </label>
               <input
                 type="text"
@@ -217,14 +259,11 @@ const Checkout: React.FC<CheckoutProps> = ({
                 className={`${inputBaseClasses}${errors.streetAddress ? inputErrorBorder : inputNormalBorder}`}
                 aria-invalid={!!errors.streetAddress}
               />
-              {errors.streetAddress && (
-                <p className="text-red-500 text-xs mt-1">{errors.streetAddress}</p>
-              )}
+              {errors.streetAddress && <p className="text-red-500 text-xs mt-1">{errors.streetAddress}</p>}
             </div>
-
-            {/* Apartment */}
+            {/* Apartment/Unit */}
             <div>
-              <label className="block text-sm font-medium text-secondary-dark mb-2">Apartment/Unit</label>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Apartment/Unit</label>
               <input
                 type="text"
                 value={form.apartment}
@@ -234,11 +273,10 @@ const Checkout: React.FC<CheckoutProps> = ({
                 className={`${inputBaseClasses}${inputNormalBorder}`}
               />
             </div>
-
             {/* City */}
             <div>
-              <label className="block text-sm font-medium text-secondary-dark mb-2">
-                City <span className="text-primary">*</span>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                City <span className="text-[#10B981]">*</span>
               </label>
               <input
                 type="text"
@@ -250,56 +288,49 @@ const Checkout: React.FC<CheckoutProps> = ({
                 className={`${inputBaseClasses}${errors.city ? inputErrorBorder : inputNormalBorder}`}
                 aria-invalid={!!errors.city}
               />
-              {errors.city && (
-                <p className="text-red-500 text-xs mt-1">{errors.city}</p>
-              )}
+              {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
             </div>
-
-            {/* ZIP */}
+            {/* ZIP Code */}
             <div>
-              <label className="block text-sm font-medium text-secondary-dark mb-2">
-                ZIP Code <span className="text-primary">*</span>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                ZIP Code <span className="text-[#10B981]">*</span>
               </label>
               <input
                 type="text"
                 value={form.zipCode}
                 onChange={handleChange('zipCode')}
                 placeholder="Enter ZIP"
-                name="zip"
+                name="zipCode"
                 autoComplete="postal-code"
                 inputMode="numeric"
                 pattern="[0-9]*"
                 className={`${inputBaseClasses}${errors.zipCode ? inputErrorBorder : inputNormalBorder}`}
                 aria-invalid={!!errors.zipCode}
               />
-              {errors.zipCode && (
-                <p className="text-red-500 text-xs mt-1">{errors.zipCode}</p>
-              )}
+              {errors.zipCode && <p className="text-red-500 text-xs mt-1">{errors.zipCode}</p>}
             </div>
-
-            {/* Delivery Instructions */}
+            {/* Delivery Instructions (full width) */}
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-secondary-dark mb-2">Delivery Instructions</label>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">Delivery Instructions</label>
               <textarea
                 value={form.deliveryInstructions}
                 onChange={handleChange('deliveryInstructions')}
                 placeholder=""
-                name="instructions"
-                className={`w-full min-h-[120px] px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder-secondary-gray bg-white${inputNormalBorder}`}
+                name="deliveryInstructions"
+                className={`w-full min-h-[120px] px-4 py-3 border rounded-md font-inter text-[#1A1A1A] placeholder-[#666666] bg-white transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-[#4318D1] focus:border-[#4318D1] border-[#E5E5E5]`}
               />
             </div>
           </div>
 
-          <div className="mt-6 flex justify-end">
-            <button
-              type="submit"
-              className="bg-primary text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition-colors font-semibold"
-            >
-              Continue to Payment
-            </button>
-          </div>
+          {/* Continue Button */}
+          <button
+            type="submit"
+            className="w-full mt-2 py-3 px-8 rounded-xl bg-[#4318D1] hover:bg-[#10B981] text-white font-semibold text-lg shadow-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-[#4318D1]"
+          >
+            Continue to Payment
+          </button>
         </form>
-      </div>
+      </main>
     </div>
   );
 };
