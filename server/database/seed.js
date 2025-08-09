@@ -39,6 +39,7 @@ const driverMediaLinks = [
   'https://www.vwpress.co.uk/assets/images/thumbnail/38181-VWNShot12srgb626665295.jpg'
 ];
 
+
 async function main() {
   // Clear existing data
   await prisma.$transaction([
