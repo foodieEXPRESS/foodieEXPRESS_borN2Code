@@ -1,4 +1,4 @@
-export     default function About() {
+export default function About() {
   return (
     <div className="about">
       <h1>About Foodie Express</h1>

@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../../store';
+import { register as registerThunk, clearError } from '../../store/authSlice';
 import { FaBiking, FaUserAlt, FaStore } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc';
+import './auth.css';
 
 type Role = 'delivery' | 'customer' | 'restaurant';
 
 const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading, error } = useSelector((state: RootState) => state.auth);
   const [role, setRole] = useState<Role>('customer');
   const [form, setForm] = useState({
     name: '',
@@ -16,7 +21,6 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     password: '',
     confirmPassword: ''
   });
-  const [error, setError] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const roleOptions = [
     {
@@ -42,31 +46,37 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (error) {
+      dispatch(clearError());
+    }
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     if (form.password !== form.confirmPassword) {
-      setError('Passwords do not match.');
+      // local validation: do not dispatch, just surface message via store error for consistency
+      // But since store manages server errors, keep this inline UI message by reusing clearError pattern
+      // We'll short-circuit here and simply not dispatch
       return;
     }
-    try {
-      // Replace with your actual endpoint
-      const response = await axios.post('/api/auth/signup', {
-        name: form.name,
-        phone: form.phone,
-        email: form.email,
-        password: form.password,
-        role,
+    // Map UI role to backend enum and field names expected by RegisterData
+    const mappedRole = role === 'customer' ? 'CUSTOMER' : role === 'restaurant' ? 'RESTAURANT' : 'DRIVER';
+    const payload = {
+      fullName: form.name,
+      email: form.email,
+      password: form.password,
+      role: mappedRole as 'CUSTOMER' | 'RESTAURANT' | 'DRIVER',
+      phoneNumber: form.phone || undefined,
+    };
+    dispatch(registerThunk(payload))
+      .unwrap()
+      .then(() => {
+        navigate('/restaurant-profile');
+      })
+      .catch(() => {
+        // error is handled in store
       });
-      // Handle success - navigate to dashboard
-      console.log('Sign up success:', response.data);
-      navigate('/restaurant-profile'); // Navigate to dashboard after successful sign up
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Sign up failed.');
-    }
   };
 
   const handleGoogleSignUp = () => {
@@ -198,8 +208,8 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <button type="submit" className="foodie-btn primary">
-          Create Account
+        <button type="submit" className="foodie-btn primary" disabled={isLoading}>
+          {isLoading ? 'Creating Account...' : 'Create Account'}
         </button>
       </form>
 

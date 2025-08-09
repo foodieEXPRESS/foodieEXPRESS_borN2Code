@@ -3,14 +3,25 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 
+import Home from './pages/Home';
+import About from './pages/About';
+import Counter from './pages/counter';
+import AuthPage from './pages/auth.component/AuthPage';
+import RestaurantList from './pages/mc_Components/RestaurantList';
+import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
+import CustomerProfile from './pages/mc_Components/CustomerProfile'
+
 
 // Import All 5Mohamed Components
 import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
 import RestaurantSearch from './pages/5Mohamed/RestaurantSearch';
 import LandingPage from './pages/5Mohamed/LandingPage';
-
 // Import 5Mohamed Components CSS
 import './pages/5Mohamed/styles.css';
+
+import CartView from './pages/hazem/cartView';
+import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
+import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 import AuthPage from "./pages/auth.component/AuthPage";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -33,7 +44,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/counter" element={<Counter />} />
-          
+          <Route path="/auth" element={<AuthPage />} />
+
           {/* All 5Mohamed Component Routes */}
           {/* http://localhost:5173/delivery-history */}
           <Route path="/delivery-history" element={<DeliveryHistory />} />
@@ -55,6 +67,10 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/add-payment-card" element={<AddPaymentCard />} />
+          <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
+          <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
+    
+    
         </Routes>
       </BrowserRouter>
     </div>
