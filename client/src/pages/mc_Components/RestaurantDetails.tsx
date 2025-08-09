@@ -7,7 +7,7 @@ import { AboutRestaurant } from './AboutRestaurant';
 
 const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { data, loading, error } = useSelector((state: RootState) => state.restaurant);
+  const { data, loading, error } = useSelector((state: RootState) => state.restaurantDetails);
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -37,7 +37,7 @@ const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
 
   const displayImage =
     imageUrl ||
-    '';
+    'https://www.hotel-des-elmes.com/_next/image?url=https%3A%2F%2Fminio.kustomcms.fr%2F646a6ddc62ccd7c8f1291b5a%2FKEV02057.jpg&w=1920&q=80';
 
   return (
     <main className="font-sans mx-auto px-4 pb-10">

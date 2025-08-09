@@ -52,7 +52,7 @@ export interface StatisticCardProps {
 }
 
 
-export interface RestaurantState {
+export interface RestaurantDetailsState {
   data: any | null;
   loading: boolean;
   error: string | null;

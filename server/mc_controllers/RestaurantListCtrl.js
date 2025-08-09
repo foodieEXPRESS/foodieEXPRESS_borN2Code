@@ -1,6 +1,7 @@
 const prisma = require("../database");
 const userId = "4a801848-d4d7-45bf-b1dc-6bddad61037b";
 
+
 const getUserById = async (req,res)=> {
   try {
     const user = await prisma.user.findUnique({

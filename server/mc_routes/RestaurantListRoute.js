@@ -1,9 +1,10 @@
 const express = require("express")
-const {getUserById} =require('../mc_controllers/RestaurantListCtrl.js') 
+const {getUserById,getAllRestaurants} =require('../mc_controllers/RestaurantListCtrl.js') 
 const router = express.Router()
 
 
 
-router.get('/user/:userId', getUserById);
+router.get('/:userId', getUserById);
+router.get('/', getAllRestaurants);
 
-module.exports = router
+module.exports = router;

@@ -17,7 +17,7 @@ const initialState: RestaurantListState = {
 export const fetchUserById = createAsyncThunk<User, string>(
   'restaurantList/fetchUserById',
   async (userId) => {
-    const res = await axios.get(`/api/user/${userId}`);
+    const res = await axios.get(`http://localhost:8080/api/restaurants/${userId}`);
     return res.data;
   }
 );
@@ -28,7 +28,8 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
   Restaurant[],
   { userLat: number; userLng: number }
 >('restaurantList/fetchRestaurantsNearUser', async ({ userLat, userLng }) => {
-  const res = await axios.get('/api/restaurants');
+  const res = await axios.get(`http://localhost:8080/api/restaurants`);
+
   const restaurants: Restaurant[] = res.data;
 
   const getDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
@@ -60,9 +61,6 @@ const restaurantListSlice = createSlice({
     builder
 
       // <<<<<< fetching the user >>>>>>
-
-
-
 
       // either still loading ... ⏳
       .addCase(fetchUserById.pending, (state) => {

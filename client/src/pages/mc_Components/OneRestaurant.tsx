@@ -17,7 +17,7 @@ export const OneRestaurant: React.FC<RestaurantCardProps> = ({
   const navigate = useNavigate();
 
   const handleOrderNow = () => {
-    navigate(`/list/OneRest/details`);
+    navigate(`/list/details`);
   };
 
   const bgColors = [
