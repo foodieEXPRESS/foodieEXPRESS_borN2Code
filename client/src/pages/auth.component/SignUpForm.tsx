@@ -5,6 +5,7 @@ import type { RootState, AppDispatch } from '../../store';
 import { register as registerThunk, clearError } from '../../store/authSlice';
 import { FaBiking, FaUserAlt, FaStore } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc';
+import './auth.css';
 
 
 type Role = 'delivery' | 'customer' | 'restaurant';
@@ -26,19 +27,19 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     {
       value: 'delivery',
       label: 'Delivery Rider',
-      icon: <FaBiking size={22} color="#4318D1" className="role-option-icon" />,
+      icon: <FaBiking size={22} color="#4318D1" className="MACH-role-option-icon" />,
       desc: 'Deliver orders and earn money',
     },
     {
       value: 'customer',
       label: 'Customer',
-      icon: <FaUserAlt size={22} color="#4318D1" className="role-option-icon" />,
+      icon: <FaUserAlt size={22} color="#4318D1" className="MACH-role-option-icon" />,
       desc: 'Order food from restaurants',
     },
     {
       value: 'restaurant',
       label: 'Restaurant',
-      icon: <FaStore size={22} color="#4318D1" className="role-option-icon" />,
+      icon: <FaStore size={22} color="#4318D1" className="MACH-role-option-icon" />,
       desc: 'Manage your restaurant and orders',
     },
   ];
@@ -73,6 +74,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       .unwrap()
       .then(() => {
         navigate(`/`);
+        navigate('/restaurant-profile');
       })
       .catch(() => {
         // error is handled in store
@@ -87,41 +89,41 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   };
 
   return (
-    <div className="foodie-container">
-      <h1 className="foodie-title">FoodieExpress</h1>
-      <h2 className="foodie-subtitle">Join FoodieExpress!</h2>
-      <p className="foodie-description">Create your account and start your journey</p>
+    <div className="MACH-container">
+      <h1 className="MACH-title">FoodieExpress</h1>
+      <h2 className="MACH-subtitle">Join FoodieExpress!</h2>
+      <p className="MACH-description">Create your account and start your journey</p>
 
-      <div className="auth-tab-container">
+      <div className="MACH-tab-container">
         <button
           onClick={onSwitch}
-          className="auth-tab-inactive"
+          className=""
         >
           Sign In
         </button>
-        <button className="auth-tab-active">
+        <button className="active">
           Sign Up
         </button>
       </div>
 
-      <div className="role-section-custom">
-        <h3 className="section-title">Select Your Role</h3>
-        <div className="role-dropdown-container">
+      <div className="MACH-role-section-custom">
+        <h3 className="MACH-section-title">Select Your Role</h3>
+        <div className="MACH-role-dropdown-container">
           <button
             type="button"
-            className={`role-dropdown-button ${dropdownOpen ? 'open' : ''}`}
+            className={`MACH-role-dropdown-button ${dropdownOpen ? 'open' : ''}`}
             onClick={() => setDropdownOpen(open => !open)}
           >
-            <span className="role-option-icon">
+            <span className="MACH-role-option-icon">
               {selectedRole?.icon}
-              <span className="role-option-label">{selectedRole?.label}</span>
+              <span className="MACH-role-option-label">{selectedRole?.label}</span>
             </span>
-            <span className="role-dropdown-arrow">
+            <span className="MACH-role-dropdown-arrow">
               {dropdownOpen ? '\u25B2' : '\u25BC'}
             </span>
           </button>
           {dropdownOpen && (
-            <div className="role-dropdown-content">
+            <div className="MACH-role-dropdown-content">
               {roleOptions.map(opt => (
                 <div
                   key={opt.value}
@@ -129,26 +131,26 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
                     setRole(opt.value as Role);
                     setDropdownOpen(false);
                   }}
-                  className={`role-option ${role === opt.value ? 'selected' : ''}`}
+                  className={`MACH-role-option ${role === opt.value ? 'selected' : ''}`}
                 >
                   {opt.icon}
                   <div>
-                    <div className="role-option-label">{opt.label}</div>
-                    <div className="role-option-desc">{opt.desc}</div>
+                    <div className="MACH-role-option-label">{opt.label}</div>
+                    <div className="MACH-role-option-desc">{opt.desc}</div>
                   </div>
                 </div>
               ))}
             </div>
           )}
-          <div className="role-description">
+          <div className="MACH-role-description">
             {selectedRole?.desc}
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="foodie-form">
-        {error && <div className="error">{error}</div>}
-        <div className="form-group">
+      <form onSubmit={handleSubmit} className="MACH-form">
+        {error && <div className="MACH-error">{error}</div>}
+        <div className="MACH-form-group">
           <label>Full Name</label>
           <input
             type="text"
@@ -160,7 +162,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="MACH-form-group">
           <label>Phone Number</label>
           <input
             type="tel"
@@ -172,7 +174,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="MACH-form-group">
           <label>Email Address</label>
           <input
             type="email"
@@ -184,7 +186,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="MACH-form-group">
           <label>Password</label>
           <input
             type="password"
@@ -196,7 +198,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="MACH-form-group">
           <label>Confirm Password</label>
           <input
             type="password"
@@ -208,18 +210,18 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <button type="submit" className="foodie-btn primary" disabled={isLoading}>
+        <button type="submit" className="MACH-btn primary" disabled={isLoading}>
           {isLoading ? 'Creating Account...' : 'Create Account'}
         </button>
       </form>
 
-      <div className="social-section">
-        <div className="divider">or continue with</div>
-        <div className="social-buttons-container">
+      <div className="MACH-social-section">
+        <div className="MACH-divider">or continue with</div>
+        <div className="MACH-social-buttons-container">
           <button
             type="button"
             onClick={handleGoogleSignUp}
-            className="social-button"
+            className="MACH-social-button"
           >
             <FcGoogle size={24} />
             Continue with Google
