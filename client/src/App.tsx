@@ -1,15 +1,8 @@
 // src/App.jsx
 // import React from 'react';
-import { Routes, Route,BrowserRouter } from 'react-router-dom';
 
 
-import Home from './pages/Home';
-import Counter from './pages/counter';
 
-import CustomerProfile from './pages/profiles/mc_Customerprofile/CustomerProfile';
-import AuthPage from './pages/auth.component/AuthPage';
-import RestaurantList from './pages/mc_Components/RestaurantList';
-import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
 
 
 import { Routes, Route, BrowserRouter } from "react-router-dom";
@@ -31,6 +24,7 @@ import CartView from "./pages/hazem/cartView";
 import OrderViewBeforePayment from "./pages/hazem/order_view_before_payment";
 import Checkout from "./pages/hazem/checkout";
 import AddPaymentCard from './pages/hazem/add_payment_card';
+import LastReview from './pages/hazem/last review';
 function App() {
   console.log('App component loaded');
   
@@ -43,7 +37,7 @@ function App() {
 
           <Route path="/list" element={<RestaurantList userId={"userId"} />} />
           <Route path="/list/details/:restId" element={<RestaurantDetails />} />
-          <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
+          {/* <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} /> */}
 
           <Route path="/auth" element={<AuthPage />} />
 
@@ -54,17 +48,8 @@ function App() {
           <Route path="/restaurant-search" element={<RestaurantSearch />} />
           {/* http://localhost:5173/landing-page */}
           <Route path="/landing-page" element={<LandingPage />} />
-          <Route path="/list" element={<RestaurantList userId={"userId"} />} />
-          <Route path="/list/OneRest/details" element={<RestaurantDetails />} />
-          <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
           <Route path="/cart" element={<CartView  />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment  />} />
-          <Route path="/list" element={<RestaurantList />} />
-          <Route
-            path="/list/OneRest/details"
-            element={<RestaurantDetails restId={"OneRest"} />}
-          />
-          <Route path="/custProfile" element={<CustomerProfile />} />
           <Route path="/cart" element={<CartView />} />
           <Route
             path="/order-view-before-payment"
@@ -75,6 +60,7 @@ function App() {
           <Route path="/add-payment-card" element={<AddPaymentCard />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
           <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
+          <Route path="/last-review" element={<LastReview />} />
 
 
         </Routes>
