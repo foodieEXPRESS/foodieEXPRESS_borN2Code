@@ -7,6 +7,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookF } from 'react-icons/fa';
 import './auth.css';
 
+
 const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +38,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       .then(() => {
         // optional rememberMe handling could persist token differently if needed
         navigate('/restaurant-profile');
+        navigate(`/landing-page`);
       })
       .catch(() => {
         // error is already set in the store via rejected case
