@@ -1,7 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { fetchCustomerData, fetchRestaurantData } from '../../store/orderTrackingSlice';
 
 const OrderDetailsTracking: React.FC = () => {
   const [showMap, setShowMap] = useState(true);
+  
+  // Redux hooks
+  const dispatch = useAppDispatch();
+  const { 
+    customerData, 
+    restaurantData, 
+    customerLoading, 
+    restaurantLoading, 
+    customerError, 
+    restaurantError 
+  } = useAppSelector((state) => state.orderTracking);
+
+  // For demo purposes, using a sample order ID - in real app this would come from props or route params
+  const orderId = "123"; // Replace with actual order ID from your app
+
+  useEffect(() => {
+    // Dispatch Redux actions to fetch data
+    dispatch(fetchCustomerData(orderId));
+    dispatch(fetchRestaurantData(orderId));
+  }, [dispatch, orderId]);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
@@ -114,23 +137,49 @@ const OrderDetailsTracking: React.FC = () => {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-medium mb-2" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Sarah Johnson</h3>
-                    <p className="text-sm mb-2" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>123 Oak Street, Apt 4B</p>
-                    <p className="text-sm mb-2" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>Downtown, 10001</p>
-                    <div className="flex items-center space-x-2 mt-1">
-                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <g clip-path="url(#clip0_19_98)">
-                            <path d="M15.2 11.2002V13.2002C15.2008 13.3987 15.1616 13.5957 15.0849 13.7787C15.0082 13.9617 14.8956 14.1269 14.7538 14.2644C14.612 14.4019 14.4444 14.5086 14.2606 14.5787C14.0769 14.6487 13.8808 14.6806 13.6867 14.6726C11.5196 14.4486 9.44819 13.6895 7.66668 12.4669C6.02407 11.3621 4.67076 9.9088 3.66668 8.16021C2.44008 6.37586 1.68085 4.3009 1.46001 2.13088C1.452 1.93738 1.48375 1.74189 1.55344 1.55866C1.62313 1.37543 1.72938 1.20829 1.86637 1.06682C2.00336 0.925343 2.16805 0.812917 2.35057 0.736109C2.53309 0.659301 2.72957 0.619589 2.92668 0.62021H4.92668C5.32436 0.616112 5.71088 0.748553 6.01689 0.995545C6.3229 1.24254 6.52653 1.58802 6.59334 1.97354C6.71743 2.74425 6.94469 3.49714 7.26668 4.21354C7.37349 4.44382 7.40937 4.7006 7.37008 4.95156C7.33079 5.20252 7.21817 5.43527 7.04668 5.61354L6.17334 6.48688C7.20598 8.21615 8.7174 9.72757 10.4467 10.7602L11.32 9.88688C11.4983 9.71539 11.731 9.60277 11.982 9.56348C12.233 9.52419 12.4897 9.56007 12.72 9.66688C13.4364 9.98887 14.1893 10.2161 14.96 10.3402C15.3507 10.4078 15.7003 10.616 15.9482 10.9281C16.1962 11.2402 16.3262 11.6331 16.32 12.0335L15.2 11.2002Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </g>
-    <defs>
-<clipPath id="clip0_19_98">
-<rect width="16" height="16" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-
-                      <span className="text-sm" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}>+1 (555) 123-4567</span>
-                    </div>
+                                     {customerLoading ? (
+                   <div className="animate-pulse">
+                     <div className="h-5 bg-gray-200 rounded mb-2 w-32"></div>
+                     <div className="h-4 bg-gray-200 rounded mb-2 w-40"></div>
+                     <div className="h-4 bg-gray-200 rounded mb-2 w-36"></div>
+                     <div className="h-4 bg-gray-200 rounded w-28"></div>
+                   </div>
+                 ) : customerError ? (
+                   <div className="text-red-500 text-sm">
+                     <p>Error loading customer data: {customerError}</p>
+                   </div>
+                    ) : customerData ? (
+                      <>
+                        <h3 className="font-medium mb-2" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>
+                          {customerData.fullName || 'Customer Name Not Available'}
+                        </h3>
+                        <p className="text-sm mb-2" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>
+                          {customerData.address || 'Address Not Available'}
+                        </p>
+                        <p className="text-sm mb-2" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>
+                          {customerData.email || 'Email Not Available'}
+                        </p>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clipPath="url(#clip0_19_98)">
+                              <path d="M15.2 11.2002V13.2002C15.2008 13.3987 15.1616 13.5957 15.0849 13.7787C15.0082 13.9617 14.8956 14.1269 14.7538 14.2644C14.612 14.4019 14.4444 14.5086 14.2606 14.5787C14.0769 14.6487 13.8808 14.6806 13.6867 14.6726C11.5196 14.4486 9.44819 13.6895 7.66668 12.4669C6.02407 11.3621 4.67076 9.9088 3.66668 8.16021C2.44008 6.37586 1.68085 4.3009 1.46001 2.13088C1.452 1.93738 1.48375 1.74189 1.55344 1.55866C1.62313 1.37543 1.72938 1.20829 1.86637 1.06682C2.00336 0.925343 2.16805 0.812917 2.35057 0.736109C2.53309 0.659301 2.72957 0.619589 2.92668 0.62021H4.92668C5.32436 0.616112 5.71088 0.748553 6.01689 0.995545C6.3229 1.24254 6.52653 1.58802 6.59334 1.97354C6.71743 2.74425 6.94469 3.49714 7.26668 4.21354C7.37349 4.44382 7.40937 4.7006 7.37008 4.95156C7.33079 5.20252 7.21817 5.43527 7.04668 5.61354L6.17334 6.48688C7.20598 8.21615 8.7174 9.72757 10.4467 10.7602L11.32 9.88688C11.4983 9.71539 11.731 9.60277 11.982 9.56348C12.233 9.52419 12.4897 9.56007 12.72 9.66688C13.4364 9.98887 14.1893 10.2161 14.96 10.3402C15.3507 10.4078 15.7003 10.616 15.9482 10.9281C16.1962 11.2402 16.3262 11.6331 16.32 12.0335L15.2 11.2002Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_19_98">
+                                <rect width="16" height="16" fill="white"/>
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <span className="text-sm" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}>
+                            {customerData.phoneNumber || 'Phone Not Available'}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-gray-500 text-sm">
+                        <p>No customer data available</p>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -144,16 +193,43 @@ const OrderDetailsTracking: React.FC = () => {
 
                   </div>
                   <div className=" flex-1">
-                    <h3 className="font-medium mb-2" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Bella Italia</h3>
-                    <p className="text-sm mb-2" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>456 Main Street</p>
-                    <p className="text-sm mb-2" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>Pickup by: 2:45 PM</p>
-                    <div className="flex items-center space-x-2 mt-1">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M15.2 11.2002V13.2002C15.2008 13.3987 15.1616 13.5957 15.0849 13.7787C15.0082 13.9617 14.8956 14.1269 14.7538 14.2644C14.612 14.4019 14.4444 14.5086 14.2606 14.5787C14.0769 14.6487 13.8808 14.6806 13.6867 14.6726C11.5196 14.4486 9.44819 13.6895 7.66668 12.4669C6.02407 11.3621 4.67076 9.9088 3.66668 8.16021C2.44008 6.37586 1.68085 4.3009 1.46001 2.13088C1.452 1.93738 1.48375 1.74189 1.55344 1.55866C1.62313 1.37543 1.72938 1.20829 1.86637 1.06682C2.00336 0.925343 2.16805 0.812917 2.35057 0.736109C2.53309 0.659301 2.72957 0.619589 2.92668 0.62021H4.92668C5.32436 0.616112 5.71088 0.748553 6.01689 0.995545C6.3229 1.24254 6.52653 1.58802 6.59334 1.97354C6.71743 2.74425 6.94469 3.49714 7.26668 4.21354C7.37349 4.44382 7.40937 4.7006 7.37008 4.95156C7.33079 5.20252 7.21817 5.43527 7.04668 5.61354L6.17334 6.48688C7.20598 8.21615 8.7174 9.72757 10.4467 10.7602L11.32 9.88688C11.4983 9.71539 11.731 9.60277 11.982 9.56348C12.233 9.52419 12.4897 9.56007 12.72 9.66688C13.4364 9.98887 14.1893 10.2161 14.96 10.3402C15.3507 10.4078 15.7003 10.616 15.9482 10.9281C16.1962 11.2402 16.3262 11.6331 16.32 12.0335L15.2 11.2002Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    {restaurantLoading ? (
+                      <div className="animate-pulse">
+                        <div className="h-5 bg-gray-200 rounded mb-2 w-32"></div>
+                        <div className="h-4 bg-gray-200 rounded mb-2 w-40"></div>
+                        <div className="h-4 bg-gray-200 rounded mb-2 w-36"></div>
+                        <div className="h-4 bg-gray-200 rounded w-28"></div>
+                      </div>
+                    ) : restaurantError ? (
+                      <div className="text-red-500 text-sm">
+                        <p>Error loading restaurant data: {restaurantError}</p>
+                      </div>
+                    ) : restaurantData ? (
+                      <>
+                        <h3 className="font-medium mb-2" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>
+                          {restaurantData.name || 'Restaurant Name Not Available'}
+                        </h3>
+                        <p className="text-sm mb-2" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>
+                          No address available
+                        </p>
+                        <p className="text-sm mb-2" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>
+                          Pickup by: 2:45 PM
+                        </p>
+                        <div className="flex items-center space-x-2 mt-1">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M15.2 11.2002V13.2002C15.2008 13.3987 15.1616 13.5957 15.0849 13.7787C15.0082 13.9617 14.8956 14.1269 14.7538 14.2644C14.612 14.4019 14.4444 14.5086 14.2606 14.5787C14.0769 14.6487 13.8808 14.6806 13.6867 14.6726C11.5196 14.4486 9.44819 13.6895 7.66668 12.4669C6.02407 11.3621 4.67076 9.9088 3.66668 8.16021C2.44008 6.37586 1.68085 4.3009 1.46001 2.13088C1.452 1.93738 1.48375 1.74189 1.55344 1.55866C1.62313 1.37543 1.72938 1.20829 1.86637 1.06682C2.00336 0.925343 2.16805 0.812917 2.35057 0.736109C2.53309 0.659301 2.72957 0.619589 2.92668 0.62021H4.92668C5.32436 0.616112 5.71088 0.748553 6.01689 0.995545C6.3229 1.24254 6.52653 1.58802 6.59334 1.97354C6.71743 2.74425 6.94469 3.49714 7.26668 4.21354C7.37349 4.44382 7.40937 4.7006 7.37008 4.95156C7.33079 5.20252 7.21817 5.43527 7.04668 5.61354L6.17334 6.48688C7.20598 8.21615 8.7174 9.72757 10.4467 10.7602L11.32 9.88688C11.4983 9.71539 11.731 9.60277 11.982 9.56348C12.233 9.52419 12.4897 9.56007 12.72 9.66688C13.4364 9.98887 14.1893 10.2161 14.96 10.3402C15.3507 10.4078 15.7003 10.616 15.9482 10.9281C16.1962 11.2402 16.3262 11.6331 16.32 12.0335L15.2 11.2002Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
 
-                      <span className="text-sm" style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary)' }}>+1 (555) 987-6543</span>
-                    </div>
+                          <span className="text-sm" style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary)' }}>
+                            {restaurantData.contactPhone || 'Phone Not Available'}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-gray-500 text-sm">
+                        <p>No restaurant data available</p>
+                      </div>
+                    )}
                   </div>
                 </div>
 

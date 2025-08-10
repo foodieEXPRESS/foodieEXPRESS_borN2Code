@@ -4,7 +4,10 @@ const prisma = new PrismaClient();
 // Get order details with all related information
 const getOrderDetails = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    const orderId = '14709e25-91f6-46e9-825b-72bec126e495';
+    // const orderId = req.params.orderId;
+    console.log(orderId);
+    // console.log(req.params);
 
     if (!orderId) {
       return res.status(400).json({
@@ -115,7 +118,8 @@ const getOrderDetails = async (req, res) => {
 // Get order tracking status
 const getOrderTracking = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    // const { orderId } = req.params;
+    const orderId = '14709e25-91f6-46e9-825b-72bec126e495';
 
     if (!orderId) {
       return res.status(400).json({
@@ -161,7 +165,8 @@ const getOrderTracking = async (req, res) => {
 // Update order tracking status
 const updateOrderTracking = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    // const { orderId } = req.params;
+    const orderId = '14709e25-91f6-46e9-825b-72bec126e495';
     const { status, latitude, longitude } = req.body;
 
     if (!orderId) {
@@ -219,7 +224,8 @@ const updateOrderTracking = async (req, res) => {
 // Get all orders for a driver
 const getDriverOrders = async (req, res) => {
   try {
-    const { driverId } = req.params;
+    // const { driverId } = req.params;
+    const driverId = '14709e25-91f6-46e9-825b-72bec126e495';
 
     if (!driverId) {
       return res.status(400).json({
@@ -286,7 +292,8 @@ const getDriverOrders = async (req, res) => {
 // Get customer information from an order
 const getOrderCustomer = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    // const { orderId } = req.params;
+    const orderId = '14709e25-91f6-46e9-825b-72bec126e495';
 
     if (!orderId) {
       return res.status(400).json({
@@ -343,7 +350,8 @@ const getOrderCustomer = async (req, res) => {
 // Get restaurant information from an order
 const getOrderRestaurant = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    // const { orderId } = req.params;
+    const orderId = '14709e25-91f6-46e9-825b-72bec126e495';
 
     if (!orderId) {
       return res.status(400).json({
@@ -418,7 +426,8 @@ const getOrderRestaurant = async (req, res) => {
 // Get all order items with quantity and price
 const getOrderItems = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    // const { orderId } = req.params;
+    const orderId = '14709e25-91f6-46e9-825b-72bec126e495';
 
     if (!orderId) {
       return res.status(400).json({
@@ -496,7 +505,8 @@ const getOrderItems = async (req, res) => {
 // Get order status
 const getOrderStatus = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    //  const { orderId } = req.params;
+    const orderId = '14709e25-91f6-46e9-825b-72bec126e495';
 
     if (!orderId) {
       return res.status(400).json({
