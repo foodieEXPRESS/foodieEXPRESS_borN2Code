@@ -12,6 +12,7 @@ const DeliveryHistory: React.FC = () => {
     <div className="MA__delivery-history-container">
      
       
+      {/* Header Bar */}
       <div className="MA__header-bar">
         <div className="MA__header-logo">
           <div className="MA__header-logo-icon">+</div>
