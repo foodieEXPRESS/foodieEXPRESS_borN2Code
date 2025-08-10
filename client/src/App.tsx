@@ -54,7 +54,7 @@ function App() {
           <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
           <Route path="/cart" element={<CartView  />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment  />} />
-          <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
+          <Route path="/rider-profile" element={<RiderProfile />} />
 
 
           <Route path="/order-details-tracking" element={<OrderDetailsTracking />} />
