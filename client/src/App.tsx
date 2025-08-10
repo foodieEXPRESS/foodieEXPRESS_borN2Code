@@ -13,7 +13,6 @@ import RestaurantSearch from './pages/5Mohamed/RestaurantSearch';
 import LandingPage from './pages/5Mohamed/LandingPage';
 // Import 5Mohamed Components CSS
 import './pages/5Mohamed/styles.css';
-import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 import AuthPage from "./pages/auth.component/AuthPage";
 import Counter from "./pages/counter";
 import RestaurantList from "./pages/mc_Components/RestaurantList";
@@ -24,6 +23,10 @@ import OrderViewBeforePayment from "./pages/hazem/order_view_before_payment";
 import Checkout from "./pages/hazem/checkout";
 import AddPaymentCard from './pages/hazem/add_payment_card';
 import LastReview from './pages/hazem/last review';
+
+import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';
+import OrderDetailsTracking from './pages/am_pages/order_details_Tracking';
+
 function App() {
   console.log('App component loaded');
   
@@ -55,8 +58,11 @@ function App() {
           <Route path="/add-payment-card" element={<AddPaymentCard />} />
           <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
           <Route path="/last-review" element={<LastReview />} />
+          <Route path="/rider-profile" element={<RiderProfile />} />
 
 
+          <Route path="/order-details-tracking" element={<OrderDetailsTracking />} />
+    
         </Routes>
       </BrowserRouter>
     </div>

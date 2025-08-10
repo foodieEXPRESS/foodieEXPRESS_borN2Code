@@ -7,18 +7,18 @@ import authReducer from './authSlice';
     import restaurantListReducer  from './restaurantListSlice';
    
 
+import orderTrackingReducer from './orderTrackingSlice';
 
-    export const store = configureStore({
-      reducer: {
-        counter: counterReducer,
-        restaurantDetails: restaurantDetailReducer,
-        restaurantList: restaurantListReducer,
-
-        rider: riderReducer,
-        auth: authReducer
-        
-      },
-    });
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+    restaurantDetails: restaurantDetailReducer,
+    restaurantList: restaurantListReducer,
+    rider: riderReducer,
+    auth: authReducer,
+    orderTracking: orderTrackingReducer,
+  },
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
