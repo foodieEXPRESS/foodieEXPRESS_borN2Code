@@ -58,7 +58,6 @@ export interface Restaurant {
 
 export interface RestaurantListState {
   user: User | null;
-  userPictureUrl: string | null; 
   restaurants: Restaurant[];
   loading: boolean;
   error: string | null;

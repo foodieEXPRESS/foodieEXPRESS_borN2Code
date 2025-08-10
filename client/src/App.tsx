@@ -3,7 +3,6 @@
 import { Routes, Route,BrowserRouter } from 'react-router-dom';
 
 
-
 // Importing the necessary components for routing
 import OrderTrackPage from './pages/OrderTrackPage/OrderTrackPage';
 
@@ -14,9 +13,7 @@ import RestaurantSearch from './pages/5Mohamed/RestaurantSearch';
 import LandingPage from './pages/5Mohamed/LandingPage';
 // Import 5Mohamed Components CSS
 import './pages/5Mohamed/styles.css';
-import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 import AuthPage from "./pages/auth.component/AuthPage";
-import About from "./pages/About";
 import Counter from "./pages/counter";
 import RestaurantList from "./pages/mc_Components/RestaurantList";
 import RestaurantDetails from "./pages/mc_Components/RestaurantDetails";
@@ -26,6 +23,10 @@ import OrderViewBeforePayment from "./pages/hazem/order_view_before_payment";
 import Checkout from "./pages/hazem/checkout";
 import AddPaymentCard from './pages/hazem/add_payment_card';
 import LastReview from './pages/hazem/last review';
+
+import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';
+import OrderDetailsTracking from './pages/am_pages/order_details_Tracking';
+
 function App() {
   console.log('App component loaded');
   
@@ -51,21 +52,17 @@ function App() {
           <Route path="/restaurant-search" element={<RestaurantSearch />} />
           {/* http://localhost:5173/landing-page */}
           <Route path="/landing-page" element={<LandingPage />} />
-          <Route path="/cart" element={<CartView  />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment  />} />
           <Route path="/cart" element={<CartView />} />
-          <Route
-            path="/order-view-before-payment"
-            element={<OrderViewBeforePayment />}
-          />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/auth" element={<AuthPage />} />
           <Route path="/add-payment-card" element={<AddPaymentCard />} />
-          <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
           <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
           <Route path="/last-review" element={<LastReview />} />
+          <Route path="/rider-profile" element={<RiderProfile />} />
 
 
+          <Route path="/order-details-tracking" element={<OrderDetailsTracking />} />
+    
         </Routes>
       </BrowserRouter>
     </div>

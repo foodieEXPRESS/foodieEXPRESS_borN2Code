@@ -74,7 +74,6 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       .unwrap()
       .then(() => {
         navigate(`/`);
-        navigate('/restaurant-profile');
       })
       .catch(() => {
         // error is handled in store

@@ -7,7 +7,6 @@ import axios from 'axios';
 
 const initialState: RestaurantListState = {
   user: null,
-  userPictureUrl: null, 
   restaurants: [],
   loading: false,
   error: null,
@@ -31,21 +30,6 @@ export const fetchUserById = createAsyncThunk<User>(
   }
 );
 
-// mc : Fetch the picture of the user by his ID
-
-export const fetchUserPictureById = createAsyncThunk<string | null>(
-  'restaurantList/fetchUserPictureById',
-  async (_, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem('token');
-      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {}
-      const picRes = await axios.get(`http://localhost:8080/api/restaurants/picture`, config)
-      return picRes.data;  
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || error.message)
-    }
-  }
-);
 
 // mc : update user location
 
@@ -106,6 +90,20 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
     }
   }
 );
+export const updateUserProfile = createAsyncThunk<
+        User ,Partial<User>,{ rejectValue: string }>(
+  'restaurantList/updateUserProfile',
+  async (updatedData, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+      const res = await axios.put<User>('http://localhost:8080/api/restaurants/', updatedData, config);
+      return res.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 
 const restaurantListSlice = createSlice({
   name: 'restaurantList',
@@ -114,17 +112,8 @@ const restaurantListSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // mc : <<<<<< fetching the user picture >>>>>>
-     .addCase(fetchUserPictureById.pending, (state) => {
-      state.userPictureUrl = null;
-    })
-    .addCase(fetchUserPictureById.fulfilled, (state, action: PayloadAction<string | null>) => {
-      state.userPictureUrl = action.payload;
-    })
-    .addCase(fetchUserPictureById.rejected, (state) => {
-      state.userPictureUrl = null;
-    })
-
+ 
+    
       // mc : <<<<<< fetching the user >>>>>>
 
       // mc : either still loading ... ⏳
