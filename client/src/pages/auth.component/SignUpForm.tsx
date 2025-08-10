@@ -6,6 +6,8 @@ import { register as registerThunk, clearError } from '../../store/authSlice';
 import { FaBiking, FaUserAlt, FaStore } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc';
 import './auth.css';
+
+
 type Role = 'delivery' | 'customer' | 'restaurant';
 
 const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
@@ -71,6 +73,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     dispatch(registerThunk(payload))
       .unwrap()
       .then(() => {
+        navigate(`/`);
         navigate('/restaurant-profile');
       })
       .catch(() => {

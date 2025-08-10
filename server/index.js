@@ -20,6 +20,43 @@ app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}
 
 const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
 const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
+app.get("/:restId", async (req, res) => {
+  try {
+    const { restId } = req.params;
+    const restaurant = await prisma.restaurant.findUnique({
+      where: {
+        id: restId,
+      },
+      include: {
+        menus: {
+          include: {
+            items: {
+              include: {
+                tags: {
+                  include: {
+                    tag: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    if (!restaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
+    }
+
+    res.json(restaurant);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// const restaurant=require('./routes/RestaurantRoute')
+// app.use("/api/restaurants", restaurant);
 app.use("/api/details",RestDetailsRoutes);
 app.use("/api/restaurants", RestaurantListRoutes);
 
