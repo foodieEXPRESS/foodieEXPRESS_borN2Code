@@ -2,13 +2,13 @@ import React from 'react';
 
 const Hero: React.FC = () => {
   console.log('Hero: Component loaded');
-  
+
   return (
-    <div className="text-center py-12 px-4 bg-white">
-      <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
+    <div className="text-center py-8 px-4 bg-white">
+      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
         Find Your Perfect Meal
       </h1>
-      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      <p className="text-base text-gray-600 max-w-2xl mx-auto">
         Filter through thousands of restaurants to find exactly what you're craving
       </p>
     </div>

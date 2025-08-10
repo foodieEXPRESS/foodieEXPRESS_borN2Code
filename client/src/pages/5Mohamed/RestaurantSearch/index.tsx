@@ -11,13 +11,13 @@ const RestaurantSearch: React.FC = () => {
   console.log('RestaurantSearch: Component loaded, current view:', view);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       <NavBar />
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-6">
         <Hero />
-        <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+        <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-6">
           <SearchControls />
-          <div className="border-t border-gray-200 my-6"></div>
+          <div className="border-t border-gray-200 my-4"></div>
           <Filters />
         </section>
         <FooterControls resultsCount={8} view={view} onChange={setView} />
