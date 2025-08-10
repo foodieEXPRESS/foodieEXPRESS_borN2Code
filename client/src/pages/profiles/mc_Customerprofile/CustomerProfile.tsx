@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
-import{ fetchUserPictureById,  fetchUserById } from '../../../store/restaurantListSlice';
+import{ fetchUserPictureById,  fetchUserById ,updateUserLocation } from '../../../store/restaurantListSlice';
 import type { StatisticCardProps } from '../../../types/mc_Types';
-import type { CustomerProfileWithFetchProps } from '../../../types/mc_Types';
 const StatisticCard: React.FC<StatisticCardProps & { className?: string }> = ({
   value,
   label,
@@ -37,16 +36,29 @@ const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value })
 
 
 
-const CustomerProfile: React.FC<CustomerProfileWithFetchProps> = ({ userId }) => {
+const CustomerProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, userPictureUrl, loading, error } = useSelector((state: RootState) => state.restaurantList);
-  console.log("userPictureUrl data:", userPictureUrl);
-useEffect(() => {
-  if (userId) {
-    dispatch(fetchUserById(userId));           
-    dispatch(fetchUserPictureById(userId));    
-  }
-}, [dispatch, userId]);
+  console.log("user:", user);
+  useEffect(() => {
+    dispatch(fetchUserById())
+    dispatch(fetchUserPictureById())
+
+       if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords
+          dispatch(updateUserLocation({ latitude, longitude }))
+        },
+        (error) => {
+          console.error("Geolocation error:", error)
+        }
+      )
+    }
+  }, [dispatch]);
+
+    
+  
 
   if (loading) return <p className="text-center py-4">Loading profile...</p>;
   if (error) return <p className="text-red-500 text-center py-4">{error}</p>;
