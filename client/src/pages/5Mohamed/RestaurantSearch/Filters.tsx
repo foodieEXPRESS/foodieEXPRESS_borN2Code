@@ -11,24 +11,24 @@ const Filters: React.FC = () => {
     <div className="flex flex-col md:flex-row gap-4">
       <div className="flex flex-wrap gap-4">
         <div className="flex items-center gap-2 cursor-pointer hover:text-purple-600 transition-colors">
-          <span className="text-base text-purple-600">👜</span>
+          <span className="text-sm text-purple-600">👜</span>
           <span className="text-sm font-medium text-black">Cuisine Type</span>
         </div>
         <div className="flex items-center gap-2 cursor-pointer hover:text-purple-600 transition-colors">
-          <span className="text-base text-purple-600">🕐</span>
+          <span className="text-sm text-purple-600">🕐</span>
           <span className="text-sm font-medium text-black">Delivery Time</span>
         </div>
         <div className="flex items-center gap-2 cursor-pointer hover:text-purple-600 transition-colors">
-          <span className="text-base text-yellow-500">⭐</span>
+          <span className="text-sm text-yellow-500">⭐</span>
           <span className="text-sm font-medium text-black">Rating</span>
         </div>
         <div className="flex items-center gap-2 cursor-pointer hover:text-purple-600 transition-colors">
-          <span className="text-base text-yellow-500">💰</span>
+          <span className="text-sm text-yellow-500">💰</span>
           <span className="text-sm font-medium text-black">Price Range</span>
         </div>
       </div>
       <div className="border-l border-gray-200 pl-4">
-        <div className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-700">
+        <div className="flex items-center gap-2 mb-3 text-sm font-medium text-black">
           <span>🎯</span>
           Special Offers
         </div>
