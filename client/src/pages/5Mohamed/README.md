@@ -1,127 +1,127 @@
 # 🍽️ FoodieExpress - 5Mohamed Components
 
-## 📁 نظرة عامة على المجلد
+## 📁 Folder Overview
 
-هذا المجلد يحتوي على جميع مكونات React المستخدمة في تطبيق FoodieExpress، منظمة بطريقة بسيطة وواضحة.
+This folder contains all React components used in the FoodieExpress application, organized in a simple and clear manner.
 
-## 🗂️ هيكل الملفات
+## 🗂️ File Structure
 
 ```
 5Mohamed/
-├── LandingPage/                 # الصفحة الرئيسية
-│   ├── index.tsx               # المكون الرئيسي
-│   ├── Navbar.tsx              # شريط التنقل
-│   ├── HeroSection.tsx         # القسم الرئيسي
-│   ├── FeaturedRestaurants.tsx # المطاعم المميزة
-│   ├── FeaturesGrid.tsx        # شبكة الميزات
-│   └── Footer.tsx              # التذييل
-├── RestaurantSearch/            # البحث عن المطاعم
-│   ├── index.tsx               # المكون الرئيسي
-│   ├── Hero.tsx                # العنوان الرئيسي
-│   ├── SearchControls.tsx      # أدوات البحث
-│   ├── Filters.tsx             # المرشحات
-│   └── FooterControls.tsx      # أدوات التذييل
-├── DeliveryHistoryComponents/   # تاريخ التوصيل
-│   ├── DeliveryHistory.tsx     # المكون الرئيسي
-│   ├── SummaryCard.tsx         # بطاقة الملخص
-│   ├── FilterSort.tsx          # المرشحات والترتيب
-│   ├── DeliveryTable.tsx       # جدول التوصيل
-│   └── mockData.ts             # البيانات التجريبية
-├── styles.css                  # ملف CSS موحد
-└── README.md                   # هذا الملف
+├── LandingPage/                 # Landing Page
+│   ├── index.tsx               # Main Component
+│   ├── Navbar.tsx              # Navigation Bar
+│   ├── HeroSection.tsx         # Hero Section
+│   ├── FeaturedRestaurants.tsx # Featured Restaurants
+│   ├── FeaturesGrid.tsx        # Features Grid
+│   └── Footer.tsx              # Footer
+├── RestaurantSearch/            # Restaurant Search
+│   ├── index.tsx               # Main Component
+│   ├── Hero.tsx                # Hero Title
+│   ├── SearchControls.tsx      # Search Tools
+│   ├── Filters.tsx             # Filters
+│   └── FooterControls.tsx      # Footer Tools
+├── DeliveryHistoryComponents/   # Delivery History
+│   ├── DeliveryHistory.tsx     # Main Component
+│   ├── SummaryCard.tsx         # Summary Card
+│   ├── FilterSort.tsx          # Filters and Sorting
+│   ├── DeliveryTable.tsx       # Delivery Table
+│   └── mockData.ts             # Mock Data
+├── styles.css                  # Unified CSS File
+└── README.md                   # This File
 ```
 
-## 🚀 كيفية الاستخدام
+## 🚀 How to Use
 
-### 1. LandingPage (الصفحة الرئيسية)
+### 1. LandingPage (Landing Page)
 ```tsx
 import LandingPage from './LandingPage';
 
-// استخدام في التطبيق
+// Usage in application
 <LandingPage />
 ```
 
-**المكونات المتاحة:**
-- `Navbar`: شريط التنقل مع الشعار والروابط
-- `HeroSection`: القسم الرئيسي مع العنوان والوصف
-- `FeaturedRestaurants`: عرض المطاعم المميزة
-- `FeaturesGrid`: شبكة الميزات والمراجعات
-- `Footer`: تذييل الصفحة مع الروابط
+**Available Components:**
+- `Navbar`: Navigation bar with logo and links
+- `HeroSection`: Main section with title and description
+- `FeaturedRestaurants`: Display featured restaurants
+- `FeaturesGrid`: Features grid and reviews
+- `Footer`: Page footer with links
 
-### 2. RestaurantSearch (البحث عن المطاعم)
+### 2. RestaurantSearch (Restaurant Search)
 ```tsx
 import RestaurantSearch from './RestaurantSearch';
 
-// استخدام في التطبيق
+// Usage in application
 <RestaurantSearch />
 ```
 
-**المكونات المتاحة:**
-- `Hero`: العنوان الرئيسي للبحث
-- `SearchControls`: أدوات البحث (حقل البحث + اختيار الموقع)
-- `Filters`: المرشحات (توصيل مجاني، عروض خاصة، إلخ)
-- `FooterControls`: عرض النتائج وتبديل العرض
+**Available Components:**
+- `Hero`: Main search title
+- `SearchControls`: Search tools (search field + location selection)
+- `Filters`: Filters (free delivery, special offers, etc.)
+- `FooterControls`: Results display and view toggle
 
-### 3. DeliveryHistoryComponents (تاريخ التوصيل)
+### 3. DeliveryHistoryComponents (Delivery History)
 ```tsx
 import DeliveryHistory from './DeliveryHistoryComponents/DeliveryHistory';
 
-// استخدام في التطبيق
+// Usage in application
 <DeliveryHistory />
 ```
 
-**المكونات المتاحة:**
-- `SummaryCard`: بطاقات ملخص الإحصائيات
-- `FilterSort`: مرشحات وترتيب البيانات
-- `DeliveryTable`: جدول سجلات التوصيل
-- `mockData`: البيانات التجريبية
+**Available Components:**
+- `SummaryCard`: Statistics summary cards
+- `FilterSort`: Data filters and sorting
+- `DeliveryTable`: Delivery records table
+- `mockData`: Mock data
 
-## 🎨 التصميم والأنماط
+## 🎨 Design and Styles
 
-### نظام الألوان
-- **الألوان الأساسية**: `#4318D1` (أزرق)
-- **الألوان الثانوية**: `#22c55e` (أخضر), `#f59e0b` (برتقالي)
-- **الألوان المحايدة**: `#1e293b`, `#64748b`, `#f8fafc`
+### Color System
+- **Primary Colors**: `#4318D1` (Blue)
+- **Secondary Colors**: `#22c55e` (Green), `#f59e0b` (Orange)
+- **Neutral Colors**: `#1e293b`, `#64748b`, `#f8fafc`
 
-### الأنماط
-- **التباعد**: استخدام نظام تباعد متناسق (0.5rem, 1rem, 1.5rem, 2rem)
-- **الظلال**: ظلال خفيفة مع تأثيرات hover
-- **الانتقالات**: انتقالات سلسة (0.3s ease)
+### Styles
+- **Spacing**: Consistent spacing system (0.5rem, 1rem, 1.5rem, 2rem)
+- **Shadows**: Light shadows with hover effects
+- **Transitions**: Smooth transitions (0.3s ease)
 
-## 📱 التصميم المتجاوب
+## 📱 Responsive Design
 
-جميع المكونات مصممة لتكون متجاوبة مع جميع أحجام الشاشات:
+All components are designed to be responsive across all screen sizes:
 
 ```css
-/* للشاشات المتوسطة */
+/* For medium screens */
 @media (max-width: 768px) {
-  /* تعديلات التخطيط */
+  /* Layout adjustments */
 }
 
-/* للشاشات الصغيرة */
+/* For small screens */
 @media (max-width: 480px) {
-  /* تعديلات إضافية */
+  /* Additional adjustments */
 }
 ```
 
-## 🔧 الميزات التقنية
+## 🔧 Technical Features
 
 ### TypeScript
-- جميع المكونات مكتوبة بـ TypeScript
-- واجهات محددة للخصائص
-- أنواع آمنة للبيانات
+- All components are written in TypeScript
+- Defined interfaces for properties
+- Type-safe data handling
 
 ### Console Logging
-- كل مكون يحتوي على console.log لتتبع العمليات
-- مفيد للتطوير والتصحيح
+- Each component contains console.log for operation tracking
+- Useful for development and debugging
 
 ### State Management
-- استخدام React Hooks (`useState`, `useEffect`)
-- إدارة الحالة المحلية لكل مكون
+- Use of React Hooks (`useState`, `useEffect`)
+- Local state management for each component
 
-## 📝 إضافة مكونات جديدة
+## 📝 Adding New Components
 
-### 1. إنشاء الملف
+### 1. Create the File
 ```tsx
 // NewComponent.tsx
 import React from 'react';
@@ -145,9 +145,9 @@ const NewComponent: React.FC<NewComponentProps> = ({ title, description }) => {
 export default NewComponent;
 ```
 
-### 2. إضافة الأنماط
+### 2. Add Styles
 ```css
-/* في styles.css */
+/* In styles.css */
 .MA__new-component {
   background: white;
   padding: 2rem;
@@ -163,38 +163,38 @@ export default NewComponent;
 }
 ```
 
-## 🐛 استكشاف الأخطاء
+## 🐛 Troubleshooting
 
-### مشاكل شائعة وحلولها
+### Common Issues and Solutions
 
-1. **المكون لا يظهر**
-   - تأكد من استيراد المكون بشكل صحيح
-   - تحقق من console.log في المتصفح
+1. **Component Not Displaying**
+   - Ensure component is imported correctly
+   - Check console.log in browser
 
-2. **مشاكل في التصميم**
-   - تأكد من استيراد ملف `styles.css`
-   - تحقق من أسماء الفئات CSS
+2. **Design Issues**
+   - Ensure `styles.css` is imported
+   - Check CSS class names
 
-3. **أخطاء TypeScript**
-   - تأكد من تعريف الواجهات بشكل صحيح
-   - تحقق من أنواع البيانات المرسلة
+3. **TypeScript Errors**
+   - Ensure interfaces are defined correctly
+   - Check data types being passed
 
-## 📚 موارد إضافية
+## 📚 Additional Resources
 
 - [React Documentation](https://reactjs.org/docs/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [CSS Grid Guide](https://css-tricks.com/snippets/css/complete-guide-grid/)
 
-## 🤝 المساهمة
+## 🤝 Contributing
 
-عند إضافة مكونات جديدة:
-1. اتبع نمط التسمية `MA__component-name`
-2. أضف console.log لتتبع العمليات
-3. استخدم TypeScript للواجهات
-4. أضف الأنماط في ملف `styles.css`
-5. حدث هذا الملف README.md
+When adding new components:
+1. Follow the naming pattern `MA__component-name`
+2. Add console.log for operation tracking
+3. Use TypeScript for interfaces
+4. Add styles in `styles.css` file
+5. Update this README.md file
 
 ---
 
-**تم إنشاؤه بواسطة**: 5Mohamed  
-**آخر تحديث**: ديسمبر 2024 
+**Created by**: 5Mohamed  
+**Last Updated**: December 2024 

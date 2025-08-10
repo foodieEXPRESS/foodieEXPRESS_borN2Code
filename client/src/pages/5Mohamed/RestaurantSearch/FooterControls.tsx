@@ -15,20 +15,28 @@ const FooterControls: React.FC<FooterControlsProps> = ({ resultsCount, view, onC
   };
 
   return (
-    <div className="rs-footer">
-      <div className="rs-results">
-        Showing <span className="rs-results__num">{resultsCount}</span> results
+    <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-6">
+      <div className="text-sm text-black">
+        {resultsCount} restaurants found
       </div>
-      <div className="rs-view">
-        <span className="rs-view__label">View:</span>
+      <div className="flex items-center gap-3">
+        <span className="text-sm text-gray-600">View:</span>
         <button 
-          className={`rs-view__btn ${view === 'grid' ? 'is-active' : ''}`}
+          className={`p-2 rounded-lg transition-colors ${
+            view === 'grid' 
+              ? 'bg-purple-100 text-purple-600 border border-purple-200' 
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
           onClick={() => handleViewChange('grid')}
         >
           ⊞
         </button>
         <button 
-          className={`rs-view__btn ${view === 'list' ? 'is-active' : ''}`}
+          className={`p-2 rounded-lg transition-colors ${
+            view === 'list' 
+              ? 'bg-purple-100 text-purple-600 border border-purple-200' 
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
           onClick={() => handleViewChange('list')}
         >
           ☰
