@@ -10,6 +10,8 @@ import CustomerProfile from './pages/profiles/mc_Customerprofile/CustomerProfile
 import AuthPage from './pages/auth.component/AuthPage';
 import RestaurantList from './pages/mc_Components/RestaurantList';
 import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
+// Importing the necessary components for routing
+import OrderTrackPage from './pages/OrderTrackPage/OrderTrackPage';
 
 
 // Import All 5Mohamed Components
@@ -39,6 +41,7 @@ function App() {
           <Route path="/custProfile" element={<CustomerProfile />} />
 
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/order-tracking" element={<OrderTrackPage />} />
 
           {/* All 5Mohamed Component Routes */}
           {/* http://localhost:5173/delivery-history */}

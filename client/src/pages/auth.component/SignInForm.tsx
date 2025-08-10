@@ -5,6 +5,7 @@ import type { RootState, AppDispatch } from '../../store';
 import { login, clearError } from '../../store/authSlice';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookF } from 'react-icons/fa';
+import './auth.css';
 
 const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       .unwrap()
       .then(() => {
         // optional rememberMe handling could persist token differently if needed
-        navigate(`/list`);
+        navigate('/restaurant-profile');
       })
       .catch(() => {
         // error is already set in the store via rejected case
@@ -57,26 +58,26 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   };
 
   return (
-    <div className="foodie-container">
-      <h1 className="foodie-title">FoodieExpress</h1>
-      <h2 className="foodie-subtitle">Welcome Back!</h2>
-      <p className="foodie-description">Sign in to your account to continue ordering</p>
+    <div className="MACH-container">
+      <h1 className="MACH-title">FoodieExpress</h1>
+      <h2 className="MACH-subtitle">Welcome Back!</h2>
+      <p className="MACH-description">Sign in to your account to continue ordering</p>
 
-      <div className="auth-tab-container">
-        <button className="auth-tab-active">
+      <div className="MACH-tab-container">
+        <button className="active">
           Sign In
         </button>
         <button
           onClick={onSwitch}
-          className="auth-tab-inactive"
+          className=""
         >
           Sign Up
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="foodie-form">
-        {error && <div className="error">{error}</div>}
-        <div className="form-group">
+      <form onSubmit={handleSubmit} className="MACH-form">
+        {error && <div className="MACH-error">{error}</div>}
+        <div className="MACH-form-group">
           <label>Email Address</label>
           <input
             type="email"
@@ -88,7 +89,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="MACH-form-group">
           <label>Password</label>
           <input
             type="password"
@@ -100,8 +101,8 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="form-options">
-          <label className="checkbox-label">
+        <div className="MACH-form-options">
+          <label className="MACH-checkbox-label">
             <input
               type="checkbox"
               name="rememberMe"
@@ -110,21 +111,21 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
             />
             Remember me
           </label>
-          <a href="#" className="forgot-link">Forgot password?</a>
+          <a href="#" className="MACH-forgot-link">Forgot password?</a>
         </div>
 
-        <button type="submit" className="foodie-btn primary" disabled={isLoading}>
+        <button type="submit" className="MACH-btn primary" disabled={isLoading}>
           {isLoading ? 'Signing In...' : 'Sign In'}
         </button>
       </form>
 
-      <div className="social-section">
-        <div className="divider">or continue with</div>
-        <div className="social-buttons-container">
+      <div className="MACH-social-section">
+        <div className="MACH-divider">or continue with</div>
+        <div className="MACH-social-buttons-container">
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="social-button"
+            className="MACH-social-button"
           >
             <FcGoogle size={24} />
             Continue with Google
@@ -132,7 +133,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           <button
             type="button"
             onClick={handleFacebookSignIn}
-            className="social-button"
+            className="MACH-social-button"
           >
             <FaFacebookF size={22} color="#222"  />
             Continue with Facebook
@@ -140,8 +141,8 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         </div>
       </div>
 
-      <p className="switch-text">
-        Don't have an account? <button onClick={onSwitch} className="switch-link">Sign up here</button>
+      <p className="MACH-switch-text">
+        Don't have an account? <button onClick={onSwitch} className="MACH-switch-link">Sign up here</button>
       </p>
     </div>
   );
