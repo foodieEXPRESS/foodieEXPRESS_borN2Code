@@ -35,9 +35,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/counter" element={<Counter />} />
 
-          <Route path="/list" element={<RestaurantList userId={"userId"} />} />
+          <Route path="/list" element={<RestaurantList/>} />
           <Route path="/list/details/:restId" element={<RestaurantDetails />} />
           {/* <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} /> */}
+          <Route path="/custProfile" element={<CustomerProfile />} />
 
           <Route path="/auth" element={<AuthPage />} />
 
