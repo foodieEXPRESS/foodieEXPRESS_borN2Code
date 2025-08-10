@@ -1,0 +1,361 @@
+/* Featured Restaurants Component Styles */
+
+.MA__featured-restaurants {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.MA__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.MA__section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.MA__section-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.MA__section-header p {
+  font-size: 1.1rem;
+  color: #6c757d;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Restaurant Grid */
+.MA__restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Restaurant Card */
+.MA__restaurant-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.MA__restaurant-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+}
+
+.MA__card-top {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.MA__restaurant-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.MA__restaurant-card:hover .MA__restaurant-image {
+  transform: scale(1.05);
+}
+
+.MA__placeholder-image {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.MA__placeholder-icon {
+  font-size: 3rem;
+  color: white;
+}
+
+.MA__delivery-time {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.MA__card-bottom {
+  padding: 1.5rem;
+}
+
+.MA__restaurant-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.MA__cuisine-type {
+  color: #6c757d;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.MA__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.MA__star {
+  color: #f39c12;
+  font-size: 1.2rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.MA__rating-text {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+.MA__order-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: none;
+}
+
+.MA__order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.MA__order-btn:active {
+  transform: translateY(0);
+}
+
+/* Loading States */
+.MA__loading-container {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.MA__loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.MA__loading-container p {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Error States */
+.MA__error-container {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.MA__error-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.MA__error-container h3 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.MA__error-container p {
+  color: #6c757d;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.MA__retry-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.MA__retry-btn:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* Empty States */
+.MA__empty-container {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.MA__empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.MA__empty-container h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.MA__empty-container p {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+/* View More Button */
+.MA__view-more {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.MA__view-more-btn {
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.MA__view-more-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .MA__featured-restaurants {
+    padding: 2rem 0;
+  }
+  
+  .MA__section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .MA__restaurant-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .MA__card-top {
+    height: 180px;
+  }
+  
+  .MA__card-bottom {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .MA__container {
+    padding: 0 0.75rem;
+  }
+  
+  .MA__section-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .MA__section-header p {
+    font-size: 1rem;
+  }
+  
+  .MA__card-top {
+    height: 160px;
+  }
+  
+  .MA__card-bottom {
+    padding: 1rem;
+  }
+}
+
+/* Accessibility Improvements */
+.MA__order-btn:focus,
+.MA__retry-btn:focus,
+.MA__view-more-btn:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .MA__featured-restaurants {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  }
+  
+  .MA__restaurant-card {
+    background: #34495e;
+    border-color: rgba(255,255,255,0.1);
+  }
+  
+  .MA__section-header h2,
+  .MA__restaurant-name,
+  .MA__rating-text {
+    color: #ecf0f1;
+  }
+  
+  .MA__section-header p,
+  .MA__cuisine-type {
+    color: #bdc3c7;
+  }
+} 

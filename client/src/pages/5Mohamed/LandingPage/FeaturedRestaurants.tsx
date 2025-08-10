@@ -5,55 +5,61 @@
  * Styles: See `.MA__featured-*` rules in `client/src/styles.css`.
  */
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const API_BASE = 'http://localhost:8080';
+const normalizeImageUrl = (url?: string | null): string | null => {
+  if (!url) return null;
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:') || url.startsWith('blob:')) return url;
+  return url.startsWith('/') ? `${API_BASE}${url}` : `${API_BASE}/${url}`;
+};
 
 interface DisplayRestaurant {
   cuisine: string;
   name: string;
-  rating: string; // kept as string to match UI formatting
+  rating: string;
   deliveryTime: string;
-  bgColor: string;
+  imageUrl?: string | null;
 }
 
 const FeaturedRestaurants: React.FC = () => {
-  // removed fake data; using fetch-only state
-
-  const [displayRestaurants, setDisplayRestaurants] = useState<DisplayRestaurant[]>([]);
+  const [restaurants, setRestaurants] = useState<any[]>([]);
 
   useEffect(() => {
-    const colors = ['#EF4444', '#3B82F6', '#F97316', '#22C55E', '#8B5CF6'];
-    const times = ['20-35 min', '30-45 min', '25-35 min', '30-40 min', '35-45 min'];
-
-    const mapToCard = (r: any): DisplayRestaurant => ({
-      cuisine: r.cuisineType || r.cuisine?.name || 'Restaurant',
-      name: r.name,
-      rating: typeof r.rating === 'number' ? r.rating.toFixed(1) : (r.rating ?? '4.5'),
-      deliveryTime: times[Math.floor(Math.random() * times.length)],
-      bgColor: colors[Math.floor(Math.random() * colors.length)],
-    });
-
-    fetch('http://localhost:8080/api/details/')
-      .then((res) => (res.ok ? res.json() : Promise.reject()))
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setDisplayRestaurants(data.map(mapToCard));
-        }
-      })
-      .catch(() => {
-        // if fetch fails, keep empty or previously shown items
-      });
+    axios.get('http://localhost:8080/api/landingpage/getall')
+      .then(({ data }) => { if (Array.isArray(data)) setRestaurants(data); })
+      .catch(() => {});
   }, []);
+
+  const mapToCard = (r: any): DisplayRestaurant => ({
+    cuisine: r.cuisineType || r.cuisine?.name || 'Restaurant',
+    name: r.name,
+    rating: typeof r.rating === 'number' ? r.rating.toFixed(1) : (r.rating ?? '4.5'),
+    deliveryTime: '30-45 min',
+    imageUrl: normalizeImageUrl(r.media?.[0]?.url || null),
+  });
+
+  const displayRestaurants: DisplayRestaurant[] = Array.isArray(restaurants) ? restaurants.map(mapToCard) : [];
 
   return (
     <section className="MA__featured-restaurants">
       <div className="MA__container">
         <h2>Featured Restaurants</h2>
         <p>Discover amazing restaurants near you and order your favorite meals with just a few clicks.</p>
-        
         <div className="MA__restaurant-grid">
           {displayRestaurants.map((restaurant, index) => (
             <div key={index} className="MA__restaurant-card">
-              <div className="MA__card-top" style={{ backgroundColor: restaurant.bgColor }}>
-                <h3>{restaurant.cuisine}</h3>
+              <div className="MA__card-top">
+                {restaurant.imageUrl ? (
+                  <img
+                    src={restaurant.imageUrl}
+                    alt={restaurant.name}
+                    style={{ width: '100%', height: 140, objectFit: 'cover', borderRadius: 8 }}
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                  />
+                ) : (
+                  <h3>{restaurant.cuisine}</h3>
+                )}
                 <span className="MA__delivery-time">{restaurant.deliveryTime}</span>
               </div>
               <div className="MA__card-bottom">

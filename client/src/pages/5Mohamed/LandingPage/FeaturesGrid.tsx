@@ -33,16 +33,6 @@ const FeaturesGrid: React.FC = () => {
               Amazing food quality and super fast delivery! My go-to app for ordering meals.
             </p>
           </div>
-          
-          <div className="MA__testimonial-nav">
-            <button className="MA__nav-arrow">‹</button>
-            <div className="MA__dots">
-              <span className="MA__dot active"></span>
-              <span className="MA__dot"></span>
-              <span className="MA__dot"></span>
-            </div>
-            <button className="MA__nav-arrow">›</button>
-          </div>
         </div>
       </section>
 

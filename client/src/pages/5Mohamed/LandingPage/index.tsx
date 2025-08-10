@@ -6,11 +6,6 @@ import FeaturedRestaurants from './FeaturedRestaurants';
 import Footer from './Footer';
 
 const LandingPage: React.FC = () => {
-  
-  
-  
- 
-  
   return (
     <div className="MA__landing-page">
       <Navbar />

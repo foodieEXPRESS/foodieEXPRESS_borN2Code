@@ -6,12 +6,7 @@
  */
 import React from 'react';
 
-interface HeroSectionProps {
-  onNavigateToSearch?: () => void;
-  onNavigateToDelivery?: () => void;
-}
-
-const HeroSection: React.FC<HeroSectionProps> = () => {
+const HeroSection: React.FC = () => {
   return (
     <section className="MA__hero">
       <div className="MA__hero-content">
@@ -21,8 +16,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
         </div>
         
         <div className="MA__hero-description">
-          <p>Order from your favorite restaurants and get fresh, hot meals delivered to</p>
-          <div className="MA__overlapping-text">Background</div>
+          <p>Order from your favorite restaurants and get fresh, hot meals delivered to your door.</p>
         </div>
         
         <div className="MA__search-container">

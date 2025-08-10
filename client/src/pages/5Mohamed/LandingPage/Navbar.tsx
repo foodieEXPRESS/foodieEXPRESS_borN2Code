@@ -2,15 +2,17 @@ import React from 'react';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="rs-nav">
-      <div className="rs-container rs-nav__inner">
-        <div className="rs-brand">
-          <div className="rs-brand__logo">+</div>
-          <span className="rs-brand__name">FoodieExpress</span>
+    <nav className="MA__navbar">
+      <div className="MA__navbar-container">
+        <div className="MA__navbar-logo">
+          <div className="MA__logo-icon">
+            <span className="MA__plus-sign">+</span>
+          </div>
+          <span className="MA__logo-text">FoodieExpress</span>
         </div>
-        <div className="rs-actions">
-          <button className="rs-link">Sign In</button>
-          <button className="rs-btn rs-btn--primary">Order Now</button>
+        <div className="MA__navbar-auth">
+          <a href="#" className="MA__sign-in-link">Sign In</a>
+          <a href="#" className="MA__order-now-btn">Order Now</a>
         </div>
       </div>
     </nav>

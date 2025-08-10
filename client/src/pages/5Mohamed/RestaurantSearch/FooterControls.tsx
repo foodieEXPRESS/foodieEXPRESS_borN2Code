@@ -3,28 +3,35 @@ import React from 'react';
 interface FooterControlsProps {
   resultsCount: number;
   view: 'grid' | 'list';
-  onChange: (v: 'grid' | 'list') => void;
+  onChange: (view: 'grid' | 'list') => void;
 }
 
 const FooterControls: React.FC<FooterControlsProps> = ({ resultsCount, view, onChange }) => {
+  console.log('FooterControls: Component loaded with view:', view);
+
+  const handleViewChange = (newView: 'grid' | 'list') => {
+    console.log('FooterControls: View changed to:', newView);
+    onChange(newView);
+  };
+
   return (
     <div className="rs-footer">
-      <div className="rs-results"><span className="rs-results__num">{resultsCount}</span> restaurants found</div>
+      <div className="rs-results">
+        Showing <span className="rs-results__num">{resultsCount}</span> results
+      </div>
       <div className="rs-view">
         <span className="rs-view__label">View:</span>
-        <button
-          onClick={() => onChange('grid')}
+        <button 
           className={`rs-view__btn ${view === 'grid' ? 'is-active' : ''}`}
-          aria-label="Grid view"
+          onClick={() => handleViewChange('grid')}
         >
-          ▦
+          ⊞
         </button>
-        <button
-          onClick={() => onChange('list')}
+        <button 
           className={`rs-view__btn ${view === 'list' ? 'is-active' : ''}`}
-          aria-label="List view"
+          onClick={() => handleViewChange('list')}
         >
-          ≡
+          ☰
         </button>
       </div>
     </div>
