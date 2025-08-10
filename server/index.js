@@ -17,14 +17,14 @@ app.use(cors());
 // Use routes
 app.use("/api/auth", authRoutes);
 app.use("/api/rider-profile", riderProfileRoutes);
-
+app.use("/api/order-tracking", orderTrackingRoute);
 
 const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
 const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
 
 app.use("/api/details",RestDetailsRoutes);
 app.use("/api/restaurants", RestaurantListRoutes);
-app.use("/api/order-tracking",orderTrackingRoute );
+
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
