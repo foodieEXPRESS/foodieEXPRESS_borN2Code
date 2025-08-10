@@ -22,8 +22,7 @@ import './pages/5Mohamed/styles.css';
 
 import CartView from './pages/hazem/cartView';
 import OrderViewBeforePayment from './pages/hazem/order_view_before_payment';
-import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';
-{/* TO DELETE LATER*/}
+import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 function App() {
   console.log('App component loaded');
   
@@ -35,7 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/counter" element={<Counter />} />
 
-          <Route path="/list" element={<RestaurantList userId={"userId"} />} />
+          <Route path="/list" element={<RestaurantList/>} />
           <Route path="/list/details/:restId" element={<RestaurantDetails />} />
           <Route path="/custProfile" element={<CustomerProfile />} />
 

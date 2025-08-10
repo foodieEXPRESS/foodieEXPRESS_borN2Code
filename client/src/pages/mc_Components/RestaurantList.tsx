@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../store";
-import {
-  fetchUserById,
-  fetchRestaurantsNearUser,
-} from "../../store/restaurantListSlice";
+import { fetchUserById, fetchRestaurantsNearUser, updateUserLocation,} from "../../store/restaurantListSlice";
 import OneRestaurant from "./OneRestaurant";
 import type { Restaurant } from "../../types/mc_Types";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +9,7 @@ import Navbar from '../5Mohamed/LandingPage/Navbar'
 
 //  http://localhost:5173/list
 
-const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
+const RestaurantList: React.FC= () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { user, restaurants, loading, error } = useSelector(
@@ -22,13 +19,31 @@ const RestaurantList: React.FC<{ userId: string }> = ({ userId }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchUserById(userId));
+
+      dispatch(fetchUserById());
+  }, [dispatch]);
+
+   useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          console.log("User location:", lat, lng);
+
+          // Optionally update user location in backend and redux state
+          dispatch(updateUserLocation({ latitude: lat, longitude: lng }));
+        },
+        (err) => {
+          console.error("Geolocation error:", err);
+        }
+      );
     }
-  }, [dispatch, userId]);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (user) {
+    // Once user has lat & lng, fetch nearby restaurants
+    if (user?.latitude != null && user?.longitude != null) {
       dispatch(
         fetchRestaurantsNearUser({
           userLat: user.latitude,

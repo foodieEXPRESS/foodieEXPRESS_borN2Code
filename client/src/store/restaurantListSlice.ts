@@ -15,13 +15,13 @@ const initialState: RestaurantListState = {
 
 // mc : Fetch the user by his ID
 
-export const fetchUserById = createAsyncThunk<User, string>(
+export const fetchUserById = createAsyncThunk<User>(
   'restaurantList/fetchUserById',
-  async (userId, { rejectWithValue }) => {
+  async (mc_Types, { rejectWithValue }) => {
      try {
       const token = localStorage.getItem('token');
-      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-      const res = await axios.get(`http://localhost:8080/api/restaurants/${userId}`, config);
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+      const res = await axios.get(`http://localhost:8080/api/restaurants/user`, config)
       return res.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -30,14 +30,33 @@ export const fetchUserById = createAsyncThunk<User, string>(
 );
 // mc : Fetch the picture of the user by his ID
 
-export const fetchUserPictureById = createAsyncThunk<string | null, string>(
+export const fetchUserPictureById = createAsyncThunk<string | null>(
   'restaurantList/fetchUserPictureById',
-  async (userId) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const picRes = await axios.get(`http://localhost:8080/api/restaurants/picture/${userId}`);
+      const token = localStorage.getItem('token');
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+      const picRes = await axios.get(`http://localhost:8080/api/restaurants/picture`, config)
       return picRes.data;  
-    } catch (err) {
-      return null; 
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message)
+    }
+  }
+);
+
+// mc : update user location
+
+export const updateUserLocation = createAsyncThunk<User, { latitude: number; longitude: number }>(
+  'restaurantList/updateUserLocation',
+  async ({ latitude, longitude }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+
+      const res = await axios.put('http://localhost:8080/api/restaurants/user/location', { latitude, longitude }, config);
+      return res.data;  
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -54,7 +73,7 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
 
   const getDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
 
-    const R = 6371000 ; // mc : Radius of the Earth in meters
+    const R = 6371000 ;                          // mc : Radius of the Earth in meters
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLon = ((lon2 - lon1) * Math.PI) / 180;
     const a =
