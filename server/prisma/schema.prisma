@@ -45,6 +45,10 @@ model User {
   address      String?
   latitude      Float?
   longitude     Float?
+  apartmentNumber Float?
+  city String?
+  zipCode String?
+
   //These are optional fields (because of ?)
 // The user can have a phoneNumber and address, but it's not required.
 ///------------------------------------------------------------

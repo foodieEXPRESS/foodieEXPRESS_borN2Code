@@ -1,10 +1,5 @@
 // src/App.jsx
 // import React from 'react';
-
-
-
-
-
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 // Import All 5Mohamed Components
 import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
@@ -14,7 +9,6 @@ import LandingPage from './pages/5Mohamed/LandingPage';
 import './pages/5Mohamed/styles.css';
 import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 import AuthPage from "./pages/auth.component/AuthPage";
-import Home from "./pages/Home";
 import About from "./pages/About";
 import Counter from "./pages/counter";
 import RestaurantList from "./pages/mc_Components/RestaurantList";
@@ -32,7 +26,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+
           <Route path="/counter" element={<Counter />} />
 
           <Route path="/list" element={<RestaurantList/>} />
@@ -40,7 +34,7 @@ function App() {
           {/* <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} /> */}
           <Route path="/custProfile" element={<CustomerProfile />} />
 
-          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/" element={<AuthPage />} />
 
           {/* All 5Mohamed Component Routes */}
           {/* http://localhost:5173/delivery-history */}

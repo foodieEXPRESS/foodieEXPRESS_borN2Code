@@ -36,7 +36,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       .unwrap()
       .then(() => {
         // optional rememberMe handling could persist token differently if needed
-        navigate(`/list`);
+        navigate(`/landing-page`);
       })
       .catch(() => {
         // error is already set in the store via rejected case

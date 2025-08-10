@@ -55,9 +55,8 @@ app.get("/:restId", async (req, res) => {
   }
 });
 
-const RestDetailsRoutes = require('./routes/RestDetailsRoute')
-const restaurant=require('./routes/RestaurantRoute')
-app.use("/api/restaurants", restaurant);
+// const restaurant=require('./routes/RestaurantRoute')
+// app.use("/api/restaurants", restaurant);
 app.use("/api/details",RestDetailsRoutes);
 app.use("/api/restaurants", RestaurantListRoutes);
 
