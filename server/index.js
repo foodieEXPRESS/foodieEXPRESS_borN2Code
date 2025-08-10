@@ -7,6 +7,7 @@ const prisma = require("./database");
 // Import routes
 const riderProfileRoutes = require("./routes/riderProfile-am");{/* TO DELETE LATER*/}
 const authRoutes = require('./routes/auth');
+const orderTrackingRoute= require('./routes/am_routes/order_details_tracking')
 app.use(express.json());
 app.use(cors());
 
@@ -15,8 +16,8 @@ app.use(cors());
 
 // Use routes
 app.use("/api/auth", authRoutes);
-app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}
-
+app.use("/api/rider-profile", riderProfileRoutes);
+app.use("/api/order-tracking", orderTrackingRoute);
 
 const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
 const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
@@ -57,10 +58,12 @@ app.get("/:restId", async (req, res) => {
 
 // const restaurant=require('./routes/RestaurantRoute')
 // app.use("/api/restaurants", restaurant);
+
 app.use("/api/details",RestDetailsRoutes);
 const landingpage = require("./routes/landingpage")
 app.use("/api/landingpage",landingpage)
 app.use("/api/restaurants", RestaurantListRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
