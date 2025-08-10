@@ -3,13 +3,7 @@
 import { Routes, Route,BrowserRouter } from 'react-router-dom';
 
 
-import Home from './pages/Home';
-import Counter from './pages/counter';
 
-import CustomerProfile from './pages/profiles/mc_Customerprofile/CustomerProfile';
-import AuthPage from './pages/auth.component/AuthPage';
-import RestaurantList from './pages/mc_Components/RestaurantList';
-import RestaurantDetails from './pages/mc_Components/RestaurantDetails';
 // Importing the necessary components for routing
 import OrderTrackPage from './pages/OrderTrackPage/OrderTrackPage';
 
@@ -47,7 +41,7 @@ function App() {
           {/* <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} /> */}
           <Route path="/custProfile" element={<CustomerProfile />} />
 
-          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/" element={<AuthPage />} />
           <Route path="/order-tracking" element={<OrderTrackPage />} />
 
           {/* All 5Mohamed Component Routes */}
