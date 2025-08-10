@@ -5,7 +5,6 @@ import type { RootState, AppDispatch } from '../../store';
 import { login, clearError } from '../../store/authSlice';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookF } from 'react-icons/fa';
-import './auth.css';
 
 const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const navigate = useNavigate();
@@ -36,7 +35,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       .unwrap()
       .then(() => {
         // optional rememberMe handling could persist token differently if needed
-        navigate('/restaurant-profile');
+        navigate(`/list`);
       })
       .catch(() => {
         // error is already set in the store via rejected case

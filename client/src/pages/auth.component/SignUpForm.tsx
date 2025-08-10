@@ -5,7 +5,6 @@ import type { RootState, AppDispatch } from '../../store';
 import { register as registerThunk, clearError } from '../../store/authSlice';
 import { FaBiking, FaUserAlt, FaStore } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc';
-import './auth.css';
 
 type Role = 'delivery' | 'customer' | 'restaurant';
 
@@ -72,7 +71,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     dispatch(registerThunk(payload))
       .unwrap()
       .then(() => {
-        navigate('/restaurant-profile');
+        navigate(`/list`);
       })
       .catch(() => {
         // error is handled in store

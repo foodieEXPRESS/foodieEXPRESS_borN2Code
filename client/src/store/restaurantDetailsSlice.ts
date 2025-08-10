@@ -1,25 +1,48 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { RestaurantState } from '../types/mc_Components';
+import type { RestaurantDetailsState } from '../types/mc_Types';
+import axios from 'axios';
 
 
+// mc : refactor to use auth
 export const fetchRestaurantById = createAsyncThunk(
   'restaurant/fetchById',
-  
-   
-  async (restId: string) => {
-    const res = await fetch(`http://localhost:8080/api/details/${restId}`);
-    if (!res.ok) throw new Error('Failed to fetch restaurant');
-    return await res.json();
+ async (restId: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get(`http://localhost:8080/api/details/${restId}`, {
+        ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
+      });
+      if (!res) throw new Error('Failed to fetch restaurant');
+      return res.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
   }
-)
+);
+// mc : refactor to use auth
+export const fetchRestaurantImage = createAsyncThunk(
+  'restaurant/fetchImage',
+   async (restId: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get(`http://localhost:8080/api/details/image/${restId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data.mediaUrl || null;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message)
+    }
+  }
+);
 
-export const initialState: RestaurantState = {
+export const initialState: RestaurantDetailsState = {
   data: null,
   loading: false,
   error: null,
-}
+  imageUrl: null,
+};
 
-const restaurantSlice = createSlice({
+const restaurantDetailsSlice = createSlice({
   name: 'restaurant',
   initialState,
   reducers: {},
@@ -36,8 +59,11 @@ const restaurantSlice = createSlice({
       .addCase(fetchRestaurantById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Error';
+      })
+      .addCase(fetchRestaurantImage.fulfilled, (state, action) => {
+        state.imageUrl = action.payload;
       });
   },
 });
 
-export default restaurantSlice.reducer
+export default restaurantDetailsSlice.reducer

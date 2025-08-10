@@ -1,47 +1,125 @@
-import React, { useEffect } from 'react';
-// import { aboutCardData } from './AboutRestaurant';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchRestaurantById } from '../../store/restaurantDetailsSlice';import type { RootState, AppDispatch } from '../../store';
-import type { MenuItem } from '../../types/mc_Components';
+import { fetchRestaurantById } from '../../store/restaurantDetailsSlice';
+import type { RootState, AppDispatch } from '../../store';
+import type { MenuItem } from '../../types/mc_Types'
+import { AboutRestaurant } from '../../components/RestaurantList/AboutRestaurant';
+import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
+import { useNavigate, useParams } from "react-router-dom";
+import Navbar from '../5Mohamed/LandingPage/Navbar'
 
-const RestaurantDetails: React.FC<{ restId: string }> = ({ restId }) => {
+
+const RestaurantDetails: React.FC = () => {
+  const { restId } = useParams<{ restId: string }>(); 
   const dispatch = useDispatch<AppDispatch>();
-  const { data, /*loading,*/ error } = useSelector((state: RootState) => state.restaurant);
-
+  const { data, loading, error, imageUrl } = useSelector((state: RootState) => state.restaurantDetails);
+  const [activeTab, setActiveTab] = useState<string | null>(null);
+  
   useEffect(() => {
-    dispatch(fetchRestaurantById(restId));
+    if (restId) {
+      dispatch(fetchRestaurantById(restId));
+      dispatch(fetchRestaurantImage(restId));
+    }
   }, [dispatch, restId]);
 
-  // if (loading) return <div>Loading...</div>;
+
+   useEffect(() => {
+    if (data && data.menus.length > 0) {
+      setActiveTab(data.menus[0].name);
+    }
+  }, [data]);
+
+  if (loading) return <div
+  className="w-[50px] aspect-square rounded-full border-[8px] border-black border-r-transparent animate-spin"
+  style={{ animationDuration: "1s" }}
+></div>
   if (error) return <div>{error}</div>;
   if (!data) return <div>No data</div>;
 
+  const displayImage =
+    imageUrl ||
+    'https://www.hotel-des-elmes.com/_next/image?url=https%3A%2F%2Fminio.kustomcms.fr%2F646a6ddc62ccd7c8f1291b5a%2FKEV02057.jpg&w=1920&q=80';
+
   return (
-    
-    <main className="font-sans mx-auto px-4 pt-4 pb-10">
-      {/* ...restaurant info... */}
-      <section className="mt-0">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Menu</h2>
-        {data.menus.map((menu: any) => (
-          <div key={menu.id} className="mb-8">
-            <h3 className="text-xl font-bold mb-4">{menu.name}</h3>
-            <div className="flex flex-col gap-4">
-{menu.items.length > 0 ? (
-  menu.items.map((item: any) => (
-    <MenuItem
-      id={item.id} 
-      name={item.name}
-      description={item.description}
-      price={item.price}
-      tags={item.tags?.map((t: any) => t.tag.name) || []}
-    />
-  ))
-) : (
-  <p className="text-gray-500">No items in this category.</p>
-)}
+    <main className="font-sans mx-auto px-4 pb-10">
+      <Navbar />
+      {/* Header section with restaurant image and name */}
+      {/* Restaurant image and name */}
+
+      <div className="w-full h-64 rounded-lg overflow-hidden mb-6 shadow-lg">
+        <img
+          src={displayImage}
+          alt={data.name}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <h1 className="text-4xl font-extrabold text-gray-900 mb-2 text-center">{data.name}</h1>
+
+      {/* About section using AboutRestaurant component */}
+
+      <section className="mb-8 flex flex-col items-center">
+        <AboutRestaurant
+          description={data.description}
+          rating={data.rating}
+          deliveryTime={data.deliveryTime}
+          deliveryFee={data.deliveryFee}
+          address={data.address}
+          contactPhone={data.contactPhone}
+        />
+      </section>
+
+      {/* Tabs for food types */}
+
+      <section className="mb-6">
+        <div className="flex flex-wrap gap-2 border-b border-gray-200 mb-4">
+          {data.menus.map((menu: any) => (
+            <button
+              key={menu.id}
+              onClick={() => setActiveTab(menu.name)}
+              className={`px-4 py-2 font-semibold transition border-b-2 ${
+                activeTab === menu.name
+                  ? "text-indigo-600 border-indigo-600"
+                  : "text-gray-500 border-transparent hover:border-indigo-500"
+              }`}
+            >
+              {menu.name}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Menu items for active tab */}
+      
+      <section>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{activeTab}</h2>
+        {data.menus
+          .filter((menu: any) => menu.name === activeTab)
+          .map((menu: any) => (
+            <div
+              key={menu.id}
+              className="mb-8"
+              style={{
+                boxShadow: "0px 4px 20px 0px #00000014"
+              }}
+            >
+              <div className="flex flex-col gap-4">
+                {menu.items.length > 0 ? (
+                  menu.items.map((item: any) => (
+                    <MenuItem
+                      key={item.id}
+                      id={item.id}
+                      name={item.name}
+                      description={item.description}
+                      price={item.price}
+                      tags={item.tags?.map((t: any) => t.tag.name) || []}
+                    />
+                  ))
+                ) : (
+                  <p className="text-gray-500">No items in this category.</p>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </section>
     </main>
   );
@@ -67,6 +145,12 @@ const MenuItem: React.FC<MenuItem & {}> = ({
         return "bg-red-100 text-gray-800";
     }
   };
+    const navigate = useNavigate(); 
+
+  const handleToCart = () => {
+    navigate(`/cart`);
+  };
+
 
   return (
     <article className="rounded-lg p-5 bg-white shadow hover:shadow-lg transition-shadow flex flex-col sm:flex-row gap-x-6">
@@ -91,7 +175,7 @@ const MenuItem: React.FC<MenuItem & {}> = ({
             ))}
           </div>
           <p className="text-gray-700 text-sm leading-relaxed mt-1">{description}</p>
-          <button
+          <button onClick={handleToCart}
             className="mt-4 bg-indigo-500 text-white rounded px-6 py-2 font-semibold transition hover:bg-indigo-800 w-fit"
           >
             Add to Cart

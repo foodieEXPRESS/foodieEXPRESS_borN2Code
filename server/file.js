@@ -1,4 +1,5 @@
 const objects = {
+    
     "id": "3622e485-eaba-40f7-b7f9-089574b2553c",
     "name": "Lubowitz - Hand",
     "cuisineType": "once",

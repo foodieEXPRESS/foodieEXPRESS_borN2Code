@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
-import './auth.css'
 
 // AuthPage component to handle sign in/sign up switching
 const AuthPage: React.FC = () => {
