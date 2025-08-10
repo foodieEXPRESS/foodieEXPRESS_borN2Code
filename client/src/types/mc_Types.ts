@@ -15,18 +15,9 @@ export interface AboutCardProps {
   deliveryTime: string;
   deliveryFee: string;
   address: string;
-  phone: string;
+  contactPhone: string;
 }
 
-
-export interface AboutCardProps {
-  description: string;
-  rating: number;
-  deliveryTime: string;
-  deliveryFee: string;
-  address: string;
-  phone: string;
-}
 
 
 export interface StatisticCardProps {
@@ -45,17 +36,7 @@ export interface RestaurantDetailsState {
   imageUrl: string | null;
 }
 
-export interface User {
-  id: string;
-  fullName: string;
-  email: string;
-  password: string;
-  role: string;
-  phoneNumber: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-}
+
 
 export interface Restaurant {
   id: string;
@@ -68,6 +49,8 @@ export interface Restaurant {
   eta: string;
   priceLevel: string;
   logoText: string;
+  deliveryTime: string;
+  openingHours: string;
   freeDelivery?: boolean;
   latitude: number;
   longitude: number;
@@ -85,4 +68,18 @@ export interface RestaurantListState {
 
 export interface CustomerProfileWithFetchProps {
   userId: string;
+}
+
+
+export interface User {
+  id: string;
+  fullName: string;
+  email: string;
+  role: 'CUSTOMER' | 'RESTAURANT' | 'DRIVER';
+  phoneNumber: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  createdAt: string;
+  updatedAt: string;
 }

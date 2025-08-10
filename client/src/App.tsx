@@ -34,9 +34,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/counter" element={<Counter />} />
 
-          <Route path="/list" element={<RestaurantList userId={"userId"} />} />
+          <Route path="/list" element={<RestaurantList/>} />
           <Route path="/list/details/:restId" element={<RestaurantDetails />} />
-          <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
+          <Route path="/custProfile" element={<CustomerProfile />} />
 
           <Route path="/auth" element={<AuthPage />} />
 
@@ -47,9 +47,6 @@ function App() {
           <Route path="/restaurant-search" element={<RestaurantSearch />} />
           {/* http://localhost:5173/landing-page */}
           <Route path="/landing-page" element={<LandingPage />} />
-          <Route path="/list" element={<RestaurantList userId={"userId"} />} />
-          <Route path="/list/OneRest/details" element={<RestaurantDetails />} />
-          <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} />
           <Route path="/cart" element={<CartView  />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment  />} />
           <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
