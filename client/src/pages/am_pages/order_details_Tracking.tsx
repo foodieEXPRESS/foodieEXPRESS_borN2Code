@@ -42,10 +42,9 @@ const OrderDetailsTracking: React.FC = () => {
           </div>
           <button 
             onClick={() => setShowMap(!showMap)}
-            className="text-white px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity flex flex-row items-center justify-center gap-2 cursor-pointer"
+            className="rounded-md text-white px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity flex flex-row items-center justify-center gap-2 cursor-pointer"
             style={{ 
               backgroundColor: 'var(--color-primary)', 
-              borderRadius: 'var(--button-radius)',
               fontFamily: 'var(--font-primary)'
             }}
           >
@@ -115,7 +114,7 @@ const OrderDetailsTracking: React.FC = () => {
         {/* Order Details  and order items*/}
             <div className='flex flex-row w-full gap-6 ml-30'>
             {/* Order Details */}
-            <div className="bg-white rounded-lg  w-4/10 shadow-md border-none " style={{ borderColor: 'var(--color-secondary-light)', borderRadius: 'var(--button-radius)' }}>
+            <div className="bg-white  w-4/10 shadow-md  rounded-md " style={{ borderColor: 'var(--color-secondary-light)' }}>
               <div className="flex items-center justify-between p-4 " style={{ borderColor: 'var(--color-secondary-light)' }}>
                 <h2 className="text-lg font-semibold" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '700' }}>Order Details</h2>
                 <div className="px-3 py-1 rounded-md text-sm font-medium" style={{ 
@@ -234,10 +233,9 @@ const OrderDetailsTracking: React.FC = () => {
                 </div>
 
                 {/* Special Instructions */}
-                <div className="border rounded-lg p-3" style={{ 
+                <div className="border rounded-md p-3" style={{ 
                   backgroundColor: '#FFF3CD', 
                   borderColor: '#FFEAA7',
-                  borderRadius: 'var(--button-radius)'
                 }}>
                   <h4 className="font-medium text-sm mb-1" style={{ color: '#856404', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Special Instructions</h4>
                   <p className="text-sm" style={{ color: '#856404', fontFamily: 'var(--font-primary)', fontWeight: '400' }}>Ring doorbell twice, leave at door if no answer</p>
@@ -253,9 +251,9 @@ const OrderDetailsTracking: React.FC = () => {
               
               <div className="p-4 space-y-3">
                 {/* Order Item 1 */}
-                <div className="p-4 flex items-center justify-between border " style={{ borderColor: '#E5E5E5', borderRadius: 'var(--button-radius)'}}>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', borderRadius: 'var(--button-radius)' }}>
+                <div className="p-4 flex items-center justify-between border rounded-md " style={{ borderColor: '#E5E5E5'}}>
+                  <div className="flex items-center space-x-3 ">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', }}>
                       <span className="font-medium text-sm" style={{ color: 'var(--color-secondary-lighter)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>x1</span>
                     </div>
                     <div >
@@ -267,7 +265,7 @@ const OrderDetailsTracking: React.FC = () => {
                 </div>
 
                 {/* Order Item 2 */}
-                <div className="p-4 flex items-center justify-between border " style={{ borderColor: '#E5E5E5', borderRadius: 'var(--button-radius)'}}>
+                <div className="p-4 flex items-center justify-between border rounded-md " style={{ borderColor: '#E5E5E5'}}>
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', borderRadius: 'var(--button-radius)' }}>
                       <span className="font-medium text-sm" style={{ color: 'var(--color-secondary-lighter)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>x1</span>
@@ -281,7 +279,7 @@ const OrderDetailsTracking: React.FC = () => {
                 </div>
 
                 {/* Order Item 3 */}
-                <div className=" p-4 flex items-center justify-between border" style={{ borderColor: '#E5E5E5', borderRadius: 'var(--button-radius)'}}>
+                <div className=" p-4 flex items-center justify-between border rounded-md " style={{ borderColor: '#E5E5E5'}}>
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', borderRadius: 'var(--button-radius)' }}>
                       <span className="font-medium text-sm" style={{ color: 'var(--color-secondary-lighter)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>x2</span>
@@ -317,7 +315,7 @@ const OrderDetailsTracking: React.FC = () => {
             </div>
 
             {/* Delivery Status */}
-            <div className=" p-2 bg-white rounded-md  shadow-md w-5/6 mx-auto" style={{ borderRadius: 'var(--button-radius)' }}>
+            <div className=" p-2 bg-white rounded-md  shadow-md w-5/6 mx-auto" >
               <div className="p-4 ">
                 <h2 className="text-lg font-semibold" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)' }}>Delivery Status</h2>
               </div>
