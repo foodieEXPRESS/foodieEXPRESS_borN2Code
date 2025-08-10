@@ -132,7 +132,7 @@ const RestaurantList: React.FC= () => {
       </p>
 
       {/* Restaurant Grid */}
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 grid-cols-3 sm:grid-cols-2 lg:grid-cols-3">
         {filteredRestaurants.map((rest: Restaurant) => (
           <OneRestaurant key={rest.id} {...rest} />
         ))}
