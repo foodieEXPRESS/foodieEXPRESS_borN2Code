@@ -3,7 +3,6 @@
 import { Routes, Route,BrowserRouter } from 'react-router-dom';
 
 
-
 // Importing the necessary components for routing
 import OrderTrackPage from './pages/OrderTrackPage/OrderTrackPage';
 
@@ -16,7 +15,6 @@ import LandingPage from './pages/5Mohamed/LandingPage';
 import './pages/5Mohamed/styles.css';
 import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';{/* TO DELETE LATER*/}
 import AuthPage from "./pages/auth.component/AuthPage";
-import About from "./pages/About";
 import Counter from "./pages/counter";
 import RestaurantList from "./pages/mc_Components/RestaurantList";
 import RestaurantDetails from "./pages/mc_Components/RestaurantDetails";
@@ -51,17 +49,10 @@ function App() {
           <Route path="/restaurant-search" element={<RestaurantSearch />} />
           {/* http://localhost:5173/landing-page */}
           <Route path="/landing-page" element={<LandingPage />} />
-          <Route path="/cart" element={<CartView  />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment  />} />
           <Route path="/cart" element={<CartView />} />
-          <Route
-            path="/order-view-before-payment"
-            element={<OrderViewBeforePayment />}
-          />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/auth" element={<AuthPage />} />
           <Route path="/add-payment-card" element={<AddPaymentCard />} />
-          <Route path="/order-view-before-payment" element={<OrderViewBeforePayment />} />
           <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
           <Route path="/last-review" element={<LastReview />} />
 
