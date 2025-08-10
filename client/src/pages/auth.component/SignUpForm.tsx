@@ -71,7 +71,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     dispatch(registerThunk(payload))
       .unwrap()
       .then(() => {
-        navigate(`/list`);
+        navigate(`/custProfile`);
       })
       .catch(() => {
         // error is handled in store
