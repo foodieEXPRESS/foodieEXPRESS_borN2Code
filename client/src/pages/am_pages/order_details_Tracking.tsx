@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { fetchCustomerData, fetchRestaurantData } from '../../store/orderTrackingSlice';
+import { fetchCustomerData, fetchRestaurantData, fetchOrderItemsData } from '../../store/orderTrackingSlice';
 
 const OrderDetailsTracking: React.FC = () => {
   const [showMap, setShowMap] = useState(true);
@@ -11,10 +11,13 @@ const OrderDetailsTracking: React.FC = () => {
   const { 
     customerData, 
     restaurantData, 
+    orderItemsData,
     customerLoading, 
     restaurantLoading, 
+    orderItemsLoading,
     customerError, 
-    restaurantError 
+    restaurantError, 
+    orderItemsError
   } = useAppSelector((state) => state.orderTracking);
 
   // For demo purposes, using a sample order ID - in real app this would come from props or route params
@@ -24,6 +27,7 @@ const OrderDetailsTracking: React.FC = () => {
     // Dispatch Redux actions to fetch data
     dispatch(fetchCustomerData(orderId));
     dispatch(fetchRestaurantData(orderId));
+    dispatch(fetchOrderItemsData(orderId));
   }, [dispatch, orderId]);
 
   return (
@@ -250,65 +254,86 @@ const OrderDetailsTracking: React.FC = () => {
               </div>
               
               <div className="p-4 space-y-3">
-                {/* Order Item 1 */}
-                <div className="p-4 flex items-center justify-between border rounded-md " style={{ borderColor: '#E5E5E5'}}>
-                  <div className="flex items-center space-x-3 ">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', }}>
-                      <span className="font-medium text-sm" style={{ color: 'var(--color-secondary-lighter)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>x1</span>
-                    </div>
-                    <div >
-                      <p className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Margherita Pizza</p>
-                      <p className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>Extra cheese</p>
-                    </div>
+                {orderItemsLoading ? (
+                  // Loading skeleton for order items
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((item) => (
+                      <div key={item} className="p-4 flex items-center justify-between border rounded-md animate-pulse" style={{ borderColor: '#E5E5E5' }}>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 rounded-lg bg-gray-200"></div>
+                          <div className="space-y-2">
+                            <div className="h-4 bg-gray-200 rounded w-32"></div>
+                            <div className="h-3 bg-gray-200 rounded w-24"></div>
+                          </div>
+                        </div>
+                        <div className="h-4 bg-gray-200 rounded w-16"></div>
+                      </div>
+                    ))}
                   </div>
-                  <span className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>$18.99</span>
-                </div>
-
-                {/* Order Item 2 */}
-                <div className="p-4 flex items-center justify-between border rounded-md " style={{ borderColor: '#E5E5E5'}}>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', borderRadius: 'var(--button-radius)' }}>
-                      <span className="font-medium text-sm" style={{ color: 'var(--color-secondary-lighter)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>x1</span>
-                    </div>
-                    <div>
-                      <p className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Caesar Salad</p>
-                      <p className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>Dressing on the side</p>
-                    </div>
+                ) : orderItemsError ? (
+                  // Error state for order items
+                  <div className="text-red-500 text-sm p-4 text-center">
+                    <p>Error loading order items: {orderItemsError}</p>
                   </div>
-                  <span className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>$12.99</span>
-                </div>
-
-                {/* Order Item 3 */}
-                <div className=" p-4 flex items-center justify-between border rounded-md " style={{ borderColor: '#E5E5E5'}}>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)', borderRadius: 'var(--button-radius)' }}>
-                      <span className="font-medium text-sm" style={{ color: 'var(--color-secondary-lighter)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>x2</span>
-                    </div>
-                    <div>
-                      <p className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Garlic Bread</p>
-                    </div>
+                ) : orderItemsData && orderItemsData.items && orderItemsData.items.length > 0 ? (
+                  // Real order items data
+                  <>
+                    {orderItemsData.items.map((item) => (
+                      <div key={item.id} className="p-4 flex items-center justify-between border rounded-md" style={{ borderColor: '#E5E5E5' }}>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary)' }}>
+                            <span className="font-medium text-sm" style={{ color: 'var(--color-secondary-lighter)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>
+                              x{item.quantity}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>
+                              {item.menu.name}
+                            </p>
+                            {item.menu.description && (
+                              <p className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>
+                                {item.menu.description}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <span className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>
+                          ${item.itemTotal.toFixed(2)}
+                        </span>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  // No order items available
+                  <div className="text-gray-500 text-sm p-4 text-center">
+                    <p>No order items available</p>
                   </div>
-                  <span className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)' , fontWeight: '600' }}>$6.99</span>
-                </div>
-            </div>
+                )}
+              </div>
 
-                {/* Pricing Summary */}
+              {/* Pricing Summary */}
                 <div className=" p-4 space-y-2 mt-2 ">
                   <div className="flex justify-between text-sm border-t " style={{ borderColor: 'var(--color-secondary-light)' }}>
                     <span style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '400' }}>Subtotal</span>
-                    <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>$38.97</span>
+                    <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>
+                      ${orderItemsData ? orderItemsData.orderTotal.toFixed(2) : '0.00'}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '400' }}>Delivery Fee</span>
                     <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>$3.99</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '400' }}>Tip</span>
-                    <span style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary)', fontWeight: '500' }}>$7.80</span>
+                    <span style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary)', fontWeight: '400' }}>Tip</span>
+                    <span style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary-alt)', fontWeight: '600' }}>
+                      ${orderItemsData ? (orderItemsData.orderTotal * 0.20).toFixed(2) : '0.00'}
+                    </span>
                   </div>
-                  <div className="flex justify-between font-semibold text-lg border-t pt-2" style={{ borderColor: 'var(--color-secondary-light)' }}>
+                  <div className="flex justify-between font-semibold text-lg border-t pt-2 mb-4" style={{ borderColor: 'var(--color-secondary-light)' }}>
                     <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '700' }}>Total</span>
-                    <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '700' }}>$50.76</span>
+                    <span style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '700' }}>
+                      ${orderItemsData ? (orderItemsData.orderTotal + 3.99 + (orderItemsData.orderTotal * 0.20)).toFixed(2) : '0.00'}
+                    </span>
                   </div>
                 </div>
               </div>
