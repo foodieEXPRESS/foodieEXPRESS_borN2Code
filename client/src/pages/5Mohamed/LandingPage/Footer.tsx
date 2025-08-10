@@ -46,13 +46,13 @@ const Footer: React.FC = () => {
           <h4>Follow Us</h4>
           <div className="MA__social-icons">
             <a href="#" className="MA__social-icon">
-              <span>𝕏</span>
+              <span>X</span>
             </a>
             <a href="#" className="MA__social-icon">
-              <span>📷</span>
+              <span>IG</span>
             </a>
             <a href="#" className="MA__social-icon">
-              <span>📘</span>
+              <span>FB</span>
             </a>
           </div>
         </div>

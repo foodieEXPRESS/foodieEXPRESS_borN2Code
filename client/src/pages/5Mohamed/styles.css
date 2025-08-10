@@ -365,7 +365,7 @@
 }
 
 .MA__order-now-btn {
-  background: #10B981;
+  background: #4318D1;
   color: white;
   border: none;
   padding: 1rem 2.5rem;
@@ -377,7 +377,7 @@
 }
 
 .MA__order-now-btn:hover {
-  background: #059669;
+  background: #3B0F9E;
 }
 
 .MA__view-menu-btn {
@@ -2159,6 +2159,74 @@ body {
 .MA__restaurant-search-btn:active {
   transform: translateY(0);
   box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+/* === RestaurantSearch (rs-*) === */
+.rs-page { min-height: 100vh; background: #F7F7F8; color: #1A1A1A; }
+
+.rs-container { max-width: 1168px; margin: 0 auto; padding: 0 16px; }
+
+/* Nav */
+.rs-nav { width: 100%; background: #fff; border-bottom: 1px solid #E6E6E6; }
+.rs-nav__inner { height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.rs-brand { display: flex; align-items: center; gap: 12px; }
+.rs-brand__logo { width: 32px; height: 32px; border-radius: 8px; background: #5B21B6; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.rs-brand__name { font-weight: 600; font-size: 18px; }
+.rs-actions { display: flex; align-items: center; gap: 16px; }
+.rs-link { font-size: 14px; color: #6B7280; background: none; border: 0; cursor: pointer; }
+.rs-link:hover { color: #111827; }
+.rs-btn { height: 36px; padding: 0 16px; border-radius: 8px; border: 0; cursor: pointer; font-size: 14px; font-weight: 600; }
+.rs-btn--primary { background: #5B21B6; color: #fff; }
+.rs-btn--primary:hover { background: #4C1D95; }
+
+/* Hero */
+.rs-main { padding: 40px 16px; }
+.rs-hero__title { font-family: Inter, system-ui, Arial, sans-serif; font-weight: 800; font-size: 36px; line-height: 1.2; margin: 0 0 8px; }
+.rs-hero__subtitle { color: #6B7280; font-size: 16px; margin: 0 0 28px; }
+
+/* Card */
+.rs-card { width: 100%; background: #fff; border: 1px solid #EDEDED; border-radius: 22px; box-shadow: 0 8px 28px rgba(0,0,0,.08); }
+.rs-search-row { display: flex; align-items: center; gap: 16px; padding: 24px 24px 16px; }
+.rs-input-wrap { position: relative; flex: 1; }
+.rs-input__icon { position: absolute; left: 12px; top: 0; bottom: 0; display: flex; align-items: center; color: #6B7280; }
+.rs-input { width: 100%; height: 56px; border-radius: 14px; border: 1px solid #E6E6E6; padding: 0 16px 0 40px; font-size: 16px; outline: none; }
+.rs-input::placeholder { color: #9CA3AF; }
+.rs-input:focus { border-color: #5B21B6; box-shadow: 0 0 0 3px rgba(91,33,182,.15); }
+.rs-choose { height: 56px; min-width: 220px; padding: 0 16px; border-radius: 14px; background: #E5E7EB; color: #111827; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 0; cursor: pointer; }
+.rs-choose:hover { background: #DDE0E5; }
+
+.rs-divider { height: 1px; background: #ECECEC; margin: 0 24px; }
+
+/* Filters */
+.rs-filters { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 24px; }
+.rs-filters__left { display: flex; align-items: center; flex-wrap: wrap; gap: 24px 40px; }
+.rs-filter-item { display: flex; align-items: center; gap: 8px; color: #111827; font-size: 16px; font-weight: 600; }
+
+/* Offers */
+.rs-offers { min-width: 280px; }
+.rs-offers__title { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 12px; }
+.rs-checkbox { display: inline-flex; align-items: center; gap: 8px; color: #374151; font-size: 16px; margin: 8px 0; user-select: none; }
+.rs-checkbox input { width: 16px; height: 16px; accent-color: #5B21B6; }
+
+/* Stack Special Offers vertically */
+.rs-offers { display: flex; flex-direction: column; gap: 12px; }
+.rs-checkbox { display: flex; }
+
+/* Footer */
+.rs-footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 8px 0; }
+.rs-results { color: #1F2937; font-size: 15px; }
+.rs-results__num { font-weight: 700; }
+.rs-view { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.rs-view__label { color: #6B7280; margin-right: 4px; }
+.rs-view__btn { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #E6E6E6; background: #fff; color: #6B7280; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
+.rs-view__btn:hover { color: #111827; }
+.rs-view__btn.is-active { border-color: #5B21B6; background: #5B21B6; color: #fff; }
+
+@media (max-width: 768px) {
+  .rs-choose { min-width: 160px; }
+  .rs-filters { flex-direction: column; }
+  .rs-offers { min-width: 0; }
+  .rs-footer { padding-left: 16px; padding-right: 16px; }
 }
 
  

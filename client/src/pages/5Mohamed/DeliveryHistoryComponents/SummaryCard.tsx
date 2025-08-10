@@ -1,9 +1,5 @@
 import React from 'react';
 
-// ============================================================================
-// SUMMARY CARD COMPONENT
-// ============================================================================
-
 interface DeliverySummaryCard {
   icon: string;
   label: string;
@@ -12,15 +8,17 @@ interface DeliverySummaryCard {
 }
 
 const SummaryCard: React.FC<DeliverySummaryCard> = ({ icon, label, value, color }) => {
-  const getIconClass = (color: string) => {
-    switch (color) {
-      case '#22c55e': return 'MA__icon-green';
-      case '#6366f1': return 'MA__icon-purple';
-      case '#f43f5e': return 'MA__icon-red';
-      case '#fbbf24': return 'MA__icon-orange';
-      default: return '';
-    }
+  const getIconClass = (color: string): string => {
+    const colorMap: Record<string, string> = {
+      '#22c55e': 'MA__icon-green',
+      '#6366f1': 'MA__icon-purple', 
+      '#f43f5e': 'MA__icon-red',
+      '#fbbf24': 'MA__icon-orange'
+    };
+    return colorMap[color] || '';
   };
+
+  console.log('SummaryCard: Rendering card:', { label, value, color });
 
   return (
     <div className="MA__summary-card">

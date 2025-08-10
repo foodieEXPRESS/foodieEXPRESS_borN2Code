@@ -60,6 +60,8 @@ app.get("/:restId", async (req, res) => {
 // app.use("/api/restaurants", restaurant);
 
 app.use("/api/details",RestDetailsRoutes);
+const landingpage = require("./routes/landingpage")
+app.use("/api/landingpage",landingpage)
 app.use("/api/restaurants", RestaurantListRoutes);
 
 
