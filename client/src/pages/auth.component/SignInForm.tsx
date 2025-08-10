@@ -37,7 +37,6 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       .unwrap()
       .then(() => {
         // optional rememberMe handling could persist token differently if needed
-        navigate('/restaurant-profile');
         navigate(`/landing-page`);
       })
       .catch(() => {

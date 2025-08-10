@@ -50,6 +50,7 @@ console.log('userPic:', userPic);
   }
 };
 
+
 const updateUserProfile = async (req, res) => {
   const userId = req.user.userId;
   const { fullName, email, phoneNumber, address } = req.body;
@@ -61,7 +62,7 @@ const updateUserProfile = async (req, res) => {
         fullName,
         email,
         phoneNumber,
-        address,
+        address
       },
     });
 
