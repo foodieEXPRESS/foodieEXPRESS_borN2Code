@@ -10,7 +10,7 @@ export const fetchRestaurantById = createAsyncThunk(
     try {
       const token = localStorage.getItem('token');
       const res = await axios.get(`http://localhost:8080/api/details/${restId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
       });
       if (!res) throw new Error('Failed to fetch restaurant');
       return res.data;

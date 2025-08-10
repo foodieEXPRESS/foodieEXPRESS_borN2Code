@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
 import{ fetchUserPictureById,  fetchUserById ,updateUserLocation } from '../../../store/restaurantListSlice';
 import type { StatisticCardProps } from '../../../types/mc_Types';
-import type { CustomerProfileWithFetchProps } from '../../../types/mc_Types';
 const StatisticCard: React.FC<StatisticCardProps & { className?: string }> = ({
   value,
   label,
@@ -40,8 +39,7 @@ const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value })
 const CustomerProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, userPictureUrl, loading, error } = useSelector((state: RootState) => state.restaurantList);
-    console.log("user:", user);
-
+  console.log("user:", user);
   useEffect(() => {
     dispatch(fetchUserById())
     dispatch(fetchUserPictureById())

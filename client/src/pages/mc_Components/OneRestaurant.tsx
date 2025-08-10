@@ -9,9 +9,7 @@ const OneRestaurant: React.FC<Restaurant> = ({
   cuisineType,
   description,
   rating,
-  eta,
   priceLevel,
-  openingHours,
   deliveryTime,
   freeDelivery = true,
 }) => {
