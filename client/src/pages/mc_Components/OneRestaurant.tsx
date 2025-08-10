@@ -11,6 +11,8 @@ const OneRestaurant: React.FC<Restaurant> = ({
   rating,
   eta,
   priceLevel,
+  openingHours,
+  deliveryTime,
   freeDelivery = true,
 }) => {
   const navigate = useNavigate();
@@ -51,7 +53,7 @@ const OneRestaurant: React.FC<Restaurant> = ({
           </span>
         )}
         <span className="absolute top-2 right-2 text-xs bg-gray-100 text-black px-2 py-1 rounded-full">
-          {eta}
+          {deliveryTime || "25-35 mins"}
         </span>
       </div>
 
@@ -100,7 +102,7 @@ const OneRestaurant: React.FC<Restaurant> = ({
                 <line x1="12" y1="6" x2="12" y2="12" strokeLinecap="round" strokeLinejoin="round" />
                 <line x1="12" y1="12" x2="16" y2="14" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              {eta}
+              {deliveryTime || "25-35 mins"}
             </span>
             <span>{priceLevel}</span>
           </div>

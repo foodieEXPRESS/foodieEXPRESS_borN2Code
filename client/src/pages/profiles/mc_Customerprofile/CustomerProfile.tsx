@@ -3,43 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
 import{ fetchUserPictureById,  fetchUserById } from '../../../store/restaurantListSlice';
 import type { StatisticCardProps } from '../../../types/mc_Types';
-import type { CustomerProfileWithFetchProps } from '../../../types/mc_Types';
-const StatisticCard: React.FC<StatisticCardProps & { className?: string }> = ({
-  value,
-  label,
-  date,
-  dateLabel,
-  className = '',
-}) => (
-  <div
-    className={`bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center ${className}`}
-  >
-    <p
-      className={`font-bold text-3xl leading-tight mb-1 ${
-        label === 'Total Orders' ? 'text-indigo-700' : 'text-green-600'
-      }`}
-    >
-      {value}
-    </p>
-    <p className="text-gray-600 text-lg font-semibold mb-2">{label}</p>
-    <p className="text-gray-400 text-sm">
-      {dateLabel}: {date}
-    </p>
-  </div>
-);
 
-const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value }) => (
-  <div>
-    <p className="text-gray-500 text-sm mb-1">{label}</p>
-    <p className="font-semibold text-lg">{value}</p>
-  </div>
-);
+const CustomerProfile: React.FC= () => {
+const dispatch = useDispatch<AppDispatch>();
+const userId = useSelector((state: RootState) => state.auth.user?.id);
+const token = useSelector((state: RootState) => state.auth.token);
+const { user, userPictureUrl, loading, error } = useSelector((state: RootState) => state.restaurantList);
+  
 
-
-
-const CustomerProfile: React.FC<CustomerProfileWithFetchProps> = ({ userId }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { user, userPictureUrl, loading, error } = useSelector((state: RootState) => state.restaurantList);
   console.log("userPictureUrl data:", userPictureUrl);
 useEffect(() => {
   if (userId) {
@@ -163,5 +134,41 @@ useEffect(() => {
     </div>
   );
 };
+
+
+const StatisticCard: React.FC<StatisticCardProps & { className?: string }> = ({
+  value,
+  label,
+  date,
+  dateLabel,
+  className = '',
+}) => (
+  <div
+    className={`bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center ${className}`}
+  >
+    <p
+      className={`font-bold text-3xl leading-tight mb-1 ${
+        label === 'Total Orders' ? 'text-indigo-700' : 'text-green-600'
+      }`}
+    >
+      {value}
+    </p>
+    <p className="text-gray-600 text-lg font-semibold mb-2">{label}</p>
+    <p className="text-gray-400 text-sm">
+      {dateLabel}: {date}
+    </p>
+  </div>
+);
+
+const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+  <div>
+    <p className="text-gray-500 text-sm mb-1">{label}</p>
+    <p className="font-semibold text-lg">{value}</p>
+  </div>
+);
+
+
+
+
 
 export default CustomerProfile;

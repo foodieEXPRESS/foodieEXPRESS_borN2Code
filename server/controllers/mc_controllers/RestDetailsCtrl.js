@@ -2,10 +2,14 @@ const prisma = require("../../database");
 // const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501"; // mc : not needed anymore
 
 const getRestbyId = async (req, res) => {
+    const userId = req.user.userId
+    const restId = req.params.restId
   try {
+    
     const restaurant = await prisma.restaurant.findUnique({
       where: {
-        id: req.params.restId
+        id: restId,
+        userId: userId
       },
       include: {
         menus: {
@@ -29,9 +33,14 @@ const getRestbyId = async (req, res) => {
 }
 
 const getImageById = async (req, res) => {
+  const userId = req.user.userId
+  const restId = req.params.restId
   try {
     const restaurant = await prisma.restaurant.findUnique({
-      where: { id: req.params.restId },
+      where: { 
+        id: restId,
+        userId: userId
+      },
       include: {
         media: {
           where: { type: 'image' },

@@ -6,6 +6,8 @@ import type { MenuItem } from '../../types/mc_Types'
 import { AboutRestaurant } from '../../components/RestaurantList/AboutRestaurant';
 import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
 import { useNavigate, useParams } from "react-router-dom";
+import Navbar from '../5Mohamed/LandingPage/Navbar'
+
 
 const RestaurantDetails: React.FC = () => {
   const { restId } = useParams<{ restId: string }>(); 
@@ -40,7 +42,8 @@ const RestaurantDetails: React.FC = () => {
 
   return (
     <main className="font-sans mx-auto px-4 pb-10">
-    
+      <Navbar />
+      {/* Header section with restaurant image and name */}
       {/* Restaurant image and name */}
 
       <div className="w-full h-64 rounded-lg overflow-hidden mb-6 shadow-lg">
@@ -61,7 +64,7 @@ const RestaurantDetails: React.FC = () => {
           deliveryTime={data.deliveryTime}
           deliveryFee={data.deliveryFee}
           address={data.address}
-          phone={data.phone}
+          contactPhone={data.contactPhone}
         />
       </section>
 

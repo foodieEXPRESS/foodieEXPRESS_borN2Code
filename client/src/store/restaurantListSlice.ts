@@ -17,9 +17,15 @@ const initialState: RestaurantListState = {
 
 export const fetchUserById = createAsyncThunk<User, string>(
   'restaurantList/fetchUserById',
-  async (userId) => {
-    const res = await axios.get(`http://localhost:8080/api/restaurants/${userId}`);
-    return res.data; 
+  async (userId, { rejectWithValue }) => {
+     try {
+      const token = localStorage.getItem('token');
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+      const res = await axios.get(`http://localhost:8080/api/restaurants/${userId}`, config);
+      return res.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
   }
 );
 // mc : Fetch the picture of the user by his ID
@@ -48,7 +54,7 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
 
   const getDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
 
-    const R = 6371;
+    const R = 6371000 ; // mc : Radius of the Earth in meters
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLon = ((lon2 - lon1) * Math.PI) / 180;
     const a =
@@ -101,22 +107,22 @@ const restaurantListSlice = createSlice({
       // mc :either failed to fetch  👎
       .addCase(fetchUserById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to fetch user';
+        state.error = action.payload as string || 'Failed to fetch user'
       })
 
      // <<<<<< fetching the Restaurants >>>>>>
 
-      // either still loading ... ⏳
+      //mc : either still loading ... ⏳
       .addCase(fetchRestaurantsNearUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      // either fetched successfully ... 👌
+      //mc : either fetched successfully ... 👌
       .addCase(fetchRestaurantsNearUser.fulfilled, (state, action: PayloadAction<Restaurant[]>) => {
         state.loading = false;
         state.restaurants = action.payload;
       })
-      //either failed to fetch  👎
+      //mc : either failed to fetch  👎
       .addCase(fetchRestaurantsNearUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch restaurants';

@@ -1,9 +1,11 @@
 const prisma = require("../../database");
-const userId = "93b90399-f562-4b4c-9d33-d678f93a45e1";
+// const userId = "93b90399-f562-4b4c-9d33-d678f93a45e1"; // mc : temporary until using Aziz's Auth token
 
 
-const getUserById = async (req,res)=> { // mc : temporary until using Aziz's Auth token
+const getUserById = async (req,res)=> { 
   try {
+
+    const userId = req.user.userId;
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
@@ -19,9 +21,10 @@ const getUserById = async (req,res)=> { // mc : temporary until using Aziz's Aut
   }
 }
 
-const getUserPictureById = async(req,res)=> { // mc : temporary until using Aziz's Auth token
+const getUserPictureById = async(req,res)=> { 
 
   try {
+    const userId = req.user.userId;
      const userPic = await prisma.user.findUnique({
       where: { id: userId },
       include: {
@@ -44,7 +47,7 @@ console.log('userPic:', userPic);
 };
 
 const updateUserProfile = async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.user.userId;
   const { fullName, email, phoneNumber, address } = req.body;
 
   try {
