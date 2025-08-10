@@ -1,43 +1,27 @@
 import React, { useState } from 'react';
-import SearchBar from './SearchBar';
-import FilterCategories from './FilterCategories';
-import SpecialOffers from './SpecialOffers';
-import ResultsFooter from './ResultsFooter';
+import NavBar from '../LandingPage/Navbar';
+import Hero from './Hero';
+import SearchControls from './SearchControls';
+import Filters from './Filters';
+import FooterControls from './FooterControls';
 
 const RestaurantSearch: React.FC = () => {
-  const [selectedView, setSelectedView] = useState<'grid' | 'list'>('grid');
+  const [view, setView] = useState<'grid' | 'list'>('grid');
+
+  console.log('RestaurantSearch: Component loaded, current view:', view);
 
   return (
-    <div className="MA__restaurant-search">
-      {/* Custom Header for Restaurant Search */}
-      <div className="MA__search-header">
-        <div className="MA__filter-view-text">Filter view</div>
-        <div className="MA__search-logo">
-          <div className="MA__search-logo-icon">
-            <span>+</span>
-          </div>
-          <span className="MA__search-logo-text">FoodieExpress</span>
-        </div>
-        <div className="MA__search-auth">
-          <a href="#signin" className="MA__search-signin">Sign In</a>
-          <button className="MA__search-order-btn">Order Now</button>
-        </div>
-      </div>
-
-      <div className="MA__search-main">
-        <div className="MA__search-title">Find Your Perfect Meal</div>
-        <div className="MA__search-subtitle">
-          Filter through thousands of restaurants to find exactly what you're craving
-        </div>
-
-        <div className="MA__search-card">
-          <SearchBar />
-          <FilterCategories />
-          <SpecialOffers />
-        </div>
-
-        <ResultsFooter selectedView={selectedView} onChange={setSelectedView} />
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <NavBar />
+      <main className="max-w-6xl mx-auto px-4 py-4">
+        <Hero />
+        <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
+          <SearchControls />
+          <div className="border-t border-gray-200 my-3"></div>
+          <Filters />
+        </section>
+        <FooterControls resultsCount={8} view={view} onChange={setView} />
+      </main>
     </div>
   );
 };
