@@ -39,7 +39,7 @@ const OneRestaurant: React.FC<Restaurant> = ({
   const randomColor = bgColors[Math.floor(Math.random() * bgColors.length)];
 
   return (
-    <div className="max-w-[373px] w-full rounded-xl shadow-lg bg-white overflow-hidden flex flex-col h-[403px]">
+    <div className="max-w-[373px] w-full rounded-xl shadow-lg bg-white overflow-hidden flex flex-col h-[403px]"  onClick={handleOrderNow}>
       {/* Top Image/Banner */}
       <div
         className={`relative ${randomColor} h-60 flex items-center justify-center text-white text-7xl font-semibold`}

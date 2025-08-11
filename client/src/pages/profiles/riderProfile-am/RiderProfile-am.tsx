@@ -25,7 +25,7 @@ const RiderProfile: React.FC = () => {
           subtitle="Manage your profile information and delivery preferences"
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-row-2 lg:grid-cols-4 gap-8">
           <Sidebar activeItem="profile" />
           <ProfileCard />
         </div>

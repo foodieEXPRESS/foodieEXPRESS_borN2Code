@@ -25,14 +25,6 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ name, email, imageUrl, isActive
             }}
           />
         ) : null}
-        <div
-          className={`w-20 h-20 rounded-lg flex items-center justify-center text-white text-2xl font-bold font-sans ${
-            imageUrl ? 'hidden' : ''
-          }`}
-          style={{ backgroundColor: '#4318D1' }}
-        >
-          {getInitials(name)}
-        </div>
       </div>
       
       <div>
