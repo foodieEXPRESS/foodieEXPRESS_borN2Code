@@ -27,7 +27,8 @@ html, body {
 }
 
 .MACH-container {
-  width: 100%;
+  width: 92%;
+
   margin: 0 auto;
   padding: 24px 24px 40px;
 }
@@ -82,10 +83,19 @@ html, body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
+  justify-content: center; /* center grid content */
 }
 @media (min-width: 900px) {
-  .MACH-grid { grid-template-columns: 2fr 1fr; }
+  /* Fixed column widths and centered grid like the mock */
+  .MACH-grid {
+    grid-template-columns: 680px 360px;
+    justify-content: center;
+    column-gap: 24px;
+  }
 }
+
+/* Sticky sidebar card to match mock */
+.MACH-grid aside > .MACH-card { position: sticky; top: 24px; }
 
 /* Card */
 .MACH-card {
@@ -100,6 +110,10 @@ html, body {
 }
 .MACH-card-title { font-weight: 600; margin: 0; }
 .MACH-card-subtle { color: var(--muted); font-size: 12px; }
+
+/* Links inside cards */
+.MACH-card a { color: var(--indigo); text-decoration: none; font-weight: 600; }
+.MACH-card a:hover { text-decoration: underline; }
 
 /* Order Status Timeline */
 .MACH-timeline {
@@ -194,6 +208,8 @@ html, body {
 }
 .btn-muted { background: #f3f4f6; color: #111827; }
 .btn-prim { background: var(--indigo); color: #fff; }
+.btn-prim:hover { filter: brightness(0.95); }
+.btn-muted:hover { filter: brightness(0.98); }
 
 /* Delivered callout */
 .callout {
@@ -207,7 +223,12 @@ html, body {
   display: grid; place-items: center; margin-right: 10px;
 }
 .rate-btn { margin-top: 12px; width: 100%; background: var(--emerald); color: #fff; border: 0; padding: 10px 12px; border-radius: 8px; }
+.rate-btn:hover { filter: brightness(0.95); }
 
 /* Utility */
 .divider { border-top: 1px solid var(--border); margin: 16px 0; }
 .mt-6 { margin-top: 24px; }
+.mb-6 { margin-bottom: 24px; }
+
+/* Utility color (used in component) */
+.text-emerald-600 { color: #059669; }

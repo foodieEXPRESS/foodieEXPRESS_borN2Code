@@ -11,6 +11,8 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 const register = async (req, res) => {
   try {
     const { fullName, email, password, role, phoneNumber, address, latitude, longitude } = req.body;
+    // Normalize email to avoid case/whitespace duplicates
+    const normalizedEmail = email?.trim().toLowerCase();
 
     // Validate required fields
     if (!fullName || !email || !password || !role) {
@@ -31,7 +33,7 @@ const register = async (req, res) => {
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email }
+      where: { email: normalizedEmail }
     });
 
     if (existingUser) {
@@ -49,7 +51,7 @@ const register = async (req, res) => {
     const user = await prisma.user.create({
       data: {
         fullName,
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
         role,
         phoneNumber,
@@ -91,6 +93,13 @@ const register = async (req, res) => {
 
   } catch (error) {
     console.error('Registration error:', error);
+    // Handle Prisma unique constraint error as a clean 409
+    if (error && error.code === 'P2002') {
+      return res.status(409).json({
+        success: false,
+        message: 'User with this email already exists'
+      });
+    }
     res.status(500).json({
       success: false,
       message: 'Internal server error',
@@ -103,6 +112,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const normalizedEmail = email?.trim().toLowerCase();
 
     // Validate required fields
     if (!email || !password) {
@@ -112,9 +122,9 @@ const login = async (req, res) => {
       });
     }
 
-    // Find user by email
+    // Find user by email (normalized)
     const user = await prisma.user.findUnique({
-      where: { email }
+      where: { email: normalizedEmail }
     });
 
     if (!user) {
