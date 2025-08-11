@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import custProfile from '../../profiles/mc_Customerprofile/CustomerProfile';
+import custProfile from "../profiles/mc_Customerprofile/CustomerProfile";
+import cart_Icon from "../../assets/Restuarant_Navbar/cart_Icon.png";
 const Navbar: React.FC = () => {
 const Navigate = useNavigate();
   return (
@@ -34,7 +35,10 @@ const Navigate = useNavigate();
               </svg>
             </div>
             <a href="#" className="MA__sign-in-link">Sign In</a>
-            <a href="#" className="MA__order-now-btn">Order Now</a>
+            <a href="#" className="MA__order-now-btn">
+                
+<img src={cart_Icon} alt="Description" />
+            </a>
             <button
               className="ml-4 p-2 rounded focus:outline-none focus:ring-2 focus:ring-primary-DEFAULT"
               aria-label="Open menu"

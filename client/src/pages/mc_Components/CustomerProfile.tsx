@@ -1,6 +1,6 @@
 import React from 'react';
-import type {StatisticCardProps} from '../../types/mc_Components'
-
+import type {StatisticCardProps} from '../../types/mc_Types'
+import Navbar from "./Restaurant_Navbar";
 const StatisticCard: React.FC<StatisticCardProps> = ({ value, label, date, dateLabel }) => (
   <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[200px] max-w-[300px] flex flex-col items-center text-center">
     <p
@@ -23,6 +23,9 @@ const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value })
 );
 
 const CustomerProfile = () => (
+  <div>
+    {/* Navbar on its own */}
+    <Navbar />
   <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8 overflow-x-hidden">
     {/* Both Headings OUTSIDE Layout */}
     <div className="w-full max-w-7xl mb-6">
@@ -120,6 +123,7 @@ const CustomerProfile = () => (
         </div>
       </section>
     </div>
+  </div>
   </div>
 );
 
