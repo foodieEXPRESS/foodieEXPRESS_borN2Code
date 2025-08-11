@@ -1,9 +1,9 @@
 /* Global Styles */
-.MACHR-container{
+/* .MACHR-container{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 .MACHR-body {
   font-family: 'Arial', sans-serif;
@@ -292,7 +292,7 @@
   margin: 0 auto 1.5rem;
 }
 
-.MACHRtab-container button {
+.MACHRtab-container_button {
   padding: 10px 18px;
   background: transparent;
   border: none;
@@ -407,7 +407,7 @@ button[type="submit"] {
   font-size: 0.95rem;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .MACHR-auth-container {
     padding: 10px;
@@ -512,16 +512,16 @@ button[type="submit"] {
 .MACHR-items-center { align-items: center; }
 .MACHR-justify-center { justify-content: center; }
 
-/* Table styles */
+
 table { border-collapse: collapse; width: 100%; }
 th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
 th { font-weight: 500; color: #6b7280; }
 
-/* Button styles */
-button { cursor: pointer; border: none; background: none; }
-button:hover { opacity: 0.8; }
 
-/* Responsive design */
+/* button { cursor: pointer; border: none; background: none; }
+button:hover { opacity: 0.8; } */
+
+
 @media (min-width: 768px) {
   .MACHR-md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .MACHR-md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -678,7 +678,7 @@ button:hover { opacity: 0.8; }
 .MACHR-social-button:hover {
   background-color: #f5f5f5;
 }
-/* SignInForm Component Styles */
+
 .auth-tab-container {
   display: flex;
   background: #f5f5f5;
