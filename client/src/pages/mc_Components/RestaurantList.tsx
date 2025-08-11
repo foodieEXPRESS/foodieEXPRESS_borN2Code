@@ -29,7 +29,6 @@ const RestaurantList: React.FC= () => {
         (pos) => {
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;
-          console.log("User location:", lat, lng);
 
           // Optionally update user location in backend and redux state
           dispatch(updateUserLocation({ latitude: lat, longitude: lng }));

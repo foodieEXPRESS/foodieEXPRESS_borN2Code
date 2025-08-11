@@ -90,14 +90,39 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
     }
   }
 );
+
 export const updateUserProfile = createAsyncThunk<
-        User ,Partial<User>,{ rejectValue: string }>(
+  User,
+  Partial<User> & { picture?: File }, // mc : add profileImage as optional File
+  { rejectValue: string }
+>(
   'restaurantList/updateUserProfile',
   async (updatedData, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem('token');
-      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-      const res = await axios.put<User>('http://localhost:8080/api/restaurants/', updatedData, config);
+      const config = token ? { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' } } : {};
+      
+        const formData = new FormData();
+
+      // mc : Append each key except profileImage normally
+
+      (Object.keys(updatedData) as (keyof typeof updatedData)[]).forEach((key) => {
+        const value = updatedData[key]
+        if (value !== undefined && value !== null) {
+          if (key === 'picture' && value instanceof File) {
+            formData.append('picture', value)
+          } else {
+            // mc : Convert non-string to string to be safe
+
+            formData.append(key, String(value))
+          }
+        }
+      });
+      
+      
+      
+      const res = await axios.put<User>('http://localhost:8080/api/restaurants/', formData,
+ config);
       return res.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -116,7 +141,7 @@ const restaurantListSlice = createSlice({
     
       // mc : <<<<<< fetching the user >>>>>>
 
-      // mc : either still loading ... ⏳
+      // mc : either still loading ...         ⏳
       .addCase(fetchUserById.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -126,25 +151,42 @@ const restaurantListSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
       })
-      // mc :either failed to fetch  👎
+      // mc :either failed to fetch            👎
       .addCase(fetchUserById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string || 'Failed to fetch user'
       })
+      
+
+    // mc : <<<<<< updating the user profile >>>>>>
+
+  .addCase(updateUserProfile.pending, (state) => {
+    state.loading = true;
+    state.error = null;
+  })
+  .addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<User>) => {
+    state.loading = false;
+    state.user = action.payload; // mc : in case of success update the state with new user data
+  })
+  .addCase(updateUserProfile.rejected, (state, action) => {
+    state.loading = false;
+    
+    state.error = (action.payload as string) || action.error.message || 'Failed to update profile';
+  })
 
      // <<<<<< fetching the Restaurants >>>>>>
 
-      //mc : either still loading ... ⏳
+      //mc : either still loading ...         ⏳
       .addCase(fetchRestaurantsNearUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      //mc : either fetched successfully ... 👌
+      //mc : either fetched successfully ...  👌
       .addCase(fetchRestaurantsNearUser.fulfilled, (state, action: PayloadAction<Restaurant[]>) => {
         state.loading = false;
         state.restaurants = action.payload;
       })
-      //mc : either failed to fetch  👎
+      //mc : either failed to fetch           👎
       .addCase(fetchRestaurantsNearUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch restaurants';
