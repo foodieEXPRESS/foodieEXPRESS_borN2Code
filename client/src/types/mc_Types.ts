@@ -77,8 +77,17 @@ export interface User {
   role: 'CUSTOMER' | 'RESTAURANT' | 'DRIVER';
   phoneNumber: string;
   address: string;
+  picture:  File;
   latitude: number;
   longitude: number;
   createdAt: string;
   updatedAt: string;
 }
+export interface UserState {
+  user: User | null;
+  loading: boolean;
+  error: string | null;
+  successMessage: string | null;
+}
+
+

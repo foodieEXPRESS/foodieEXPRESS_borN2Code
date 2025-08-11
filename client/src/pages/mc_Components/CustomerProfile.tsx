@@ -1,5 +1,5 @@
 import React from 'react';
-import type {StatisticCardProps} from '../../types/mc_Components'
+import type {StatisticCardProps} from '../../types/mc_Types';
 
 const StatisticCard: React.FC<StatisticCardProps> = ({ value, label, date, dateLabel }) => (
   <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[200px] max-w-[300px] flex flex-col items-center text-center">

@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
 import { updateUserProfile, fetchUserById } from '../../../store/restaurantListSlice';
+import type { User } from '../../../types/mc_Types';
 
 const UpdateProfile: React.FC<{ onCancel: () => void }> = ({ onCancel }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, loading, error } = useSelector((state: RootState) => state.restaurantList);
+  const { user, loading, /* error */ } = useSelector((state: RootState) => state.restaurantList);
+
+
+  const [picture, setPicture] = useState<File | null>(null);
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -42,14 +46,29 @@ const UpdateProfile: React.FC<{ onCancel: () => void }> = ({ onCancel }) => {
     }
 
     try {
-      await dispatch(updateUserProfile({ fullName, email, phoneNumber, address })).unwrap();
+    const updatedData: Partial<User> & { picture?: File } = {
+    fullName,
+    email,
+    phoneNumber,
+    address,
+    ...(picture !== null ? { picture } : {}),
+  };
+      await dispatch(updateUserProfile(updatedData)).unwrap();
       setSuccessMessage('Profile updated successfully.');
       dispatch(fetchUserById()); 
 
-    } catch (err: any) {
-      setFormError(err.message || 'Failed to update profile.');
-    }
-  };
+    } catch (error: unknown) {
+  let msg: string;
+  if (typeof error === 'string') {
+    msg = error;
+  } else if (error instanceof Error) {
+    msg = error.message;
+  } else {
+    msg = 'Failed to update profile.';
+  }
+  setFormError(msg);
+}
+  }
 
   return (
     <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md">
@@ -117,7 +136,25 @@ const UpdateProfile: React.FC<{ onCancel: () => void }> = ({ onCancel }) => {
             placeholder="123 Main St, City, Country"
           />
         </div>
-
+        
+        <div>
+  <label htmlFor="picture" className="block text-sm font-medium text-gray-700 mb-1">
+    Profile Picture
+  </label>
+  <input
+    id="picture"
+    type="file"
+    accept="image/*"
+    onChange={(e) => {
+      const file = e.target.files?.[0] || null;
+      setPicture(file);
+    }}
+    className="w-full"
+  />
+  {picture && (
+    <p className="mt-1 text-sm text-gray-600">Selected file: {picture.name}</p>
+  )}
+</div>
         <div className="flex justify-end gap-4">
           <button
             type="button"
