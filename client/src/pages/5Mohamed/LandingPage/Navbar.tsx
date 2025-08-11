@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="MA__navbar">
+    <nav className="MA__navbar ">
       <div className="MA__navbar-container">
         <div className="MA__navbar-logo">
           <div className="MA__logo-icon">

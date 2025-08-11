@@ -12,7 +12,7 @@ const SearchControls: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+    <div className="flex flex-col md:flex-row  gap-3 items-stretch md:items-center">
       <div className="relative flex-1">
         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">
           🔍
