@@ -59,12 +59,15 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   };
 
   return (
-    <div className="MACH-container">
-      <h1 className="MACH-title">FoodieExpress</h1>
-      <h2 className="MACH-subtitle">Welcome Back!</h2>
-      <p className="MACH-description">Sign in to your account to continue ordering</p>
+    <div className="MACHR-container">
+      <div className="MACHRbrand">
+        <span className="MACHRbrand-badge" aria-hidden>+</span>
+        <span className="MACHRbrand-text">FoodieExpress</span>
+      </div>
+      <h2 className="MACHRsubtitle">Welcome Back!</h2>
+      <p className="MACHRdescription">Sign in to your account to continue ordering</p>
 
-      <div className="MACH-tab-container">
+      <div className="MACHRtab-container">
         <button className="active">
           Sign In
         </button>
@@ -76,9 +79,9 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="MACH-form">
-        {error && <div className="MACH-error">{error}</div>}
-        <div className="MACH-form-group">
+      <form onSubmit={handleSubmit} className="MACHRform">
+        {error && <div className="MACHRerror">{error}</div>}
+        <div className="MACHRform-group">
           <label>Email Address</label>
           <input
             type="email"
@@ -90,7 +93,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="MACH-form-group">
+        <div className="MACHRform-group">
           <label>Password</label>
           <input
             type="password"
@@ -102,8 +105,8 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="MACH-form-options">
-          <label className="MACH-checkbox-label">
+        <div className="MACHRform-options">
+          <label className="MACHRcheckbox-label">
             <input
               type="checkbox"
               name="rememberMe"
@@ -112,21 +115,21 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
             />
             Remember me
           </label>
-          <a href="#" className="MACH-forgot-link">Forgot password?</a>
+          <a href="#" className="MACHRforgot-link">Forgot password?</a>
         </div>
 
-        <button type="submit" className="MACH-btn primary" disabled={isLoading}>
+        <button type="submit" className="MACHRbtn MACHR-btn primary" disabled={isLoading}>
           {isLoading ? 'Signing In...' : 'Sign In'}
         </button>
       </form>
 
-      <div className="MACH-social-section">
-        <div className="MACH-divider">or continue with</div>
-        <div className="MACH-social-buttons-container">
+      <div className="MACHR-social-section">
+        <div className="MACHR-divider">or continue with</div>
+        <div className="MACHR-social-buttons-container">
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="MACH-social-button"
+            className="MACHR-social-button"
           >
             <FcGoogle size={24} />
             Continue with Google
@@ -134,7 +137,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           <button
             type="button"
             onClick={handleFacebookSignIn}
-            className="MACH-social-button"
+            className="MACHR-social-button"
           >
             <FaFacebookF size={22} color="#222"  />
             Continue with Facebook
@@ -142,8 +145,8 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         </div>
       </div>
 
-      <p className="MACH-switch-text">
-        Don't have an account? <button onClick={onSwitch} className="MACH-switch-link">Sign up here</button>
+      <p className="MACHR-switch-text">
+        Don't have an account? <button onClick={onSwitch} className="MACHR-switch-link">Sign up here</button>
       </p>
     </div>
   );
