@@ -26,14 +26,13 @@
  * - .MA__restaurant-* (restaurant cards)
  * - .MA__delivery-* (delivery history)
  */
-/* ===== APP.CSS STYLES (MERGED) ===== */
-/* App.css */
+
 .App {
   font-family: 'Arial', sans-serif;
   color: #333;
 }
 
-/* ===== MAIN APP STYLES ===== */
+
 .MA__App {
   font-family: 'Arial', sans-serif;
   color: #333;
@@ -44,7 +43,7 @@
   color: #333;
 }
 
-/* ===== NAVBAR STYLES ===== */
+
 .MA__navbar {
   position: fixed;
   top: 0;
@@ -67,7 +66,7 @@
   justify-content: space-between;
 }
 
-/* Logo Styles */
+
 .MA__navbar-logo {
   display: flex;
   align-items: center;
@@ -98,7 +97,7 @@
   color: #000000;
 }
 
-/* Navigation Links */
+
 .MA__navbar-nav {
   display: flex;
   align-items: center;
@@ -132,7 +131,7 @@
   width: 100%;
 }
 
-/* Auth Buttons */
+
 .MA__navbar-auth {
   display: flex;
   align-items: center;
@@ -155,7 +154,7 @@
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 25px;
+  border-radius: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -167,12 +166,11 @@
   box-shadow: 0 6px 20px rgba(67, 24, 209, 0.4);
 }
 
-/* Navbar Order Button */
 .MA__navbar-order-btn {
   background: #4318D1;
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
+
   border-radius: 25px;
   font-weight: 600;
   cursor: pointer;
@@ -187,7 +185,7 @@
 
 
 
-/* Mobile Menu Toggle */
+
 .MA__navbar-toggle {
   display: none;
   flex-direction: column;
@@ -215,7 +213,7 @@
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* ===== HERO SECTION STYLES ===== */
+
 .MA__hero {
   background: #4318D1;
   display: flex;
@@ -396,7 +394,7 @@
   background: #3B0F9E;
 }
 
-/* Order Now Button in Hero Section */
+
 .MA__order-noww-btn {
   background: #10B981;
   color: white;
@@ -420,7 +418,7 @@
 
 
 
-/* ===== FEATURED RESTAURANTS STYLES ===== */
+
 .MA__featured-restaurants {
   padding: 4rem 2rem;
   background: white;
@@ -551,8 +549,7 @@
   background: #3B0F9E;
 }
 
-/* ===== FEATURES GRID STYLES ===== */
-/* Testimonials Section */
+
 .MA__testimonials-section {
   padding: 4rem 2rem;
   background: white;
@@ -674,7 +671,6 @@
   background: #4318D1;
 }
 
-/* Ready to Order Section */
 .MA__ready-to-order {
   background: #4318D1;
   padding: 4rem 2rem;
@@ -734,7 +730,7 @@
   background: #3B0F9E;
 }
 
-/* ===== FOOTER STYLES ===== */
+
 .MA__footer {
   background: #1F2937;
   color: white;
@@ -855,7 +851,7 @@
   margin: 0;
 }
 
-/* ===== RESTAURANT SEARCH COMPONENT STYLES ===== */
+
 .MA__restaurant-search {
   background: #F8F8F8;
   min-height: 100vh;
@@ -863,7 +859,7 @@
   position: relative;
 }
 
-/* Restaurant Search Header */
+
 .MA__search-header {
   background: #fff;
   height: 64px;
@@ -937,7 +933,7 @@
   background: #5b21b6;
 }
 
-/* Filter View Header Text */
+
 .MA__filter-view-text {
   position: absolute;
   top: 20px;
@@ -948,19 +944,7 @@
   z-index: 1001;
 }
 
-/* =============================
-   Restaurant Search styles
-   File: client/src/styles.css
-   Used by: client/src/component/RestaurantSearch.tsx
-   Sections covered here:
-   - .MA__search-main (container for the search view)
-   - .MA__search-title / .MA__search-subtitle (headings)
-   - .MA__search-card (white card that holds controls)
-   - .MA__search-bar (input + icons + dropdown)
-   - .MA__filter-categories / .MA__filter-category (quick filters row)
-   - .MA__special-offers-* (checkbox panel on the right)
-   - .MA__search-footer / .MA__view-* (footer with count and view toggles)
-   ============================= */
+
 .MA__search-main {
   max-width: 1216px;
   margin: 0 auto;
@@ -992,7 +976,7 @@
   max-width: 600px;
 }
 
-/* Filter/Search Container */
+
 .MA__filter-container {
   background: #fff;
   border-radius: 16px;
@@ -1002,7 +986,7 @@
   border: 1px solid #e5e7eb;
 }
 
-/* Top Row */
+
 .MA__search-row {
   display: flex;
   align-items: center;
@@ -1010,7 +994,7 @@
   margin-bottom: 24px;
 }
 
-/* Search and Filter Card */
+
 .MA__search-card {
   background: #fff;
   width: 100%;
@@ -1028,7 +1012,6 @@
   margin: 0 auto;
 }
 
-/* Restaurant Search Bar */
 .MA__search-bar {
   background: #ffffff;
   border-radius: 8px;
@@ -1085,7 +1068,7 @@
   font-size: 16px;
 }
 
-/* Filter Categories Row */
+
 .MA__filter-categories {
   display: flex;
   justify-content: space-between;
@@ -1135,7 +1118,7 @@
   white-space: nowrap;
 }
 
-/* Restaurant Search Filter Section */
+
 .MA__filter-section {
   display: flex;
   align-items: center;
@@ -1219,7 +1202,7 @@
   justify-content: center;
 }
 
-/* Special Offers Section */
+
 .MA__special-offers-section {
   position: absolute;
   top: 32px;
@@ -1248,7 +1231,7 @@
   color: #6b7280;
 }
 
-/* Special Offers Dropdown */
+
 .MA__special-offers-dropdown {
   position: relative;
   display: flex;
@@ -1287,7 +1270,7 @@
   justify-content: center;
 }
 
-/* Restaurant Search Special Offers */
+
 .MA__special-offers {
   background: transparent;
   border-radius: 0;
@@ -1337,7 +1320,7 @@
   line-height: 1.2;
 }
 
-/* Restaurant Search Results Area */
+
 .MA__results-area {
   background: #fff;
   border-radius: 12px;
@@ -1349,7 +1332,6 @@
   margin-top: 24px;
 }
 
-/* Restaurant Search Grid View */
 .MA__restaurants-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1515,7 +1497,7 @@
   background: #5b21b6;
 }
 
-/* Restaurant Search List View */
+
 .MA__restaurants-list {
   display: flex;
   flex-direction: column;
@@ -1593,7 +1575,7 @@
   background: #5b21b6;
 }
 
-/* Restaurant Search No Results */
+
 .MA__no-results {
   text-align: center;
   padding: 60px 20px;
@@ -1617,7 +1599,7 @@
   margin: 0;
 }
 
-/* Restaurant Search Footer */
+
 .MA__search-footer {
   display: flex;
   align-items: center;
@@ -1689,9 +1671,9 @@
   font-weight: bold;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+
 @media (max-width: 768px) {
-  /* Navbar Responsive */
+
   .MA__navbar-nav {
     position: absolute;
     top: 100%;
@@ -1726,7 +1708,7 @@
     padding: 0 1rem;
   }
 
-  /* Hero Responsive */
+
   .MA__hero-heading h1,
   .MA__hero-heading h2 {
     font-size: 2.5rem;
@@ -1750,7 +1732,6 @@
     width: 200px;
   }
 
-  /* Featured Restaurants Responsive */
   .MA__restaurant-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
@@ -1760,7 +1741,7 @@
     font-size: 2rem;
   }
 
-  /* Features Grid Responsive */
+
   .MA__testimonials-section h2,
   .MA__ready-to-order h2 {
     font-size: 2rem;
@@ -1776,13 +1757,13 @@
     width: 200px;
   }
 
-  /* Footer Responsive */
+
   .MA__footer-content {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
-  /* Restaurant Search Responsive */
+
   .MA__search-main {
     padding: 24px 16px;
   }
@@ -1827,7 +1808,7 @@
 }
 
 @media (max-width: 480px) {
-  /* Navbar Responsive */
+
   .MA__logo-text {
     font-size: 1.2rem;
   }
@@ -1841,12 +1822,10 @@
     font-size: 1.2rem;
   }
 
-  /* Featured Restaurants Responsive */
   .MA__restaurant-grid {
     grid-template-columns: 1fr;
   }
 
-  /* Footer Responsive */
   .MA__footer-content {
     grid-template-columns: 1fr;
     text-align: center;
@@ -1857,7 +1836,6 @@
   }
 }
 
-/* ===== DELIVERY HISTORY CSS STYLES (MERGED FROM DeliveryHistory.css) ===== */
 body {
   background: #fafbfc;
   font-family: 'Inter', Arial, sans-serif;
@@ -1869,7 +1847,7 @@ body {
   padding: 32px 0 32px 0;
 }
 
-/* Header */
+
 .MA__header-bar {
   background: #fff;
   height: 56px;
@@ -1905,7 +1883,7 @@ body {
   font-weight: 500;
 }
 
-/* Main Title */
+
 .MA__page-title-section {
   padding: 32px 0 0 48px;
 }
@@ -1921,7 +1899,6 @@ body {
   font-weight: 400;
 }
 
-/* Summary Cards */
 .MA__summary-cards-row {
   display: flex;
   gap: 32px;
@@ -1965,7 +1942,6 @@ body {
   color: #222;
 }
 
-/* Filter Bar */
 .MA__filter-sort {
   background: #fff;
   border-radius: 16px;
@@ -2011,7 +1987,7 @@ body {
   background: #d4d4d4;
 }
 
-/* Delivery Table */
+
 .MA__delivery-table-container {
   background: #fff;
   border-radius: 16px;
@@ -2101,7 +2077,7 @@ body {
   border-bottom: none;
 }
 
-/* Toggle Button Styles */
+
 .MA__toggle-button {
   position: fixed;
   top: 20px;
@@ -2131,7 +2107,7 @@ body {
   box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
 }
 
-/* Restaurant Search Button Styles */
+
 .MA__restaurant-search-btn {
   position: fixed;
   top: 20px;
@@ -2161,12 +2137,11 @@ body {
   box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
 }
 
-/* === RestaurantSearch (rs-*) === */
+
 .rs-page { min-height: 100vh; background: #F7F7F8; color: #1A1A1A; }
 
 .rs-container { max-width: 1168px; margin: 0 auto; padding: 0 16px; }
 
-/* Nav */
 .rs-nav { width: 100%; background: #fff; border-bottom: 1px solid #E6E6E6; }
 .rs-nav__inner { height: 64px; display: flex; align-items: center; justify-content: space-between; }
 .rs-brand { display: flex; align-items: center; gap: 12px; }
@@ -2179,12 +2154,10 @@ body {
 .rs-btn--primary { background: #5B21B6; color: #fff; }
 .rs-btn--primary:hover { background: #4C1D95; }
 
-/* Hero */
 .rs-main { padding: 40px 16px; }
 .rs-hero__title { font-family: Inter, system-ui, Arial, sans-serif; font-weight: 800; font-size: 36px; line-height: 1.2; margin: 0 0 8px; }
 .rs-hero__subtitle { color: #6B7280; font-size: 16px; margin: 0 0 28px; }
 
-/* Card */
 .rs-card { width: 100%; background: #fff; border: 1px solid #EDEDED; border-radius: 22px; box-shadow: 0 8px 28px rgba(0,0,0,.08); }
 .rs-search-row { display: flex; align-items: center; gap: 16px; padding: 24px 24px 16px; }
 .rs-input-wrap { position: relative; flex: 1; }
@@ -2197,22 +2170,20 @@ body {
 
 .rs-divider { height: 1px; background: #ECECEC; margin: 0 24px; }
 
-/* Filters */
 .rs-filters { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 24px; }
 .rs-filters__left { display: flex; align-items: center; flex-wrap: wrap; gap: 24px 40px; }
 .rs-filter-item { display: flex; align-items: center; gap: 8px; color: #111827; font-size: 16px; font-weight: 600; }
 
-/* Offers */
+
 .rs-offers { min-width: 280px; }
 .rs-offers__title { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 12px; }
 .rs-checkbox { display: inline-flex; align-items: center; gap: 8px; color: #374151; font-size: 16px; margin: 8px 0; user-select: none; }
 .rs-checkbox input { width: 16px; height: 16px; accent-color: #5B21B6; }
 
-/* Stack Special Offers vertically */
+
 .rs-offers { display: flex; flex-direction: column; gap: 12px; }
 .rs-checkbox { display: flex; }
 
-/* Footer */
 .rs-footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 8px 0; }
 .rs-results { color: #1F2937; font-size: 15px; }
 .rs-results__num { font-weight: 700; }
