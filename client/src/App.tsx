@@ -44,7 +44,6 @@ function App() {
 
           <Route path="/list" element={<RestaurantList/>} />
           <Route path="/list/details/:restId" element={<RestaurantDetails />} />
-          {/* <Route path="/custProfile" element={<CustomerProfile userId={"userId"} />} /> */}
           <Route path="/custProfile" element={<CustomerProfile />} />
 
           <Route path="/" element={<AuthPage />} />
@@ -66,7 +65,6 @@ function App() {
           <Route path="/cart" element={<CartView />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/add-payment-card" element={<AddPaymentCard />} />
-          <Route path="/rider-profile" element={<RiderProfile />} />{/* TO DELETE LATER*/}
           <Route path="/last-review" element={<LastReview />} />
           <Route path="/rider-profile" element={<RiderProfile />} />
 

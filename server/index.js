@@ -11,7 +11,7 @@ const orderTrackingRoute= require('./routes/am_routes/order_details_tracking')
 
 const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
 const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
-const multerRoutes = require('./routes/mc_routes/multerRoute.js')  ;
+// const multerRoutes = require('./routes/mc_routes/multerRoute.js')  ;
 
 app.use(express.json());
 app.use(cors());
@@ -25,7 +25,7 @@ app.use("/api/order-tracking", orderTrackingRoute);
 
 app.use("/api/restaurants", RestaurantListRoutes);
 app.use("/api/details",RestDetailsRoutes);
-app.use("/api/upload", multerRoutes);
+// app.use("/api/upload", multerRoutes);
 
 
 const landingpage = require("./routes/landingpage")
