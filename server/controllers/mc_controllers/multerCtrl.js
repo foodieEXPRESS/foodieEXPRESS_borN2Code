@@ -26,4 +26,4 @@ const addPicture = async (req, res) => {
   }
 
 
-export default addPicture;
+module.exports =  addPicture;

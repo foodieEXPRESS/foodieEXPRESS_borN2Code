@@ -1,5 +1,5 @@
 const express = require( 'express');
-const { upload } = require ('../../multerConfig');
+const { upload } = require ('../../multerConfig.cjs');
 const { authenticateToken } = require('../../middleware/auth') 
 const addPicture = require( '../../controllers/mc_controllers/multerCtrl');
 

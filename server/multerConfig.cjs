@@ -1,5 +1,5 @@
-import multer from 'multer';
-import path from 'path';
+const multer = require('multer');
+const path = require('path');
  
 // 1️⃣ mc : Choose where to store files and how to name them   <<<<<<<<<<<<<<<<<<<<<<
 
@@ -30,9 +30,11 @@ const fileFilter = (req, file, cb) => {
 
 // 3️⃣ mc : Create upload instance <<<<<<<<<<<<<<<<<<<<<<
 
-export const upload = multer({
+const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 },
   
   fileFilter
 });
+
+module.exports = { upload };
