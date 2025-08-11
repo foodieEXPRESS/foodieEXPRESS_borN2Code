@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { getDeliveryHistory, getAllOrders, getDeliverySummary } = require('../../controllers/MO_conntrollers/DeliveryHistory');
 
-// Route لجلب سجل التوصيل لسائق معين
+// Route to get delivery history for a specific driver
 router.get('/driver/:driverId', getDeliveryHistory);
 
-// Route جديد لجلب جميع الطلبات (للتجربة)
+// New route to get all orders (for testing)
 router.get('/all', getAllOrders);
 
-// Route جديد لجلب ملخص التوصيل
+// New route to get delivery summary
 router.get('/summary', getDeliverySummary);
 
 module.exports = router;

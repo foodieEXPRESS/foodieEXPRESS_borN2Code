@@ -1,190 +1,174 @@
-// بيانات مزيفة للتوصيل - تستخدم حتى تجهز البيانات الحقيقية
-const fakeDeliveryData = {
-  // بيانات الملخص
-  summary: {
-    totalEarnings: {
-      icon: '✔️',
-      label: 'Total Earnings',
-      value: '$245.75',
-      color: '#22c55e',
-    },
-    completedOrders: {
-      icon: '⭐',
-      label: 'Completed Orders',
-      value: '12',
-      color: '#6366f1',
-    },
-    canceledOrders: {
-      icon: '⛔',
-      label: 'Canceled Orders',
-      value: '2',
-      color: '#f43f5e',
-    },
-    avgPerOrder: {
-      icon: '⏰',
-      label: 'Avg. Per Order',
-      value: '$20.48',
-      color: '#fbbf24',
-    },
-  },
+// ============================================================================
+// FAKE DELIVERY DATA
+// ============================================================================
+// This file contains mock data for delivery system testing
+// Used until real database data is prepared
+// ============================================================================
 
-  // بيانات الطلبات
-  orders: [
-    {
-      orderId: 'ORD-2024-001',
-      customer: 'Sarah Johnson',
-      items: 3,
-      restaurant: 'Bella Italia',
-      date: 'Jan 15, 2024',
-      time: '2:45 PM',
-      status: 'DELIVERED',
-      earnings: '18.50',
-      tip: '5.00'
-    },
-    {
-      orderId: 'ORD-2024-002',
-      customer: 'Mike Chen',
-      items: 2,
-      restaurant: 'Sushi Master',
-      date: 'Jan 15, 2024',
-      time: '1:30 PM',
-      status: 'DELIVERED',
-      earnings: '22.75',
-      tip: '7.25'
-    },
-    {
-      orderId: 'ORD-2024-003',
-      customer: 'Emily Davis',
-      items: 4,
-      restaurant: 'Burger Palace',
-      date: 'Jan 15, 2024',
-      time: '12:15 PM',
-      status: 'DELIVERED',
-      earnings: '25.00',
-      tip: '8.00'
-    },
-    {
-      orderId: 'ORD-2024-004',
-      customer: 'David Wilson',
-      items: 1,
-      restaurant: 'Pizza Express',
-      date: 'Jan 15, 2024',
-      time: '11:00 AM',
-      status: 'OUT_FOR_DELIVERY',
-      earnings: '15.50',
-      tip: '3.50'
-    },
-    {
-      orderId: 'ORD-2024-005',
-      customer: 'Lisa Brown',
-      items: 2,
-      restaurant: 'Taco Fiesta',
-      date: 'Jan 15, 2024',
-      time: '10:30 AM',
-      status: 'PREPARING',
-      earnings: '12.75',
-      tip: '2.25'
-    },
-    {
-      orderId: 'ORD-2024-006',
-      customer: 'John Smith',
-      items: 3,
-      restaurant: 'Chicken King',
-      date: 'Jan 14, 2024',
-      time: '9:45 PM',
-      status: 'DELIVERED',
-      earnings: '28.00',
-      tip: '10.00'
-    },
-    {
-      orderId: 'ORD-2024-007',
-      customer: 'Maria Garcia',
-      items: 1,
-      restaurant: 'Salad Bar',
-      date: 'Jan 14, 2024',
-      time: '8:20 PM',
-      status: 'DELIVERED',
-      earnings: '16.25',
-      tip: '4.75'
-    },
-    {
-      orderId: 'ORD-2024-008',
-      customer: 'Tom Anderson',
-      items: 2,
-      restaurant: 'Steak House',
-      date: 'Jan 14, 2024',
-      time: '7:15 PM',
-      status: 'DELIVERED',
-      earnings: '35.00',
-      tip: '12.00'
-    },
-    {
-      orderId: 'ORD-2024-009',
-      customer: 'Anna Lee',
-      items: 3,
-      restaurant: 'Noodle World',
-      date: 'Jan 14, 2024',
-      time: '6:30 PM',
-      status: 'CANCELLED',
-      earnings: '0.00',
-      tip: '0.00'
-    },
-    {
-      orderId: 'ORD-2024-010',
-      customer: 'Robert Taylor',
-      items: 2,
-      restaurant: 'Fish Market',
-      date: 'Jan 14, 2024',
-      time: '5:45 PM',
-      status: 'DELIVERED',
-      earnings: '31.50',
-      tip: '9.50'
-    },
-    {
-      orderId: 'ORD-2024-011',
-      customer: 'Jennifer White',
-      items: 1,
-      restaurant: 'Dessert Corner',
-      date: 'Jan 14, 2024',
-      time: '4:20 PM',
-      status: 'DELIVERED',
-      earnings: '8.75',
-      tip: '2.25'
-    },
-    {
-      orderId: 'ORD-2024-012',
-      customer: 'Michael Johnson',
-      items: 4,
-      restaurant: 'BBQ Grill',
-      date: 'Jan 14, 2024',
-      time: '3:10 PM',
-      status: 'DELIVERED',
-      earnings: '42.00',
-      tip: '15.00'
-    },
-    {
-      orderId: 'ORD-2024-013',
-      customer: 'Amanda Clark',
-      items: 2,
-      restaurant: 'Vegan Delight',
-      date: 'Jan 14, 2024',
-      time: '2:00 PM',
-      status: 'CANCELLED',
-      earnings: '0.00',
-      tip: '0.00'
-    },
-    {
-      orderId: 'ORD-2024-014',
-      customer: 'Kevin Martinez',
-      items: 3,
-      restaurant: 'Mexican Spice',
-      date: 'Jan 14, 2024',
-      time: '1:15 PM',
-      status: 'DELIVERED',
-      earnings: '26.25',
-      tip: '8.75'
-    }
-  ]
+// ============================================================================
+// SUMMARY DATA STRUCTURE
+// ============================================================================
+const createSummaryData = () => ({
+  totalEarnings: {
+    icon: '✔️',
+    label: 'Total Earnings',
+    value: '$245.75',
+    color: '#22c55e',
+  },
+  completedOrders: {
+    icon: '⭐',
+    label: 'Completed Orders',
+    value: '12',
+    color: '#6366f1',
+  },
+  canceledOrders: {
+    icon: '⛔',
+    label: 'Canceled Orders',
+    value: '2',
+    color: '#f43f5e',
+  },
+  avgPerOrder: {
+    icon: '⏰',
+    label: 'Avg. Per Order',
+    value: '$20.48',
+    color: '#fbbf24',
+  },
+});
+
+// ============================================================================
+// ORDER STATUS CONSTANTS
+// ============================================================================
+const ORDER_STATUS = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  PREPARING: 'PREPARING',
+  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
 };
 
+// ============================================================================
+// RESTAURANT DATA
+// ============================================================================
+const RESTAURANTS = [
+  'Bella Italia',
+  'Sushi Master',
+  'Burger Palace',
+  'Pizza Express',
+  'Taco Fiesta',
+  'Chicken King',
+  'Salad Bar',
+  'Steak House',
+  'Noodle World',
+  'Fish Market',
+  'Dessert Corner',
+  'BBQ Grill',
+  'Vegan Delight',
+  'Mexican Spice'
+];
+
+// ============================================================================
+// CUSTOMER DATA
+// ============================================================================
+const CUSTOMERS = [
+  'Sarah Johnson',
+  'Mike Chen',
+  'Emily Davis',
+  'David Wilson',
+  'Lisa Brown',
+  'John Smith',
+  'Maria Garcia',
+  'Tom Anderson',
+  'Anna Lee',
+  'Robert Taylor',
+  'Jennifer White',
+  'Michael Johnson',
+  'Amanda Clark',
+  'Kevin Martinez'
+];
+
+// ============================================================================
+// ORDER GENERATION FUNCTIONS
+// ============================================================================
+
+/**
+ * Generate a single order with realistic data
+ * @param {string} orderId - Unique order ID
+ * @param {string} customer - Customer name
+ * @param {string} restaurant - Restaurant name
+ * @param {string} date - Order date
+ * @param {string} time - Order time
+ * @param {string} status - Order status
+ * @param {number} items - Number of items
+ * @param {number} earnings - Driver earnings
+ * @param {number} tip - Customer tip
+ * @returns {Object} - Generated order
+ */
+const generateOrder = (orderId, customer, restaurant, date, time, status, items, earnings, tip) => ({
+  orderId,
+  customer,
+  items,
+  restaurant,
+  date,
+  time,
+  status,
+  earnings: earnings.toString(),
+  tip: tip.toString()
+});
+
+/**
+ * Generate sample orders data
+ * @returns {Array} - Array of generated orders
+ */
+const generateOrdersData = () => [
+  // January 15, 2024 Orders
+  generateOrder('ORD-2024-001', CUSTOMERS[0], RESTAURANTS[0], 'Jan 15, 2024', '2:45 PM', ORDER_STATUS.COMPLETED, 3, 18.50, 5.00),
+  generateOrder('ORD-2024-002', CUSTOMERS[1], RESTAURANTS[1], 'Jan 15, 2024', '1:30 PM', ORDER_STATUS.COMPLETED, 2, 22.75, 7.25),
+  generateOrder('ORD-2024-003', CUSTOMERS[2], RESTAURANTS[2], 'Jan 15, 2024', '12:15 PM', ORDER_STATUS.COMPLETED, 4, 25.00, 8.00),
+  generateOrder('ORD-2024-004', CUSTOMERS[3], RESTAURANTS[3], 'Jan 15, 2024', '11:00 AM', ORDER_STATUS.OUT_FOR_DELIVERY, 1, 15.50, 3.50),
+  generateOrder('ORD-2024-005', CUSTOMERS[4], RESTAURANTS[4], 'Jan 15, 2024', '10:30 AM', ORDER_STATUS.PREPARING, 2, 12.75, 2.25),
+  
+  // January 14, 2024 Orders
+  generateOrder('ORD-2024-006', CUSTOMERS[5], RESTAURANTS[5], 'Jan 14, 2024', '9:45 PM', ORDER_STATUS.COMPLETED, 3, 28.00, 10.00),
+  generateOrder('ORD-2024-007', CUSTOMERS[6], RESTAURANTS[6], 'Jan 14, 2024', '8:20 PM', ORDER_STATUS.COMPLETED, 1, 16.25, 4.75),
+  generateOrder('ORD-2024-008', CUSTOMERS[7], RESTAURANTS[7], 'Jan 14, 2024', '7:15 PM', ORDER_STATUS.COMPLETED, 2, 35.00, 12.00),
+  generateOrder('ORD-2024-009', CUSTOMERS[8], RESTAURANTS[8], 'Jan 14, 2024', '6:30 PM', ORDER_STATUS.CANCELLED, 3, 0.00, 0.00),
+  generateOrder('ORD-2024-010', CUSTOMERS[9], RESTAURANTS[9], 'Jan 14, 2024', '5:45 PM', ORDER_STATUS.COMPLETED, 2, 31.50, 9.50),
+  generateOrder('ORD-2024-011', CUSTOMERS[10], RESTAURANTS[10], 'Jan 14, 2024', '4:20 PM', ORDER_STATUS.COMPLETED, 1, 8.75, 2.25),
+  generateOrder('ORD-2024-012', CUSTOMERS[11], RESTAURANTS[11], 'Jan 14, 2024', '3:10 PM', ORDER_STATUS.COMPLETED, 4, 42.00, 15.00),
+  generateOrder('ORD-2024-013', CUSTOMERS[12], RESTAURANTS[12], 'Jan 14, 2024', '2:00 PM', ORDER_STATUS.CANCELLED, 2, 0.00, 0.00),
+  generateOrder('ORD-2024-014', CUSTOMERS[13], RESTAURANTS[13], 'Jan 14, 2024', '1:15 PM', ORDER_STATUS.COMPLETED, 3, 26.25, 8.75)
+];
+
+// ============================================================================
+// MAIN DATA OBJECT
+// ============================================================================
+const fakeDeliveryData = {
+  // Summary information
+  summary: createSummaryData(),
+  
+  // Orders collection
+  orders: generateOrdersData(),
+  
+  // Metadata
+  metadata: {
+    totalOrders: 14,
+    totalRestaurants: RESTAURANTS.length,
+    totalCustomers: CUSTOMERS.length,
+    dateRange: {
+      start: 'Jan 14, 2024',
+      end: 'Jan 15, 2024'
+    },
+    statusDistribution: {
+      COMPLETED: 12,
+      CANCELLED: 2,
+      OUT_FOR_DELIVERY: 1,
+      PREPARING: 1
+    }
+  }
+};
+
+// ============================================================================
+// EXPORTS
+// ============================================================================
 module.exports = fakeDeliveryData;

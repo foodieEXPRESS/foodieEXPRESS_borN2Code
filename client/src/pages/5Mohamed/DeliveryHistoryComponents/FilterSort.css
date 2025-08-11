@@ -1,7 +1,7 @@
 .MA__filter-sort {
   background: white;
   border-radius: 12px;
-  padding: 20px;
+  padding: 24px;
   margin: 20px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -9,38 +9,67 @@
 .MA__filter-title {
   font-size: 18px;
   font-weight: 600;
-  margin-bottom: 20px;
-  color: #374151;
+  margin-bottom: 24px;
+  color: #111827;
 }
 
 .MA__filter-controls {
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 40px;
   flex-wrap: wrap;
 }
 
 .MA__filter-label {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 8px;
+  font-size: 16px;
+  color: #222222a1;
   font-weight: 500;
-  color: #6b7280;
 }
 
 .MA__filter-select {
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background: white;
-  min-width: 150px;
-  transition: border-color 0.2s;
+  height: 56px;
+  min-width: 220px;
+  padding: 0 16px;
+  border: 1px solid #E6E6E6;
+  border-radius: 14px;
+  background: #E5E7EB;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.MA__filter-select:hover {
+  background: #DDE0E5;
 }
 
 .MA__filter-select:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #5B21B6;
+  box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.15);
+  background: white;
+}
+
+.MA__filter-select::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #111827;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .MA__sort-controls {
@@ -95,11 +124,19 @@
 @media (max-width: 768px) {
   .MA__filter-controls {
     flex-direction: column;
-    gap: 15px;
+    gap: 24px;
+    align-items: stretch;
+  }
+  
+  .MA__filter-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
   
   .MA__filter-select {
     min-width: 100%;
+    width: 100%;
   }
   
   .MA__sort-buttons {

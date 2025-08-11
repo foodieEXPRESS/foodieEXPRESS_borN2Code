@@ -27,7 +27,7 @@ const FilterSort: React.FC<FilterSortProps> = ({ onFilterChange }) => {
 
   return (
     <div className="MA__filter-sort">
-      <div className="MA__filter-title">Filter</div>
+      <div className="MA__filter-title">Filter & Sort</div>
       
       {/* Original Filters */}
       <div className="MA__filter-controls">
@@ -52,7 +52,7 @@ const FilterSort: React.FC<FilterSortProps> = ({ onFilterChange }) => {
             onChange={handleStatusChange}
           >
             <option value="all">All Status</option>
-            <option value="DELIVERED">Completed</option>
+            <option value="COMPLETED">Completed</option>
             <option value="CANCELLED">Canceled</option>
           </select>
         </label>
