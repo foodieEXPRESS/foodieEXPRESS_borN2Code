@@ -81,7 +81,7 @@ const RestaurantList: React.FC= () => {
     </div>
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Heading */}
-      <h1 className="text-2xl font-bold mb-1">Restaurants Near You</h1>
+      <h1 className="text-3xl font-bold mb-1">Restaurants Near You</h1>
       <p className="text-gray-500 mb-6">
         Discover amazing restaurants and order your favorite meals
       </p>
