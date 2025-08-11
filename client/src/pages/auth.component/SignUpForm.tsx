@@ -22,24 +22,25 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     password: '',
     confirmPassword: ''
   });
+  const [localError, setLocalError] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const roleOptions = [
     {
       value: 'delivery',
       label: 'Delivery Rider',
-      icon: <FaBiking size={22} color="#4318D1" className="MACH-role-option-icon" />,
+      icon: <FaBiking size={22} color="#4318D1" className="MACHR-role-option-icon" />,
       desc: 'Deliver orders and earn money',
     },
     {
       value: 'customer',
       label: 'Customer',
-      icon: <FaUserAlt size={22} color="#4318D1" className="MACH-role-option-icon" />,
+      icon: <FaUserAlt size={22} color="#4318D1" className="MACHR-role-option-icon" />,
       desc: 'Order food from restaurants',
     },
     {
       value: 'restaurant',
       label: 'Restaurant',
-      icon: <FaStore size={22} color="#4318D1" className="MACH-role-option-icon" />,
+      icon: <FaStore size={22} color="#4318D1" className="MACHR-role-option-icon" />,
       desc: 'Manage your restaurant and orders',
     },
   ];
@@ -50,15 +51,16 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     if (error) {
       dispatch(clearError());
     }
+    if (localError) {
+      setLocalError(null);
+    }
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (form.password !== form.confirmPassword) {
-      // local validation: do not dispatch, just surface message via store error for consistency
-      // But since store manages server errors, keep this inline UI message by reusing clearError pattern
-      // We'll short-circuit here and simply not dispatch
+      setLocalError('Passwords do not match');
       return;
     }
     // Map UI role to backend enum and field names expected by RegisterData
@@ -88,12 +90,15 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   };
 
   return (
-    <div className="MACH-container">
-      <h1 className="MACH-title">FoodieExpress</h1>
-      <h2 className="MACH-subtitle">Join FoodieExpress!</h2>
-      <p className="MACH-description">Create your account and start your journey</p>
+    <div className="MACHR-container">
+      <div className="MACHRbrand">
+        <span className="MACHRbrand-badge" aria-hidden>+</span>
+        <span className="MACHRbrand-text">FoodieExpress</span>
+      </div>
+      <h2 className="MACHRsubtitle">Join FoodieExpress!</h2>
+      <p className="MACHRdescription">Create your account and start your journey</p>
 
-      <div className="MACH-tab-container">
+      <div className="MACHRtab-container">
         <button
           onClick={onSwitch}
           className=""
@@ -105,24 +110,24 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         </button>
       </div>
 
-      <div className="MACH-role-section-custom">
-        <h3 className="MACH-section-title">Select Your Role</h3>
-        <div className="MACH-role-dropdown-container">
+      <div className="MACHR-role-section-custom">
+        <h3 className="MACHR-section-title">Select Your Role</h3>
+        <div className="MACHR-role-dropdown-container">
           <button
             type="button"
-            className={`MACH-role-dropdown-button ${dropdownOpen ? 'open' : ''}`}
+            className={`MACHR-role-dropdown-button ${dropdownOpen ? 'open' : ''}`}
             onClick={() => setDropdownOpen(open => !open)}
           >
-            <span className="MACH-role-option-icon">
+            <span className="MACHR-role-option-icon">
               {selectedRole?.icon}
-              <span className="MACH-role-option-label">{selectedRole?.label}</span>
+              <span className="MACHR-role-option-label">{selectedRole?.label}</span>
             </span>
-            <span className="MACH-role-dropdown-arrow">
+            <span className="MACHR-role-dropdown-arrow">
               {dropdownOpen ? '\u25B2' : '\u25BC'}
             </span>
           </button>
           {dropdownOpen && (
-            <div className="MACH-role-dropdown-content">
+            <div className="MACHR-role-dropdown-content">
               {roleOptions.map(opt => (
                 <div
                   key={opt.value}
@@ -130,50 +135,53 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
                     setRole(opt.value as Role);
                     setDropdownOpen(false);
                   }}
-                  className={`MACH-role-option ${role === opt.value ? 'selected' : ''}`}
+                  className={`MACHR-role-option ${role === opt.value ? 'selected' : ''}`}
                 >
                   {opt.icon}
                   <div>
-                    <div className="MACH-role-option-label">{opt.label}</div>
-                    <div className="MACH-role-option-desc">{opt.desc}</div>
+                    <div className="MACHR-role-option-label">{opt.label}</div>
+                    <div className="MACHR-role-option-desc">{opt.desc}</div>
                   </div>
                 </div>
               ))}
             </div>
           )}
-          <div className="MACH-role-description">
+          <div className="MACHR-role-description">
             {selectedRole?.desc}
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="MACH-form">
-        {error && <div className="MACH-error">{error}</div>}
-        <div className="MACH-form-group">
-          <label>Full Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your full name"
-            value={form.name}
-            onChange={handleChange}
-            required
-          />
+      <form onSubmit={handleSubmit} className="MACHRform">
+        {error && <div className="MACHRerror">{error}</div>}
+        {localError && <div className="MACHRerror">{localError}</div>}
+        <div className="MACHR-grid MACHR-grid-cols-2 MACHR-gap-4">
+          <div className="MACHRform-group">
+            <label>Full Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your full name"
+              value={form.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="MACHRform-group">
+            <label>Phone Number</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Enter your phone number"
+              value={form.phone}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className="MACH-form-group">
-          <label>Phone Number</label>
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Enter your phone number"
-            value={form.phone}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="MACH-form-group">
+        <div className="MACHRform-group">
           <label>Email Address</label>
           <input
             type="email"
@@ -185,42 +193,44 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="MACH-form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
+        <div className="MACHR-grid MACHR-grid-cols-2 MACHR-gap-4">
+          <div className="MACHRform-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="MACHRform-group">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className="MACH-form-group">
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm your password"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <button type="submit" className="MACH-btn primary" disabled={isLoading}>
+        <button type="submit" className="MACHRbtn MACHR-btn primary" disabled={isLoading}>
           {isLoading ? 'Creating Account...' : 'Create Account'}
         </button>
       </form>
 
-      <div className="MACH-social-section">
-        <div className="MACH-divider">or continue with</div>
-        <div className="MACH-social-buttons-container">
+      <div className="MACHR-social-section">
+        <div className="MACHR-divider">or continue with</div>
+        <div className="MACHR-social-buttons-container">
           <button
             type="button"
             onClick={handleGoogleSignUp}
-            className="MACH-social-button"
+            className="MACHR-social-button"
           >
             <FcGoogle size={24} />
             Continue with Google

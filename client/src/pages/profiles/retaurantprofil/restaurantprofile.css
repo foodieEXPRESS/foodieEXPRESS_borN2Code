@@ -1,0 +1,1160 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+
+.machraoui-p-4 { padding: 1rem; }
+.machraoui-bg-white { background-color: white; }
+.machraoui-rounded-lg { border-radius: 0.5rem; }
+.machraoui-shadow { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+.machraoui-text-2xl { font-size: 1.5rem; }
+.machraoui-font-bold { font-weight: 700; }
+.machraoui-mb-4 { margin-bottom: 1rem; }
+.machraoui-text-xl { font-size: 1.25rem; }
+.machraoui-font-semibold { font-weight: 600; }
+.machraoui-text-gray-600 { color: #4b5563; }
+.machraoui-text-green-500 { color: #10b981; }
+.machraoui-mb-6 { margin-bottom: 1.5rem; }
+.machraoui-border-t { border-top-width: 1px; }
+.machraoui-border-b { border-bottom-width: 1px; }
+.machraoui-border-gray-200 { border-color: #e5e7eb; }
+.machraoui-py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.machraoui-font-medium { font-weight: 500; }
+.machraoui-grid { display: grid; }
+.machraoui-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.machraoui-gap-4 { gap: 1rem; }
+.machraoui-mt-2 { margin-top: 0.5rem; }
+.machraoui-col-span-1 { grid-column: span 1 / span 1; }
+.machraoui-mt-4 { margin-top: 1rem; }
+.machraoui-flex { display: flex; }
+.machraoui-justify-between { justify-content: space-between; }
+.machraoui-mb-2 { margin-bottom: 0.5rem; }
+.machraoui-mt-6 { margin-top: 1.5rem; }
+.machraoui-w-full { width: 100%; }
+.machraoui-space-x-4 > * + * { margin-left: 1rem; }
+.machraoui-space-x-2 > * + * { margin-left: 0.5rem; }
+.machraoui-text-blue-500 { color: #3b82f6; }
+.machraoui-text-blue-600 { color: #2563eb; }
+.machraoui-text-red-500 { color: #ef4444; }
+.machraoui-text-lg { font-size: 1.125rem; }
+.machraoui-text-sm { font-size: 0.875rem; }
+.machraoui-text-gray-500 { color: #6b7280; }
+.machraoui-border-t { border-top-width: 1px; }
+.machraoui-border-gray-200 { border-color: #e5e7eb; }
+.machraoui-text-center { text-align: center; }
+.machraoui-text-4xl { font-size: 2.25rem; }
+.machraoui-mb-6 { margin-bottom: 1.5rem; }
+.machraoui-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.machraoui-md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.border { border-width: 1px; }
+.machraoui-rounded { border-radius: 0.25rem; }
+.machraoui-text-xl { font-size: 1.25rem; }
+.machraoui-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* New classes for the updated design */
+.machraoui-bg-purple-600 { background-color: #9333ea; }
+.machraoui-text-purple-600 { color: #9333ea; }
+.machraoui-bg-green-100 { background-color: #dcfce7; }
+.machraoui-text-green-600 { color: #16a34a; }
+.machraoui-bg-red-500 { background-color: #ef4444; }
+.machraoui-bg-blue-100 { background-color: #dbeafe; }
+.machraoui-bg-yellow-100 { background-color: #fef3c7; }
+.machraoui-bg-gray-100 { background-color: #f3f4f6; }
+.machraoui-text-gray-700 { color: #374151; }
+.machraoui-text-gray-800 { color: #1f2937; }
+.machraoui-rounded-xl { border-radius: 0.75rem; }
+.machraoui-w-8 { width: 2rem; }
+.machraoui-h-8 { height: 2rem; }
+.machraoui-w-14 { width: 3.5rem; }
+.machraoui-h-14 { height: 3.5rem; }
+.machraoui-text-2xl { font-size: 1.5rem; }
+.machraoui-text-3xl { font-size: 1.875rem; }
+.machraoui-px-4 { padding-left: 1rem; padding-right: 1rem; }
+.machraoui-py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.machraoui-px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.machraoui-py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.machraoui-mr-3 { margin-right: 0.75rem; }
+.machraoui-mr-4 { margin-right: 1rem; }
+.machraoui-ml-2 { margin-left: 0.5rem; }
+.machraoui-mt-2 { margin-top: 0.5rem; }
+.machraoui-flex-1 { flex: 1 1 0%; }
+.machraoui-space-x-8 > * + * { margin-left: 2rem; }
+.machraoui-absolute { position: absolute; }
+.machraoui-top-4 { top: 1rem; }
+.machraoui-right-4 { right: 1rem; }
+.machraoui-gap-6 { gap: 1.5rem; }
+.machraoui-mb-1 { margin-bottom: 0.25rem; }
+.machraoui-items-center { align-items: center; }
+.machraoui-justify-center { justify-content: center; }
+
+/* Table styles */
+.machraoui-table { border-collapse: collapse; width: 100%; }
+.machraoui-th, .machraoui-td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+.machraoui-th { font-weight: 500; color: #6b7280; }
+
+/* Button styles */
+.machraoui-button { cursor: pointer; border: none; background: none; }
+.machraoui-button:hover { opacity: 0.8; }
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .machraoui-md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .machraoui-md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+
+/* RestaurantProfile Component Styles */
+.machraoui-restaurant-profile-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .machraoui-top-bar {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px 24px;
+    margin-bottom: 24px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .machraoui-logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .machraoui-logo-icon {
+    background: #6c47ff;
+    color: #fff;
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    margin-right: 12px;
+    position: relative;
+  }
+  
+  .machraoui-logo-icon::before {
+    content: "+";
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .machraoui-logo-text {
+    font-weight: 700;
+    font-size: 18px;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .machraoui-help-text {
+    color: #6b7280;
+    font-weight: 400;
+    font-size: 14px;
+    margin-left: 8px;
+    text-transform: capitalize;
+  }
+  
+  .machraoui-settings-btn {
+    background: #6c47ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-settings-btn:hover {
+    background: #5b35d9;
+  }
+  
+  .machraoui-restaurant-card {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .machraoui-restaurant-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .machraoui-restaurant-avatar {
+    background: #6c47ff;
+    color: #fff;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    margin-right: 16px;
+  }
+  
+  .machraoui-restaurant-info {
+    flex: 1;
+  }
+  
+  .machraoui-restaurant-name {
+    font-weight: 700;
+    font-size: 20px;
+    color: #1f2937;
+    margin-bottom: 4px;
+  }
+  
+  .machraoui-restaurant-address {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-status-badge {
+    display: inline-block;
+    background: #dcfce7;
+    color: #16a34a;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+  }
+  
+  .machraoui-close-restaurant-btn {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-close-restaurant-btn:hover {
+    background: #dc2626;
+  }
+  
+  .machraoui-navigation-tabs {
+    display: flex;
+    gap: 32px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+    margin-top: 20px;
+  }
+  
+  .machraoui-nav-tab {
+    padding: 12px 0;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    font-size: 16px;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-nav-tab:hover {
+    color: #374151;
+  }
+  
+  .machraoui-nav-tab.active {
+    color: #6c47ff;
+    border-bottom: 2px solid #6c47ff;
+  }
+  
+  .machraoui-stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .machraoui-stat-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border: 1px solid #f3f4f6;
+  }
+  
+  .machraoui-stat-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .machraoui-stat-label {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .machraoui-stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #6c47ff;
+    margin-bottom: 4px;
+  }
+  
+  .machraoui-stat-change {
+    color: #16a34a;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .machraoui-stat-accent {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+  }
+  
+  .machraoui-stat-accent.green {
+    background: #dcfce7;
+  }
+  
+  .machraoui-stat-accent.blue {
+    background: #dbeafe;
+  }
+  
+  .machraoui-stat-accent.yellow {
+    background: #fef3c7;
+  }
+  
+  .machraoui-view-earnings-section {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  .machraoui-view-earnings-btn {
+    background: #6c47ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-view-earnings-btn:hover {
+    background: #5b35d9;
+  }
+  
+  .machraoui-recent-orders-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    border: 1px solid #f3f4f6;
+  }
+  
+  .machraoui-orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .machraoui-orders-title {
+    font-weight: 600;
+    font-size: 18px;
+    color: #1f2937;
+  }
+  
+  .machraoui-orders-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .machraoui-filter-btn {
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    background: #f3f4f6;
+    color: #374151;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-filter-btn:hover {
+    background: #e5e7eb;
+  }
+  
+  .machraoui-export-btn {
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    background: #6c47ff;
+    color: #fff;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-export-btn:hover {
+    background: #5b35d9;
+  }
+  
+  .machraoui-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .machraoui-table-header {
+    padding: 12px 8px;
+    text-align: left;
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .machraoui-orders-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+  }
+  
+  /* MenuManagement Component Styles */
+  .machraoui-menu-management-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+  
+  .machraoui-menu-management-card {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+  }
+  
+  .machraoui-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-menu-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-menu-subtitle {
+    color: #6b7280;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .machraoui-add-item-btn {
+    background: #6c47ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-add-item-btn:hover {
+    background: #5b35d9;
+  }
+  
+  .machraoui-category-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .machraoui-category-tab {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-category-tab.active {
+    background: #6c47ff;
+    color: #fff;
+  }
+  
+  .machraoui-category-tab.inactive {
+    background: #f3f4f6;
+    color: #374151;
+  }
+  
+  .machraoui-category-tab.inactive:hover {
+    background: #e5e7eb;
+  }
+  
+  .machraoui-menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  
+  .machraoui-menu-item-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border: 1px solid #f3f4f6;
+    position: relative;
+  }
+  
+  .machraoui-status-badge-menu {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: inline-block;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    z-index: 1;
+  }
+  
+  .machraoui-status-badge-menu.available {
+    background: #dcfce7;
+    color: #16a34a;
+  }
+  
+  .machraoui-status-badge-menu.out-of-stock {
+    background: #fef2f2;
+    color: #ef4444;
+  }
+  
+  .machraoui-menu-item-content {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  
+  .machraoui-menu-item-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 24px;
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+  
+  .machraoui-menu-item-details {
+    flex: 1;
+  }
+  
+  .machraoui-menu-item-name {
+    font-weight: 700;
+    font-size: 16px;
+    color: #1f2937;
+    margin-bottom: 6px;
+  }
+  
+  .machraoui-menu-item-category {
+    display: inline-block;
+    background: #f3f4f6;
+    color: #6b7280;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 6px;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-menu-item-description {
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  
+  .machraoui-menu-item-price-time {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .machraoui-menu-item-price {
+    color: #6c47ff;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  
+  .machraoui-menu-item-time {
+    color: #6b7280;
+    font-size: 13px;
+  }
+  
+  .machraoui-menu-item-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .machraoui-edit-btn {
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 16px;
+    border: 1px solid #6c47ff;
+    background: #fff;
+    color: #6c47ff;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-edit-btn:hover {
+    background: #6c47ff;
+    color: #fff;
+  }
+  
+  .machraoui-delete-btn {
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 16px;
+    border: 1px solid #ef4444;
+    background: #fff;
+    color: #ef4444;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-delete-btn:hover {
+    background: #ef4444;
+    color: #fff;
+  }
+  
+  /* EarningsReports Component Styles */
+  .machraoui-earnings-reports-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+  
+  .machraoui-earnings-reports-card {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+  }
+  
+  .machraoui-earnings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  
+  .machraoui-earnings-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-earnings-subtitle {
+    color: #6b7280;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  
+  .machraoui-earnings-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .machraoui-export-report-btn {
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-export-report-btn:hover {
+    background: #e5e7eb;
+  }
+  
+  .machraoui-download-pdf-btn {
+    background: #6c47ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-download-pdf-btn:hover {
+    background: #5b35d9;
+  }
+  
+  .machraoui-earnings-tabs {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .machraoui-earnings-tab {
+    padding: 12px 0;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    font-size: 16px;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-earnings-tab:hover {
+    color: #374151;
+  }
+  
+  .machraoui-earnings-tab.active {
+    color: #6c47ff;
+    border-bottom: 2px solid #6c47ff;
+  }
+  
+  .machraoui-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .machraoui-metric-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border: 1px solid #f3f4f6;
+    position: relative;
+  }
+  
+  .machraoui-metric-accent {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+  }
+  
+  .machraoui-metric-accent.green {
+    background: #e6fbe6;
+  }
+  
+  .machraoui-metric-accent.blue {
+    background: #e6eaff;
+  }
+  
+  .machraoui-metric-accent.yellow {
+    background: #fffbe6;
+  }
+  
+  .machraoui-metric-accent.purple {
+    background: #f3f0ff;
+  }
+  
+  .machraoui-metric-title {
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-metric-amount {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 4px;
+  }
+  
+  .machraoui-metric-change {
+    color: #16a34a;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-metric-details {
+    color: #6b7280;
+    font-size: 13px;
+  }
+  
+  .machraoui-additional-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .machraoui-weekly-orders-section {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px 0 rgba(44,39,56,0.06);
+    padding: 24px;
+    border: 1px solid #f0f0f0;
+  }
+  
+  .machraoui-weekly-orders-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #22223b;
+    margin-bottom: 16px;
+  }
+  
+  .machraoui-weekly-orders-placeholder {
+    background: #f8f9fa;
+    border-radius: 8px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+  }
+  
+  .machraoui-revenue-breakdown-section {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px 0 rgba(44,39,56,0.06);
+    padding: 24px;
+    border: 1px solid #f0f0f0;
+  }
+  
+  .machraoui-revenue-breakdown-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #22223b;
+    margin-bottom: 16px;
+  }
+  
+  .machraoui-revenue-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .machraoui-revenue-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .machraoui-revenue-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .machraoui-revenue-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  
+  .machraoui-revenue-dot.blue {
+    background: #3b82f6;
+  }
+  
+  .machraoui-revenue-dot.green {
+    background: #10b981;
+  }
+  
+  .machraoui-revenue-dot.red {
+    background: #ef4444;
+  }
+  
+  .machraoui-revenue-amount {
+    font-weight: 500;
+    font-size: 14px;
+    color: #22223b;
+  }
+  
+  .machraoui-revenue-amount.negative {
+    color: #ef4444;
+  }
+  
+  .machraoui-net-earnings {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+  }
+  
+  .machraoui-net-earnings-amount {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1dbf73;
+  }
+  
+  .machraoui-top-performing-section {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px 0 rgba(44,39,56,0.06);
+    padding: 24px;
+    border: 1px solid #f0f0f0;
+  }
+  
+  .machraoui-top-performing-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #22223b;
+    margin-bottom: 16px;
+  }
+  
+  .machraoui-top-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .machraoui-top-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .machraoui-top-item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  
+  .machraoui-top-item-details {
+    flex: 1;
+  }
+  
+  .machraoui-top-item-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #22223b;
+    margin-bottom: 4px;
+  }
+  
+  .machraoui-top-item-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .machraoui-top-item-change {
+    color: #1dbf73;
+    font-weight: 500;
+  }
+  
+  /* Earnings Component Styles */
+  .machraoui-earnings-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+  
+  .machraoui-earnings-overview-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+  }
+  
+  .machraoui-earnings-overview-header {
+    margin-bottom: 24px;
+  }
+  
+  .machraoui-earnings-overview-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-earnings-overview-subtitle {
+    color: #6b7280;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  
+  .machraoui-earnings-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  
+  .machraoui-earnings-metric-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border: 1px solid #f3f4f6;
+    text-align: center;
+  }
+  
+  .machraoui-earnings-metric-label {
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-earnings-metric-amount {
+    font-size: 28px;
+    font-weight: 700;
+    color: #6c47ff;
+  }
+  
+  /* Reviews Component Styles */
+  .machraoui-reviews-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+  
+  .machraoui-reviews-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+  }
+  
+  .machraoui-reviews-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  
+  .machraoui-reviews-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-reviews-subtitle {
+    color: #6b7280;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  
+  .machraoui-rating-display {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  
+  .machraoui-rating-number {
+    font-size: 56px;
+    font-weight: 700;
+    color: #6c47ff;
+    margin-bottom: 8px;
+  }
+  
+  .machraoui-rating-text {
+    color: #6b7280;
+    font-size: 16px;
+  }
+  
+  .machraoui-view-reviews-btn {
+    background: #6c47ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    transition: all 0.2s ease;
+  }
+  
+  .machraoui-view-reviews-btn:hover {
+    background: #5b35d9;
+  }
