@@ -57,6 +57,10 @@ const UpdateProfile: React.FC<{ onCancel: () => void }> = ({ onCancel }) => {
       setSuccessMessage('Profile updated successfully.');
       dispatch(fetchUserById()); 
 
+      // mc : forget to refetch and review profile
+      await dispatch(fetchUserById()).unwrap();
+      onCancel();
+
     } catch (error: unknown) {
   let msg: string;
   if (typeof error === 'string') {

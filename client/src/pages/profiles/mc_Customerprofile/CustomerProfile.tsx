@@ -2,31 +2,8 @@ import React, { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
 import{  fetchUserById ,updateUserLocation } from '../../../store/restaurantListSlice';
-import type { StatisticCardProps } from '../../../types/mc_Types';
 import UpdateProfile from './UpdateProfile';
-const StatisticCard: React.FC<StatisticCardProps & { className?: string }> = ({
-  value,
-  label,
-  date,
-  dateLabel,
-  className = '',
-}) => (
-  <div
-    className={`bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center ${className}`}
-  >
-    <p
-      className={`font-bold text-3xl leading-tight mb-1 ${
-        label === 'Total Orders' ? 'text-indigo-700' : 'text-green-600'
-      }`}
-    >
-      {value}
-    </p>
-    <p className="text-gray-600 text-lg font-semibold mb-2">{label}</p>
-    <p className="text-gray-400 text-sm">
-      {dateLabel}: {date}
-    </p>
-  </div>
-);
+
 
 const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value }) => (
   <div>
@@ -34,8 +11,6 @@ const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value })
     <p className="font-semibold text-lg">{value}</p>
   </div>
 );
-
-
 
 const CustomerProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
