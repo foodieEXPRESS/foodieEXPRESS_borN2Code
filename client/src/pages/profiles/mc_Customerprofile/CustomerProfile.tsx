@@ -142,23 +142,41 @@ const CustomerProfile: React.FC = () => {
       </div>
 
       {/* Account Statistics */}
-      <div>
-        <h3 className="text-xl font-semibold mb-4">Account Statistics</h3>
-        <div className="flex flex-wrap gap-6 justify-center">
-          <StatisticCard value={totalOrders} label="Total Orders" date="Oct 2023" dateLabel="Updated" />
-          <StatisticCard value={cuisineType} label="Favorite Restaurant" date="Oct 2023" dateLabel="Since" />
-          <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
-            <p className="text-orange-600 font-semibold mb-2 text-xl leading-tight">{memberSince}</p>
-            <p className="text-gray-600 text-lg">Member Since</p>
-          </div>
-        </div>
-      </div>
+      <div className="flex flex-col md:flex-row gap-6 justify-center">
+  {/* Total Orders Card */}
+  <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
+    <p className="font-bold text-3xl leading-tight mb-1 text-indigo-700">
+      {totalOrders}
+    </p>
+    <p className="text-gray-600 text-lg font-semibold mb-2">Total Orders</p>
+    <p className="text-gray-400 text-sm">Updated: Oct 2023</p>
+  </div>
+
+  {/* Favorite Restaurant Card */}
+  <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
+    <p className="font-bold text-3xl leading-tight mb-1 text-green-600">
+      {cuisineType || 'N/A'}
+    </p>
+    <p className="text-gray-600 text-lg font-semibold mb-2">Favorite Restaurant</p>
+    <p className="text-gray-400 text-sm">Since: Oct 2023</p>
+  </div>
+
+  {/* Member Since Card */}
+  <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
+    <p className="text-orange-600 font-semibold mb-2 text-xl leading-tight">
+      {memberSince || 'N/A'}
+    </p>
+    <p className="text-gray-600 text-lg">Member Since</p>
+  </div>
+</div>
+
     </>
   )}
-
-  {editMode && (
+{editMode && (
+  <div className="w-full max-w-3xl mx-auto p-4 bg-white rounded-lg shadow overflow-auto max-h-[600px]">
     <UpdateProfile onCancel={() => setEditMode(false)} />
-  )}
+  </div>
+)}
 </section>
       </div>
     </div>
