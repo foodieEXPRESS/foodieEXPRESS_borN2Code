@@ -17,7 +17,7 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}
 
-
+const deliveryRoutes = require('./routes/MO_routes/deliveryRoutes');
 const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
 const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
 app.get("/:restId", async (req, res) => {
@@ -58,10 +58,10 @@ app.get("/:restId", async (req, res) => {
 // const restaurant=require('./routes/RestaurantRoute')
 // app.use("/api/restaurants", restaurant);
 app.use("/api/details",RestDetailsRoutes);
-const landingpage = require("./routes/landingpage")
+const landingpage = require("./routes/MO_routes/landingpage")
 app.use("/api/landingpage",landingpage)
 app.use("/api/restaurants", RestaurantListRoutes);
-
+app.use('/api/deliveries', deliveryRoutes);
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
 });
