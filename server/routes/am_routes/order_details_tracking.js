@@ -4,7 +4,6 @@ const {
   getOrderDetails,
   getOrderTracking,
   updateOrderTracking,
-  getDriverOrders,
   getOrderCustomer,
   getOrderRestaurant,
   getOrderItems,
@@ -20,9 +19,6 @@ router.get('/tracking/:orderId', authenticateToken, getOrderTracking);
 
 // Update order tracking status
 router.put('/tracking/:orderId', authenticateToken, updateOrderTracking);
-
-// Get all orders for a specific driver
-router.get('/driver/:driverId/orders', authenticateToken, getDriverOrders);
 
 // Get customer information from an order
 router.get('/order/:orderId/customer', authenticateToken, getOrderCustomer);

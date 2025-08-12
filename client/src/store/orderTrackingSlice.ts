@@ -58,19 +58,29 @@ export interface OrderItemsData {
   orderTotal: number;
 }
 
+export interface OrderStatusData {
+  orderId: string;
+  status: 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'CANCELLED';
+  totalAmount: number;
+  trackingStatus?: string;
+}
+
 export interface OrderTrackingState {
   customerData: CustomerData | null;
   restaurantData: RestaurantData | null;
   driverData: DriverData | null;
   orderItemsData: OrderItemsData | null;
+  orderStatusData: OrderStatusData | null;
   customerLoading: boolean;
   restaurantLoading: boolean;
   driverLoading: boolean;
   orderItemsLoading: boolean;
+  orderStatusLoading: boolean;
   customerError: string | null;
   restaurantError: string | null;
   driverError: string | null;
   orderItemsError: string | null;
+  orderStatusError: string | null;
 }
 
 const initialState: OrderTrackingState = {
@@ -78,14 +88,17 @@ const initialState: OrderTrackingState = {
   restaurantData: null,
   driverData: null,
   orderItemsData: null,
+  orderStatusData: null,
   customerLoading: false,
   restaurantLoading: false,
   driverLoading: false,
   orderItemsLoading: false,
+  orderStatusLoading: false,
   customerError: null,
   restaurantError: null,
   driverError: null,
   orderItemsError: null,
+  orderStatusError: null,
 };
 
 // Async thunk for fetching customer data
@@ -228,6 +241,41 @@ export const fetchOrderItemsData = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching order status data
+export const fetchOrderStatusData = createAsyncThunk(
+  'orderTracking/fetchOrderStatusData',
+  async (orderId: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('Authentication token not found');
+      }
+
+      const response = await fetch(`http://localhost:8080/api/order-tracking/order/${orderId}/status`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.success) {
+        return result.data;
+      } else {
+        throw new Error(result.message || 'Failed to fetch order status data');
+      }
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to fetch order status data');
+    }
+  }
+);
+
 const orderTrackingSlice = createSlice({
   name: 'orderTracking',
   initialState,
@@ -322,6 +370,22 @@ const orderTrackingSlice = createSlice({
       .addCase(fetchOrderItemsData.rejected, (state, action) => {
         state.orderItemsLoading = false;
         state.orderItemsError = action.payload as string;
+      });
+
+    // Order status data cases
+    builder
+      .addCase(fetchOrderStatusData.pending, (state) => {
+        state.orderStatusLoading = true;
+        state.orderStatusError = null;
+      })
+      .addCase(fetchOrderStatusData.fulfilled, (state, action) => {
+        state.orderStatusLoading = false;
+        state.orderStatusData = action.payload;
+        state.orderStatusError = null;
+      })
+      .addCase(fetchOrderStatusData.rejected, (state, action) => {
+        state.orderStatusLoading = false;
+        state.orderStatusError = action.payload as string;
       });
   },
 });

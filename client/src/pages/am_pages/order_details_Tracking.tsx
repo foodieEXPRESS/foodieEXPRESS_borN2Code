@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { fetchCustomerData, fetchRestaurantData, fetchDriverData, fetchOrderItemsData } from '../../store/orderTrackingSlice';
+import { fetchCustomerData, fetchRestaurantData, fetchDriverData, fetchOrderItemsData, fetchOrderStatusData } from '../../store/orderTrackingSlice';
 import LiveNavigationMap from '../../components/LiveNavigationMap';
 
 const OrderDetailsTracking: React.FC = () => {
@@ -14,18 +14,54 @@ const OrderDetailsTracking: React.FC = () => {
     restaurantData, 
     driverData,
     orderItemsData,
+    orderStatusData,
     customerLoading, 
     restaurantLoading, 
     driverLoading,
     orderItemsLoading,
+    orderStatusLoading,
     customerError, 
     restaurantError, 
     driverError,
-    orderItemsError
+    orderItemsError,
+    orderStatusError
   } = useAppSelector((state) => state.orderTracking);
 
   // For demo purposes, using a sample order ID - in real app this would come from props or route params
   const orderId = "123"; // Replace with actual order ID from your app
+
+  // Helper function to determine status colors
+  const STAGES = [
+    { key: 'CONFIRMED', label: 'Order confirmed' },
+    { key: 'PREPARING', label: 'Food being prepared' },
+    { key: 'OUT_FOR_DELIVERY', label: 'Out for delivery' },
+    { key: 'DELIVERED', label: 'Delivered' },
+  ] as const;
+
+  type StageKey = (typeof STAGES)[number]['key'];
+
+  // Map server status to display stage
+  const statusToStageKey = (status: string): StageKey => {
+    switch (status) {
+      case 'PENDING':
+      case 'PREPARING':
+        return 'PREPARING';
+      case 'CONFIRMED':
+        return 'CONFIRMED';
+      case 'OUT_FOR_DELIVERY':
+        return 'OUT_FOR_DELIVERY';
+      case 'DELIVERED':
+        return 'DELIVERED';
+      default:
+        return 'CONFIRMED';
+    }
+  };
+
+  const getStageLabelFromStatus = (status: string): string => {
+    const key = statusToStageKey(status);
+    const stage = STAGES.find(s => s.key === key);
+    return stage ? stage.label : status;
+  };
 
   useEffect(() => {
     // Dispatch Redux actions to fetch data
@@ -33,6 +69,7 @@ const OrderDetailsTracking: React.FC = () => {
     dispatch(fetchRestaurantData(orderId));
     dispatch(fetchDriverData(orderId));
     dispatch(fetchOrderItemsData(orderId));
+    dispatch(fetchOrderStatusData(orderId));
   }, [dispatch, orderId]);
 
   return (
@@ -87,7 +124,7 @@ const OrderDetailsTracking: React.FC = () => {
                 longitude: customerData.longitude || -74.0060,
                 name: customerData.fullName || 'Customer'
               } : undefined}
-              orderStatus="PREPARING"
+              orderStatus={orderStatusData?.status || "PENDING"}
             />
           </div>
         )}
@@ -326,41 +363,58 @@ const OrderDetailsTracking: React.FC = () => {
               </div>
               
               <div className="p-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary-alt)' }}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M13.5 5L6 12.5L2.5 9" stroke="var(--color-secondary-lighter)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                {orderStatusLoading ? (
+                  <div className="animate-pulse">
+                    <div className="h-5 bg-gray-200 rounded mb-2 w-48"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-4 w-32"></div>
+                    <div className="space-y-3">
+                      {[1, 2, 3, 4, 5].map((item) => (
+                        <div key={item} className="flex items-center space-x-3">
+                          <div className="w-3 h-3 rounded-full bg-gray-200"></div>
+                          <div className="h-4 bg-gray-200 rounded w-32"></div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>En Route to Restaurant</h3>
-                    <p className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>Heading to pickup location</p>
+                ) : orderStatusError ? (
+                  <div className="text-red-500 text-sm">
+                    <p>Error loading order status: {orderStatusError}</p>
                   </div>
-                </div>
-                
-                {/* Progress indicators */}
-                <div className="mt-4 space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
-                    <span className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Order confirmed</span>
+                ) : orderStatusData ? (
+                  <>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary-alt)' }}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M13.5 5L6 12.5L2.5 9" stroke="var(--color-secondary-lighter)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>
+                          {getStageLabelFromStatus(orderStatusData.status)}
+                        </h3>
+                        <p className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>
+                          Order #{orderStatusData.orderId.slice(-8)}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Progress indicators */}
+                    <div className="mt-4 space-y-3">
+                      {STAGES.filter(s => s.key !== statusToStageKey(orderStatusData.status)).map((stage) => (
+                        <div key={stage.key} className="flex items-center space-x-3">
+                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
+                          <span className="text-sm font-medium" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>
+                            {stage.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-gray-500 text-sm">
+                    <p>No order status available</p>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
-                    <span className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Food being prepared</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-primary-alt)' }}></div>
-                    <span className="text-sm font-medium" style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>En route to pickup</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
-                    <span className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Out for delivery</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
-                    <span className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Delivered</span>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
