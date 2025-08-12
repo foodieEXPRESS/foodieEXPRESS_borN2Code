@@ -13,11 +13,11 @@ const RestaurantSearch: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
-      <main className="max-w-6xl mx-auto px-4 py-4">
+      <main className="flex flex-col content-between max-w-6xl mx-auto px-4 py-4 mt-6">
         <Hero />
-        <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
+        <section className="bg-white rounded-md shadow-md p-6 mb-4 ">
           <SearchControls />
-          <div className="border-t border-gray-200 my-3"></div>
+          <div className=" flex flex-row justify-between border-t border-gray-200 my-3 w-full"></div>
           <Filters />
         </section>
         <FooterControls resultsCount={8} view={view} onChange={setView} />

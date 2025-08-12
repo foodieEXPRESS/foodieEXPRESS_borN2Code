@@ -5,9 +5,23 @@ import authReducer from './authSlice';
     import counterReducer from './counterSlice';
     import restaurantDetailReducer from './restaurantDetailsSlice';
     import restaurantListReducer  from './restaurantListSlice';
+    import CartReducer from './CartReducer';
+
+import orderTrackingReducer from './orderTrackingSlice';
     import deliveryHistoryReducer from '../pages/5Mohamed/DeliveryHistoryComponents/deliveryHistorySlice';
 
 
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+    restaurantDetails: restaurantDetailReducer,
+    restaurantList: restaurantListReducer,
+    rider: riderReducer,
+    auth: authReducer,
+    orderTracking: orderTrackingReducer,
+    cart: CartReducer,
+  },
+});
     export const store = configureStore({
       reducer: {
         counter: counterReducer,

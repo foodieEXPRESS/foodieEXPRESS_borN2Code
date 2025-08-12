@@ -7,14 +7,23 @@ const prisma = require("./database");
 // Import routes
 const riderProfileRoutes = require("./routes/riderProfile-am");{/* TO DELETE LATER*/}
 const authRoutes = require('./routes/auth');
+const orderTrackingRoute= require('./routes/am_routes/order_details_tracking')
+
+const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
+const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
+// const multerRoutes = require('./routes/mc_routes/multerRoute.js')  ;
+
 app.use(express.json());
 app.use(cors());
 
 
-// const router_restaurant = require("./routes/restaurant");
 
 // Use routes
 app.use("/api/auth", authRoutes);
+app.use("/api/rider-profile", riderProfileRoutes);
+app.use("/api/order-tracking", orderTrackingRoute);
+
+app.use("/api/restaurants", RestaurantListRoutes);
 app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}
 
 const deliveryRoutes = require('./routes/MO_routes/deliveryRoutes');
@@ -58,8 +67,16 @@ app.get("/:restId", async (req, res) => {
 // const restaurant=require('./routes/RestaurantRoute')
 // app.use("/api/restaurants", restaurant);
 app.use("/api/details",RestDetailsRoutes);
+// app.use("/api/upload", multerRoutes);
+
+
+const landingpage = require("./routes/landingpage")
 const landingpage = require("./routes/MO_routes/landingpage")
 app.use("/api/landingpage",landingpage)
+
+
+
+
 app.use("/api/restaurants", RestaurantListRoutes);
 app.use('/api/deliveries', deliveryRoutes);
 app.listen(PORT, () => {

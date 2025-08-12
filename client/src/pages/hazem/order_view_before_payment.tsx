@@ -1,34 +1,42 @@
-import React from 'react';
-import Header from '../../components/Header';
+import React, { use } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { OrderBeforePaymentProps } from './propsTypes';
+import Restaurant_Navbar from "../mc_Components/Restaurant_Navbar"
+import CartView from "./cartView"
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCartTotal,selectCartItems,selectCartCount} from '../../store/CartReducer';
+
+import type{ RootState } from '../../store';
 
 const OrderBeforePayment: React.FC<Partial<OrderBeforePaymentProps>> = ({
-  restaurantName = 'Bella Italia',
-  itemCount = 5,
+  restaurantName = (useSelector(selectCartItems))[0]?.restaurantName || "Restaurant Name",
+  itemCount = useSelector(selectCartCount),
+
   deliveryInfo = {
     address: '123 Main Street, Downtown',
     estimatedTime: '25-35 minutes',
     fastestTime: '25 min'
   },
-  orderItems = [],
+  orderItems=useSelector(selectCartItems),
   orderSummary = {
-    subtotal: 73.95,
+    subtotal: useSelector(selectCartTotal),
+    // Assuming selectCartTotal is a selector that calculates the total price of items in the cart
     deliveryFee: 2.99,
     serviceFee: 1.5,
     tax: 6.47,
-    total: 84.91
   },
-  onAddMoreItems = () => {},
-  onAddPromoCode = () => {},
-  onChangeAddress = () => {},
-  onProceedToCheckout = () => {}
+
 }) => {
   const hasItems = orderItems && orderItems.length > 0;
-
+const Items= useSelector((state: RootState) => state.cart.items);
+const navigate =useNavigate()
+const   onAddMoreItems = () => navigate('/list')
+const onChangeAddress=()=>{}
+const onProceedToCheckout=()=>{navigate('/checkout'),localStorage.setItem('orderItems', JSON.stringify(orderItems))}
+const onAddPromoCode=()=>{}
   return (
-    <div className="min-h-screen bg-secondary-lighter">
-      <Header />
-
+    <div>
+      <Restaurant_Navbar />
       <div className="p-6 md:p-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column */}
@@ -72,21 +80,11 @@ const OrderBeforePayment: React.FC<Partial<OrderBeforePaymentProps>> = ({
               </div>
 
               {hasItems ? (
-                <div className="divide-y divide-secondary-light">
-                  {orderItems.map((item) => (
-                    <div key={item.id} className="py-4 flex items-start justify-between gap-4">
-                      <div className="min-w-0">
-                        <p className="font-semibold text-secondary-dark text-base md:text-lg">{item.name}</p>
-                        <p className="text-secondary-gray text-sm mt-1">Qty {item.quantity}</p>
-                      </div>
-                      <div className="text-right flex-shrink-0">
-                        <div className="text-primary font-bold">${(item.price * item.quantity).toFixed(2)}</div>
-                        <div className="text-secondary-gray text-xs">${item.price.toFixed(2)} each</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
+                             //import cartview
+                             <CartView /> 
+              ) :
+
+               (
                 <div className="min-h-[280px] flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-16 h-16 bg-secondary-light rounded-full flex items-center justify-center mx-auto mb-4">
@@ -98,7 +96,9 @@ const OrderBeforePayment: React.FC<Partial<OrderBeforePaymentProps>> = ({
                     <p className="text-secondary-gray text-sm mt-1">Add some delicious items to get started</p>
                   </div>
                 </div>
-              )}
+              )
+
+              }
 
               {/* Add more items */}
               <div className="pt-6 border-t border-secondary-light">
@@ -149,7 +149,9 @@ const OrderBeforePayment: React.FC<Partial<OrderBeforePaymentProps>> = ({
               <div className="border-t border-secondary-light pt-4">
                 <div className="flex justify-between text-lg font-bold text-secondary-dark">
                   <span>Total</span>
-                  <span className="text-primary">${orderSummary.total.toFixed(2)}</span>
+                  <span className="text-primary">${(orderSummary.subtotal
+                    + orderSummary.deliveryFee+ orderSummary.serviceFee + orderSummary.tax
+                  ).toFixed(2)}</span>
                 </div>
               </div>
 

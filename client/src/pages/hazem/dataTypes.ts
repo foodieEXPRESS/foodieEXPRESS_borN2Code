@@ -1,11 +1,4 @@
-export interface CartItem {
-  id: string;
-  name: string;
-  restaurant: string;
-  price: number;
-  quantity: number;
-  customizations?: string[];
-}
+
 
 export interface OrderSummary {
   subtotal: number;
