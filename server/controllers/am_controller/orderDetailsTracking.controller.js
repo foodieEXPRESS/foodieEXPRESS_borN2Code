@@ -507,6 +507,8 @@ const getOrderStatus = async (req, res) => {
   try {
     //  const { orderId } = req.params;
     const orderId = '14709e25-91f6-46e9-825b-72bec126e495';
+    // const orderId = 'e2dd52be-0104-4301-ad05-edd0175b73dd';
+
 
     if (!orderId) {
       return res.status(400).json({
@@ -558,8 +560,6 @@ const getOrderStatus = async (req, res) => {
 
 
 
-
-
 module.exports = {
   getOrderDetails,
   getOrderTracking,
@@ -568,5 +568,6 @@ module.exports = {
   getOrderCustomer,
   getOrderRestaurant,
   getOrderItems,
-  getOrderStatus
+  getOrderStatus,
+
 };
