@@ -292,6 +292,7 @@
   margin: 0 auto 1.5rem;
 }
 
+.MACHRtab-container_button {
 .MACHR-tab-container_button {
   padding: 10px 18px;
   background: transparent;
@@ -408,6 +409,7 @@
 }
 
 
+
 @media (max-width: 768px) {
   .MACHR-auth-container {
     padding: 10px;
@@ -513,10 +515,19 @@
 .MACHR-justify-center { justify-content: center; }
 
 
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+th { font-weight: 500; color: #6b7280; }
+
 .MACHR-table { border-collapse: collapse; width: 100%; }
 
 .MACHR-th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
 .MACHR-th { font-weight: 500; color: #6b7280; }
+
+
+/* button { cursor: pointer; border: none; background: none; }
+button:hover { opacity: 0.8; } */
+
 
 
 .MACHR-button { cursor: pointer; border: none; background: none; }
@@ -679,6 +690,7 @@
 .MACHR-social-button:hover {
   background-color: #f5f5f5;
 }
+
 
 .auth-tab-container {
   display: flex;

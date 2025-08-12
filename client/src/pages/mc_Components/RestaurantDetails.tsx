@@ -6,7 +6,18 @@ import type { MenuItem } from '../../types/mc_Types'
 import { AboutRestaurant } from '../../components/RestaurantList/AboutRestaurant';
 import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from '../5Mohamed/LandingPage/Navbar'
+import Navbar from "../mc_Components/Restaurant_Navbar"
+import { increment,addItem } from '../../store/CartReducer';
+interface CartItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  tags?: string[];
+  restaurantId?: string;
+  restaurantName?: string;
+}
 
 
 const RestaurantDetails: React.FC = () => {
@@ -112,6 +123,7 @@ const RestaurantDetails: React.FC = () => {
                       description={item.description}
                       price={item.price}
                       tags={item.tags?.map((t: any) => t.tag.name) || []}
+                      restaurantName={data.name}
                     />
                   ))
                 ) : (
@@ -126,10 +138,12 @@ const RestaurantDetails: React.FC = () => {
 };
 
 const MenuItem: React.FC<MenuItem & {}> = ({
+  id,
   name,
   tags = [],
   description,
   price,
+  restaurantName
 }) => {
   const firstWord = name.split(" ")[0];
 
@@ -146,9 +160,11 @@ const MenuItem: React.FC<MenuItem & {}> = ({
     }
   };
     const navigate = useNavigate(); 
+    const dispatch = useDispatch();
 
-  const handleToCart = () => {
-    navigate(`/cart`);
+  const handleToCart = (item:CartItem) => {
+    dispatch(increment());
+    dispatch(addItem(item));
   };
 
 
@@ -175,7 +191,7 @@ const MenuItem: React.FC<MenuItem & {}> = ({
             ))}
           </div>
           <p className="text-gray-700 text-sm leading-relaxed mt-1">{description}</p>
-          <button onClick={handleToCart}
+          <button onClick={()=>handleToCart({id,name,tags,description,price,quantity:1,restaurantName})}
             className="mt-4 bg-indigo-500 text-white rounded px-6 py-2 font-semibold transition hover:bg-indigo-800 w-fit"
           >
             Add to Cart

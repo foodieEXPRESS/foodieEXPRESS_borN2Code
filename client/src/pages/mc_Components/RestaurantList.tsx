@@ -29,7 +29,6 @@ const RestaurantList: React.FC= () => {
         (pos) => {
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;
-          console.log("User location:", lat, lng);
 
           // Optionally update user location in backend and redux state
           dispatch(updateUserLocation({ latitude: lat, longitude: lng }));
@@ -81,7 +80,7 @@ const RestaurantList: React.FC= () => {
     </div>
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Heading */}
-      <h1 className="text-2xl font-bold mb-1">Restaurants Near You</h1>
+      <h1 className="text-3xl font-bold mb-1">Restaurants Near You</h1>
       <p className="text-gray-500 mb-6">
         Discover amazing restaurants and order your favorite meals
       </p>
@@ -132,7 +131,7 @@ const RestaurantList: React.FC= () => {
       </p>
 
       {/* Restaurant Grid */}
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 grid-cols-3 sm:grid-cols-2 lg:grid-cols-3">
         {filteredRestaurants.map((rest: Restaurant) => (
           <OneRestaurant key={rest.id} {...rest} />
         ))}
