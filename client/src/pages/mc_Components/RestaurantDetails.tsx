@@ -8,17 +8,7 @@ import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
 import { useParams } from "react-router-dom";
 import Navbar from "../mc_Components/Restaurant_Navbar"
 import { increment,addItem } from '../../store/CartReducer';
-interface CartItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  tags?: string[];
-  restaurantId?: string;
-  restaurantName?: string;
-}
-
+import type { CartItem } from '../../types/mc_Types'; 
 
 const RestaurantDetails: React.FC = () => {
   const { restId } = useParams<{ restId: string }>(); 

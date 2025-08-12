@@ -25,12 +25,12 @@ const OrderHistory: React.FC = () => {
       </section>
 
       {/* Summary Cards Row */}
-      <section className="flex gap-8 mt-8 px-12">
-        <SummaryCard {...orderSummary.totalEarnings} />
-        <SummaryCard {...orderSummary.completedOrders} />
-        <SummaryCard {...orderSummary.canceledOrders} />
-        <SummaryCard {...orderSummary.avgPerOrder} />
-      </section>
+<section className="mt-8 px-12">
+  <div className="grid grid-cols-4 gap-8">
+    <SummaryCard {...orderSummary.totalOrders} />
+    <SummaryCard {...orderSummary.totalPrice} />
+  </div>
+</section>
 
       {/* Filter and Sort */}
       <section className="mt-8 px-12">

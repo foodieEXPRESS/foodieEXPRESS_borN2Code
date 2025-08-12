@@ -94,16 +94,27 @@ const CustomerProfile: React.FC = () => {
           <nav className="w-full space-y-3 mb-8">{/* ... */}</nav>
 
           {/* Profile Stats */}
-          <div className="w-full flex flex-nowrap gap-4 justify-center">
-            <div className="bg-gray-50 p-4 rounded-lg shadow flex-shrink-0 text-center min-w-[140px]">
-              <p className="text-indigo-700 font-bold text-3xl mb-2">{totalOrders}</p>
-              <p className="text-gray-600 text-lg">Total Orders</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg shadow flex-shrink-0 text-center min-w-[140px]">
-              <p className="text-green-600 font-bold text-3xl mb-2">{rating.toFixed(1)}</p>
-              <p className="text-gray-600 text-lg">Avg Rating</p>
-            </div>
-          </div>
+          <div className="w-full flex flex-col items-center">
+  <div className="flex gap-4 justify-center">
+    <div className="bg-gray-50 p-4 rounded-lg shadow flex-shrink-0 text-center min-w-[140px]">
+      <p className="text-indigo-700 font-bold text-3xl mb-2">{totalOrders}</p>
+      <p className="text-gray-600 text-lg">Total Orders</p>
+    </div>
+    <div className="bg-gray-50 p-4 rounded-lg shadow flex-shrink-0 text-center min-w-[140px]">
+      <p className="text-green-600 font-bold text-3xl mb-2">{rating.toFixed(1)}</p>
+      <p className="text-gray-600 text-lg">Avg Rating</p>
+    </div>
+  </div>
+
+  <button
+    onClick={() => navigate('/OrderHistory')}
+className="text-sm text-indigo-600 hover:text-indigo-800 underline mt-3 cursor-pointer"
+    type="button"
+  >
+    View Order History
+  </button>
+</div>
+          
         </aside>
 
         {/* Main Content */}
@@ -114,7 +125,7 @@ const CustomerProfile: React.FC = () => {
       <div className="flex justify-end mb-4">
         <button
           onClick={() => setEditMode(true)}
-          className="bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-800"
+            className="bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-800 cursor-pointer"
         >
           Edit Profile
         </button>
@@ -158,13 +169,7 @@ const CustomerProfile: React.FC = () => {
     </p>
     <p className="text-gray-600 text-lg">Member Since</p>
   </div>
-   <div className="flex justify-center mt-6">
-    <button
-                  onClick={() => navigate('/OrderHistory')}  
-                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
-                  View Order History
-                </button>
-              </div>
+  
 </div>
 
     </>

@@ -109,15 +109,13 @@ export interface UserState {
   export interface OrderSummaryCard {
     icon: string;
     label: string;
-    value: string;
+    value?: number;
     color: string;
   }
 
   export interface OrderSummary {
-    totalEarnings: OrderSummaryCard;
-    completedOrders: OrderSummaryCard;
-    canceledOrders: OrderSummaryCard;
-    avgPerOrder: OrderSummaryCard;
+    totalOrders: OrderSummaryCard;
+    totalPrice: OrderSummaryCard;
   }
 
    export interface OrderTableProps {
@@ -126,25 +124,13 @@ export interface UserState {
 
   export interface OrderRecord {
     orderId: string;
-    customer: string;
+    owner: string;
     items: number;
     restaurant: string;
     date: string;
     time: string;
-    status: 'Completed' | 'Canceled';
-    earnings: string;
-    tip: string;
+    prices: string;
   }
-
- 
-
-export interface OrderSummaryCard {
-  icon: string;
-  label: string;
-  value: string;
-  color: string;
-}
-
 
 export const colorMap: Record<string, string> = {
   '#22c55e': 'bg-green-500',
@@ -154,75 +140,64 @@ export const colorMap: Record<string, string> = {
 };
 
   export const orderSummary: OrderSummary = {
-    totalEarnings: {
+    totalOrders: {
       icon: '✔️',
-      label: 'Total Earnings',
-      value: '$103.50',
+      label: 'Total Orders',
       color: '#22c55e',
     },
-    completedOrders: {
+    totalPrice: {
       icon: '⭐',
-      label: 'Completed Orders',
-      value: '8',
+      label: 'Total Price',
       color: '#6366f1',
-    },
-    canceledOrders: {
-      icon: '⛔',
-      label: 'Canceled Orders',
-      value: '2',
-      color: '#f43f5e',
-    },
-    avgPerOrder: {
-      icon: '⏰',
-      label: 'Avg. Per Order',
-      value: '$12.94',
-      color: '#fbbf24',
-    },
+    }
   };
 
   export const orderRecords: OrderRecord[] = [
     {
       orderId: 'ORD-2024-1547',
-      customer: 'Sarah Johnson',
+      owner: 'Sarah Johnson',
       items: 3,
       restaurant: 'Bella Italia',
       date: 'Jan 15, 2024',
       time: '2:45 PM',
-      status: 'Completed',
-      earnings: '12.50',
-      tip: '5.00',
+      prices: '12.50',
     },
     {
       orderId: 'ORD-2024-1546',
-      customer: 'Mike Chen',
+      owner: 'Mike Chen',
       items: 2,
       restaurant: 'Sushi Master',
       date: 'Jan 15, 2024',
       time: '1:30 PM',
-      status: 'Completed',
-      earnings: '15.75',
-      tip: '7.25',
+      prices: '15.75',
     },
     {
       orderId: 'ORD-2024-1545',
-      customer: 'Emma Wilson',
+      owner: 'Emma Wilson',
       items: 4,
       restaurant: 'Pizza Palace',
       date: 'Jan 15, 2024',
       time: '12:15 PM',
-      status: 'Completed',
-      earnings: '9.25',
-      tip: '3.50',
+      prices: '9.25',
     },
     {
       orderId: 'ORD-2024-1544',
-      customer: 'David Brown',
+      owner: 'David Brown',
       items: 2,
       restaurant: 'Burger House',
       date: 'Jan 14, 2024',
       time: '8:45 PM',
-      status: 'Completed',
-      earnings: '11.00',
-      tip: '4.00',
+      prices: '11.00',
     },
   ]; 
+
+  export interface CartItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  tags?: string[];
+  restaurantId?: string;
+  restaurantName?: string;
+}

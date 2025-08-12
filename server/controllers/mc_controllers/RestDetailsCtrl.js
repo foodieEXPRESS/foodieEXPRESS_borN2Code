@@ -58,4 +58,32 @@ const getImageById = async (req, res) => {
 };
 
 
-module.exports = { getRestbyId, getImageById }
+const getOrderHistoryByUser = async (req, res) => {
+const userId = req.user.userId;
+const orders = await prisma.order.findMany({
+  where: { customerId: userId },
+  include: {
+    orderItems: {
+      include: {
+        menu: {
+          include: {
+            restaurant: true,
+          },
+        },
+      },
+    },
+    restaurant: {
+      include: {
+        restaurant: true,
+      },
+    },
+  },
+});
+  if (!orders || orders.length === 0) {
+    return res.status(404).json({ error: "No orders found" });
+  }
+  return res.status(200).json(orders);
+
+};
+
+module.exports = { getRestbyId, getImageById, getOrderHistoryByUser };
