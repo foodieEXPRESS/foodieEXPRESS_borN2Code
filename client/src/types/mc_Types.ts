@@ -4,6 +4,7 @@ export interface MenuItem {
   tags?: string[];
   description: string;
   price: number;
+  restaurantName?: string;
 }
 
 
@@ -105,25 +106,25 @@ export interface UserState {
 }
 
 
-  export interface DeliverySummaryCard {
+  export interface OrderSummaryCard {
     icon: string;
     label: string;
     value: string;
     color: string;
   }
 
-  export interface DeliverySummary {
-    totalEarnings: DeliverySummaryCard;
-    completedOrders: DeliverySummaryCard;
-    canceledOrders: DeliverySummaryCard;
-    avgPerOrder: DeliverySummaryCard;
+  export interface OrderSummary {
+    totalEarnings: OrderSummaryCard;
+    completedOrders: OrderSummaryCard;
+    canceledOrders: OrderSummaryCard;
+    avgPerOrder: OrderSummaryCard;
   }
 
-   export interface DeliveryTableProps {
-    records: DeliveryRecord[];
+   export interface OrderTableProps {
+    records: OrderRecord[];
   }
 
-  export interface DeliveryRecord {
+  export interface OrderRecord {
     orderId: string;
     customer: string;
     items: number;
@@ -137,7 +138,7 @@ export interface UserState {
 
  
 
-export interface DeliverySummaryCard {
+export interface OrderSummaryCard {
   icon: string;
   label: string;
   value: string;
@@ -152,7 +153,7 @@ export const colorMap: Record<string, string> = {
   '#fbbf24': 'bg-yellow-400',
 };
 
-  export const deliverySummary: DeliverySummary = {
+  export const orderSummary: OrderSummary = {
     totalEarnings: {
       icon: '✔️',
       label: 'Total Earnings',
@@ -179,7 +180,7 @@ export const colorMap: Record<string, string> = {
     },
   };
 
-  export const deliveryRecords: DeliveryRecord[] = [
+  export const orderRecords: OrderRecord[] = [
     {
       orderId: 'ORD-2024-1547',
       customer: 'Sarah Johnson',

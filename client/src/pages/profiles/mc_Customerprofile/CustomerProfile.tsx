@@ -5,6 +5,8 @@ import{  fetchUserById ,updateUserLocation } from '../../../store/restaurantList
 import UpdateProfile from './UpdateProfile';
 import { useNavigate } from 'react-router-dom';  
 
+import Navbar from '../../mc_Components/Restaurant_Navbar';
+
 
 const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value }) => (
   <div>
@@ -55,6 +57,8 @@ const CustomerProfile: React.FC = () => {
   const initials = `${name[0] || ''}${name.split(' ')[1]?.[0] || ''}`.toUpperCase();
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8 overflow-x-hidden">
       {/* Headings */}
       <div className="w-full max-w-7xl mb-6">
@@ -173,6 +177,7 @@ const CustomerProfile: React.FC = () => {
 </section>
       </div>
     </div>
+        </div>
   );
 };
 

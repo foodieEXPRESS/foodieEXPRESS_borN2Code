@@ -1,16 +1,16 @@
 import React from 'react';
-import type { DeliveryTableProps } from '../../../types/mc_Types';
+import type { OrderTableProps } from '../../../types/mc_Types';
 
-const DeliveryTable: React.FC<DeliveryTableProps> = ({ records }) => {
-  console.log('DeliveryTable: Rendering table with', records.length, 'records');
+const OrderTable: React.FC<OrderTableProps> = ({ records }) => {
+  console.log('OrderTable: Rendering table with', records.length, 'records');
 
   const handleViewDetails = (orderId: string) => {
-    console.log('DeliveryTable: View details clicked for order:', orderId);
+    console.log('OrderTable: View details clicked for order:', orderId);
   };
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-0 m-12">
-      <div className="text-2xl font-bold px-8 pt-8 pb-6 text-gray-900">Delivery Records</div>
+      <div className="text-2xl font-bold px-8 pt-8 pb-6 text-gray-900">Order Records</div>
       <table className="w-full border-separate border-spacing-0 text-base bg-transparent">
         <thead>
           <tr>
@@ -72,4 +72,4 @@ const DeliveryTable: React.FC<DeliveryTableProps> = ({ records }) => {
   );
 };
 
-export default DeliveryTable;
+export default OrderTable;

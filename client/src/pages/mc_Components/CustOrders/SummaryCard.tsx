@@ -1,9 +1,9 @@
 import React from 'react';
-import type { DeliverySummaryCard } from '../../../types/mc_Types';
+import type { OrderSummaryCard } from '../../../types/mc_Types';
 import  { colorMap } from '../../../types/mc_Types';
 
 
-const SummaryCard: React.FC<DeliverySummaryCard> = ({ icon, label, value, color }) => {
+const SummaryCard: React.FC<OrderSummaryCard> = ({ icon, label, value, color }) => {
   const iconBgClass = colorMap[color] || 'bg-gray-300';
 
   console.log('SummaryCard: Rendering card:', { label, value, color });

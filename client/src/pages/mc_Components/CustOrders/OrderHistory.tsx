@@ -1,11 +1,11 @@
 import React from 'react';
 import SummaryCard from './SummaryCard';
 import FilterSort from './FilterSort';
-import DeliveryTable from './DeliveryTable';
-import { deliverySummary, deliveryRecords } from '../../../types/mc_Types';
+import OrderTable from './DeliveryTable';
+import { orderSummary, orderRecords } from '../../../types/mc_Types';
 
 const OrderHistory: React.FC = () => {
-  console.log('OrderHistory: Component loaded with data:', { deliverySummary, deliveryRecords });
+  console.log('OrderHistory: Component loaded with data:', { orderSummary, orderRecords });
 
   return (
     <div className="bg-gray-50 min-h-screen py-8">
@@ -26,10 +26,10 @@ const OrderHistory: React.FC = () => {
 
       {/* Summary Cards Row */}
       <section className="flex gap-8 mt-8 px-12">
-        <SummaryCard {...deliverySummary.totalEarnings} />
-        <SummaryCard {...deliverySummary.completedOrders} />
-        <SummaryCard {...deliverySummary.canceledOrders} />
-        <SummaryCard {...deliverySummary.avgPerOrder} />
+        <SummaryCard {...orderSummary.totalEarnings} />
+        <SummaryCard {...orderSummary.completedOrders} />
+        <SummaryCard {...orderSummary.canceledOrders} />
+        <SummaryCard {...orderSummary.avgPerOrder} />
       </section>
 
       {/* Filter and Sort */}
@@ -37,9 +37,9 @@ const OrderHistory: React.FC = () => {
         <FilterSort />
       </section>
 
-      {/* Delivery Table */}
+      {/* Order Table */}
       <section className="mt-8 px-12">
-        <DeliveryTable records={deliveryRecords} />
+        <OrderTable records={orderRecords} />
       </section>
     </div>
   );

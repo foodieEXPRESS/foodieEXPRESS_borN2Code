@@ -14,7 +14,6 @@ import MenuManagement from './pages/profiles/retaurantprofil/MenuManagement';
 
 // Import All 5Mohamed Components
 import DeliveryHistory from './pages/5Mohamed/DeliveryHistoryComponents/DeliveryHistory';
-import RestaurantSearch from './pages/5Mohamed/RestaurantSearch';
 import LandingPage from './pages/5Mohamed/LandingPage';
 // Import 5Mohamed Components CSS
 import './pages/5Mohamed/styles.css';
@@ -32,6 +31,7 @@ import LastReview from './pages/hazem/last review';
 import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';
 import OrderDetailsTracking from './pages/am_pages/order_details_Tracking';
 import OrderHistory from './pages/mc_Components/CustOrders/OrderHistory';
+import RestauranSearch from './pages/5Mohamed/RestaurantSearch/index';
 
 function App() {
   console.log('App component loaded');
@@ -62,7 +62,7 @@ function App() {
          
 
           {/* http://localhost:5173/restaurant-search */}
-          <Route path="/restaurant-search" element={<RestaurantSearch />} />
+          <Route path="/restaurant-search" element={<RestauranSearch />} />
           {/* http://localhost:5173/landing-page */}
           <Route path="/landing-page" element={<LandingPage />} />
           <Route path="/order-view-before-payment" element={<OrderViewBeforePayment  />} />
