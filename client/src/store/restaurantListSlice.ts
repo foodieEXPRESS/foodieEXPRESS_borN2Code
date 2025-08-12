@@ -108,18 +108,14 @@ export const updateUserProfile = createAsyncThunk<
       
         const formData = new FormData();
 
-      // mc : Append each key except profileImage normally
 
-function isFile(value: unknown): value is File {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'name' in value &&
-    'size' in value &&
-    typeof (value as any).name === 'string' &&
-    typeof (value as any).size === 'number'
-  )
-}
+
+//mc : Type guard to check if a value is a File
+const isFile = (value: unknown): value is File =>
+  value instanceof File;
+
+
+
      (Object.keys(updatedData) as (keyof typeof updatedData)[]).forEach((key) => {
       const value = updatedData[key];
       

@@ -29,7 +29,8 @@ app.use("/api/order-tracking", orderTrackingRoute);
 app.use("/api/restaurants", RestaurantListRoutes);
 app.use("/api/details",RestDetailsRoutes);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));                                                                      
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// mc : you set up the static location for uploaded images , to use with express
 
 const landingpage = require("./routes/landingpage")
 app.use("/api/landingpage",landingpage)

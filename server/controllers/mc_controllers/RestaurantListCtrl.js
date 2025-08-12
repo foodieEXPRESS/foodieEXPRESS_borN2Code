@@ -57,7 +57,7 @@
     if (req.file) {
       updatedMedia = await prisma.media.create({
         data: {
-          url: `/uploads/${req.file.filename}`,
+          url: `/uploads/${req.file.filename}`, // mc : you create the file image.xxx in /uploads
           type: "image",
           userId: userId,
         },
@@ -69,7 +69,7 @@
       data: updateData,
       include: {
         media: {
-          where: { type: "image" },
+          where: { type: "image" }, // mc : as you update you include it in the response
           take: 1,
         },
       },
