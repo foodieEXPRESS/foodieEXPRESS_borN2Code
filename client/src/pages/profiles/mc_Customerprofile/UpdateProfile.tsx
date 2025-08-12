@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
 import { updateUserProfile, fetchUserById } from '../../../store/restaurantListSlice';
-import type { User } from '../../../types/mc_Types';
+import type { User, UserUpdatePayload } from '../../../types/mc_Types';
 
 const UpdateProfile: React.FC<{ onCancel: () => void }> = ({ onCancel }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, loading, /* error */ } = useSelector((state: RootState) => state.restaurantList);
 
 
-  const [picture, setPicture] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null>(null);
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -46,16 +46,15 @@ const UpdateProfile: React.FC<{ onCancel: () => void }> = ({ onCancel }) => {
     }
 
     try {
-    const updatedData: Partial<User> & { picture?: File } = {
-    fullName,
-    email,
-    phoneNumber,
-    address,
-    ...(picture !== null ? { picture } : {}),
-  };
+      const updatedData: UserUpdatePayload = {
+        fullName,
+        email,
+        phoneNumber,
+        address,
+        ...(image !== null ? { image } : {}),
+      };
       await dispatch(updateUserProfile(updatedData)).unwrap();
       setSuccessMessage('Profile updated successfully.');
-      dispatch(fetchUserById()); 
 
       // mc : forget to refetch and review profile
       await dispatch(fetchUserById()).unwrap();
@@ -142,21 +141,22 @@ const UpdateProfile: React.FC<{ onCancel: () => void }> = ({ onCancel }) => {
         </div>
         
         <div>
-  <label htmlFor="picture" className="block text-sm font-medium text-gray-700 mb-1">
+  <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
     Profile Picture
   </label>
   <input
-    id="picture"
+    id="image"
     type="file"
     accept="image/*"
     onChange={(e) => {
       const file = e.target.files?.[0] || null;
-      setPicture(file);
+      setImage(file);
     }}
     className="w-full"
+    
   />
-  {picture && (
-    <p className="mt-1 text-sm text-gray-600">Selected file: {picture.name}</p>
+  {image && (
+    <p className="mt-1 text-sm text-gray-600">Selected file: {image.name}</p>
   )}
 </div>
         <div className="flex justify-end gap-4">

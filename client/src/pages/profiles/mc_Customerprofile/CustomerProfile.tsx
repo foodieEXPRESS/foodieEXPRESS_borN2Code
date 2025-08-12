@@ -64,15 +64,24 @@ const CustomerProfile: React.FC = () => {
         {/* Sidebar */}
         <aside className="flex-1 md:max-w-sm w-full bg-white rounded-lg p-8 shadow flex flex-col items-center">
             <div className="flex flex-col items-center mb-6">
+    <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
+  {user.profileImage ? (
+    <img
+      src={`http://localhost:8080${user.profileImage}`}
+      alt={`${name}'s profile`}
+      className="w-full h-full object-cover"
+    />
+  ) : (
     <div
       aria-label={`User initials avatar for ${name}`}
       role="img"
-      className="w-32 h-32 bg-indigo-700 rounded-full flex items-center justify-center text-white text-7xl font-bold mb-4 select-none"
+      className="w-32 h-32 bg-indigo-700 flex items-center justify-center text-white text-7xl font-bold select-none"
     >
       {initials}
     </div>
-  <h2 className="text-xl font-semibold mb-2">{name}</h2>
-  <p className="text-gray-500 text-sm">Member since {memberSince}</p>
+  )}
+</div>
+
 </div>
           
           {/* Navigation */}

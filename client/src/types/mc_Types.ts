@@ -77,12 +77,26 @@ export interface User {
   role: 'CUSTOMER' | 'RESTAURANT' | 'DRIVER';
   phoneNumber: string;
   address: string;
-  picture:  File;
+  profileImage?: string | null;
   latitude: number;
   longitude: number;
   createdAt: string;
   updatedAt: string;
+
+  
 }
+
+export type UserUpdatePayload = Omit<Partial<User>, 'image'> & {
+  image?: File;
+};
+
+export interface UserState {
+  user: User | null;
+  loading: boolean;
+  error: string | null;
+  successMessage: string | null;
+}
+
 export interface UserState {
   user: User | null;
   loading: boolean;

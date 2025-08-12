@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const PORT = 8080;
 const app = express();
+const path = require('path');
 const prisma = require("./database");
 
 // Import routes
@@ -11,12 +12,14 @@ const orderTrackingRoute= require('./routes/am_routes/order_details_tracking')
 
 const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
 const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
-const multerRoutes = require('./routes/mc_routes/multerRoute.js')  ;
 
 app.use(express.json());
 app.use(cors());
 
 
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// console.log('path',path.join(__dirname, 'uploads'));
 
 // Use routes
 app.use("/api/auth", authRoutes);
@@ -25,8 +28,8 @@ app.use("/api/order-tracking", orderTrackingRoute);
 
 app.use("/api/restaurants", RestaurantListRoutes);
 app.use("/api/details",RestDetailsRoutes);
-app.use("/api/upload", multerRoutes);
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));                                                                      
 
 const landingpage = require("./routes/landingpage")
 app.use("/api/landingpage",landingpage)
