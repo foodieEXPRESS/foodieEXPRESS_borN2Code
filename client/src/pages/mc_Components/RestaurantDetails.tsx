@@ -5,7 +5,7 @@ import type { RootState, AppDispatch } from '../../store';
 import type { MenuItem } from '../../types/mc_Types'
 import { AboutRestaurant } from '../../components/RestaurantList/AboutRestaurant';
 import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "../mc_Components/Restaurant_Navbar"
 import { increment,addItem } from '../../store/CartReducer';
 interface CartItem {
@@ -159,7 +159,6 @@ const MenuItem: React.FC<MenuItem & {}> = ({
         return "bg-red-100 text-gray-800";
     }
   };
-    const navigate = useNavigate(); 
     const dispatch = useDispatch();
 
   const handleToCart = (item:CartItem) => {
