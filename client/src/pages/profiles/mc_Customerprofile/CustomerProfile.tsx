@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
 import{  fetchUserById ,updateUserLocation } from '../../../store/restaurantListSlice';
 import UpdateProfile from './UpdateProfile';
+import { useNavigate } from 'react-router-dom';  
 
 
 const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value }) => (
@@ -14,6 +15,7 @@ const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value })
 
 const CustomerProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate(); 
   const { user, loading, error } = useSelector((state: RootState) => state.restaurantList);
   const [editMode, setEditMode] = useState(false);
   useEffect(() => {
@@ -152,6 +154,13 @@ const CustomerProfile: React.FC = () => {
     </p>
     <p className="text-gray-600 text-lg">Member Since</p>
   </div>
+   <div className="flex justify-center mt-6">
+    <button
+                  onClick={() => navigate('/OrderHistory')}  
+                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                  View Order History
+                </button>
+              </div>
 </div>
 
     </>

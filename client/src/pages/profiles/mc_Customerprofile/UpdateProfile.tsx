@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
 import { updateUserProfile, fetchUserById } from '../../../store/restaurantListSlice';
-import type { User, UserUpdatePayload } from '../../../types/mc_Types';
+import type { UserUpdatePayload } from '../../../types/mc_Types'; 
+// mc : created new interface that so effectively the user interface
+// will have to take on the file as type even though
+// it's a string in the database
 
 const UpdateProfile: React.FC<{ onCancel: () => void }> = ({ onCancel }) => {
   const dispatch = useDispatch<AppDispatch>();

@@ -31,6 +31,7 @@ import LastReview from './pages/hazem/last review';
 
 import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';
 import OrderDetailsTracking from './pages/am_pages/order_details_Tracking';
+import OrderHistory from './pages/mc_Components/CustOrders/OrderHistory';
 
 function App() {
   console.log('App component loaded');
@@ -45,6 +46,7 @@ function App() {
           <Route path="/list" element={<RestaurantList/>} />
           <Route path="/list/details/:restId" element={<RestaurantDetails />} />
           <Route path="/custProfile" element={<CustomerProfile />} />
+          <Route path="/OrderHistory" element={<OrderHistory />} />
 
           <Route path="/" element={<AuthPage />} />
           <Route path="/order-tracking" element={<OrderTrackPage />} />
@@ -57,6 +59,8 @@ function App() {
           {/* All 5Mohamed Component Routes */}
           {/* http://localhost:5173/delivery-history */}
           <Route path="/delivery-history" element={<DeliveryHistory />} />
+         
+
           {/* http://localhost:5173/restaurant-search */}
           <Route path="/restaurant-search" element={<RestaurantSearch />} />
           {/* http://localhost:5173/landing-page */}
