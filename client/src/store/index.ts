@@ -5,7 +5,7 @@ import authReducer from './authSlice';
     import counterReducer from './counterSlice';
     import restaurantDetailReducer from './restaurantDetailsSlice';
     import restaurantListReducer  from './restaurantListSlice';
-   
+    import deliveryHistoryReducer from '../pages/5Mohamed/DeliveryHistoryComponents/deliveryHistorySlice';
 
 
     export const store = configureStore({
@@ -15,7 +15,8 @@ import authReducer from './authSlice';
         restaurantList: restaurantListReducer,
 
         rider: riderReducer,
-        auth: authReducer
+        auth: authReducer,
+        deliveryHistory: deliveryHistoryReducer
         
       },
     });
