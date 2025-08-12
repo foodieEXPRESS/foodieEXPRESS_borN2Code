@@ -7,6 +7,8 @@ export interface CustomerData {
   address: string;
   email: string;
   phoneNumber: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface RestaurantData {
@@ -19,6 +21,15 @@ export interface RestaurantData {
     id: string;
     name: string;
   };
+}
+
+export interface DriverData {
+  id: string;
+  fullName: string;
+  phoneNumber: string;
+  latitude: number;
+  longitude: number;
+  vehicleInfo?: string;
 }
 
 export interface OrderItem {
@@ -47,28 +58,47 @@ export interface OrderItemsData {
   orderTotal: number;
 }
 
+export interface OrderStatusData {
+  orderId: string;
+  status: 'PENDING' | 'CONFIRMED' | 'PREPARING' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'CANCELLED';
+  totalAmount: number;
+  trackingStatus?: string;
+}
+
 export interface OrderTrackingState {
   customerData: CustomerData | null;
   restaurantData: RestaurantData | null;
+  driverData: DriverData | null;
   orderItemsData: OrderItemsData | null;
+  orderStatusData: OrderStatusData | null;
   customerLoading: boolean;
   restaurantLoading: boolean;
+  driverLoading: boolean;
   orderItemsLoading: boolean;
+  orderStatusLoading: boolean;
   customerError: string | null;
   restaurantError: string | null;
+  driverError: string | null;
   orderItemsError: string | null;
+  orderStatusError: string | null;
 }
 
 const initialState: OrderTrackingState = {
   customerData: null,
   restaurantData: null,
+  driverData: null,
   orderItemsData: null,
+  orderStatusData: null,
   customerLoading: false,
   restaurantLoading: false,
+  driverLoading: false,
   orderItemsLoading: false,
+  orderStatusLoading: false,
   customerError: null,
   restaurantError: null,
+  driverError: null,
   orderItemsError: null,
+  orderStatusError: null,
 };
 
 // Async thunk for fetching customer data
@@ -141,6 +171,41 @@ export const fetchRestaurantData = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching driver data
+export const fetchDriverData = createAsyncThunk(
+  'orderTracking/fetchDriverData',
+  async (orderId: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('Authentication token not found');
+      }
+
+      const response = await fetch(`http://localhost:8080/api/order-tracking/order/${orderId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.success && result.data.driver) {
+        return result.data.driver.user;
+      } else {
+        throw new Error(result.message || 'Failed to fetch driver data');
+      }
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to fetch driver data');
+    }
+  }
+);
+
 // Async thunk for fetching order items data
 export const fetchOrderItemsData = createAsyncThunk(
   'orderTracking/fetchOrderItemsData',
@@ -176,6 +241,41 @@ export const fetchOrderItemsData = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching order status data
+export const fetchOrderStatusData = createAsyncThunk(
+  'orderTracking/fetchOrderStatusData',
+  async (orderId: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('Authentication token not found');
+      }
+
+      const response = await fetch(`http://localhost:8080/api/order-tracking/order/${orderId}/status`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.success) {
+        return result.data;
+      } else {
+        throw new Error(result.message || 'Failed to fetch order status data');
+      }
+    } catch (error) {
+      return rejectWithValue(error instanceof Error ? error.message : 'Failed to fetch order status data');
+    }
+  }
+);
+
 const orderTrackingSlice = createSlice({
   name: 'orderTracking',
   initialState,
@@ -188,6 +288,10 @@ const orderTrackingSlice = createSlice({
       state.restaurantData = null;
       state.restaurantError = null;
     },
+    clearDriverData: (state) => {
+      state.driverData = null;
+      state.driverError = null;
+    },
     clearOrderItemsData: (state) => {
       state.orderItemsData = null;
       state.orderItemsError = null;
@@ -195,9 +299,11 @@ const orderTrackingSlice = createSlice({
     clearAllData: (state) => {
       state.customerData = null;
       state.restaurantData = null;
+      state.driverData = null;
       state.orderItemsData = null;
       state.customerError = null;
       state.restaurantError = null;
+      state.driverError = null;
       state.orderItemsError = null;
     },
   },
@@ -234,6 +340,22 @@ const orderTrackingSlice = createSlice({
         state.restaurantError = action.payload as string;
       });
 
+    // Driver data cases
+    builder
+      .addCase(fetchDriverData.pending, (state) => {
+        state.driverLoading = true;
+        state.driverError = null;
+      })
+      .addCase(fetchDriverData.fulfilled, (state, action) => {
+        state.driverLoading = false;
+        state.driverData = action.payload;
+        state.driverError = null;
+      })
+      .addCase(fetchDriverData.rejected, (state, action) => {
+        state.driverLoading = false;
+        state.driverError = action.payload as string;
+      });
+
     // Order items data cases
     builder
       .addCase(fetchOrderItemsData.pending, (state) => {
@@ -249,8 +371,24 @@ const orderTrackingSlice = createSlice({
         state.orderItemsLoading = false;
         state.orderItemsError = action.payload as string;
       });
+
+    // Order status data cases
+    builder
+      .addCase(fetchOrderStatusData.pending, (state) => {
+        state.orderStatusLoading = true;
+        state.orderStatusError = null;
+      })
+      .addCase(fetchOrderStatusData.fulfilled, (state, action) => {
+        state.orderStatusLoading = false;
+        state.orderStatusData = action.payload;
+        state.orderStatusError = null;
+      })
+      .addCase(fetchOrderStatusData.rejected, (state, action) => {
+        state.orderStatusLoading = false;
+        state.orderStatusError = action.payload as string;
+      });
   },
 });
 
-export const { clearCustomerData, clearRestaurantData, clearOrderItemsData, clearAllData } = orderTrackingSlice.actions;
+export const { clearCustomerData, clearRestaurantData, clearDriverData, clearOrderItemsData, clearAllData } = orderTrackingSlice.actions;
 export default orderTrackingSlice.reducer;

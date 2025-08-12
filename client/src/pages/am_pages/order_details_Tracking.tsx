@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { fetchCustomerData, fetchRestaurantData, fetchOrderItemsData } from '../../store/orderTrackingSlice';
+import { fetchCustomerData, fetchRestaurantData, fetchDriverData, fetchOrderItemsData, fetchOrderStatusData } from '../../store/orderTrackingSlice';
+import LiveNavigationMap from '../../components/LiveNavigationMap';
 
 const OrderDetailsTracking: React.FC = () => {
   const [showMap, setShowMap] = useState(true);
@@ -11,23 +12,64 @@ const OrderDetailsTracking: React.FC = () => {
   const { 
     customerData, 
     restaurantData, 
+    driverData,
     orderItemsData,
+    orderStatusData,
     customerLoading, 
     restaurantLoading, 
+    driverLoading,
     orderItemsLoading,
+    orderStatusLoading,
     customerError, 
     restaurantError, 
-    orderItemsError
+    driverError,
+    orderItemsError,
+    orderStatusError
   } = useAppSelector((state) => state.orderTracking);
 
   // For demo purposes, using a sample order ID - in real app this would come from props or route params
   const orderId = "123"; // Replace with actual order ID from your app
 
+  // Helper function to determine status colors
+  const STAGES = [
+    { key: 'CONFIRMED', label: 'Order confirmed' },
+    { key: 'PREPARING', label: 'Food being prepared' },
+    { key: 'OUT_FOR_DELIVERY', label: 'Out for delivery' },
+    { key: 'DELIVERED', label: 'Delivered' },
+  ] as const;
+
+  type StageKey = (typeof STAGES)[number]['key'];
+
+  // Map server status to display stage
+  const statusToStageKey = (status: string): StageKey => {
+    switch (status) {
+      case 'PENDING':
+      case 'PREPARING':
+        return 'PREPARING';
+      case 'CONFIRMED':
+        return 'CONFIRMED';
+      case 'OUT_FOR_DELIVERY':
+        return 'OUT_FOR_DELIVERY';
+      case 'DELIVERED':
+        return 'DELIVERED';
+      default:
+        return 'CONFIRMED';
+    }
+  };
+
+  const getStageLabelFromStatus = (status: string): string => {
+    const key = statusToStageKey(status);
+    const stage = STAGES.find(s => s.key === key);
+    return stage ? stage.label : status;
+  };
+
   useEffect(() => {
     // Dispatch Redux actions to fetch data
     dispatch(fetchCustomerData(orderId));
     dispatch(fetchRestaurantData(orderId));
+    dispatch(fetchDriverData(orderId));
     dispatch(fetchOrderItemsData(orderId));
+    dispatch(fetchOrderStatusData(orderId));
   }, [dispatch, orderId]);
 
   return (
@@ -65,50 +107,25 @@ const OrderDetailsTracking: React.FC = () => {
       <div className="flex flex-col">
         {/* Map Section */}
         {showMap && (
-          <div className="h-80 relative" style={{ background: 'linear-gradient(135deg, #C7D2FE 0%, #DDD6FE 50%, #A7F3D0 100%)' }}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              {/* ETA Badge */}
-              <div className="absolute top-6 left-6 bg-white rounded-md px-4 py-2 shadow-lg flex items-center space-x-2">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary-alt)' }}></div>
-                <span className="text-sm font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)' , fontWeight: '500' }}>ETA: 2 min</span>
-              </div>
-
-              {/* Live Navigation Card */}
-              <div className="bg-white rounded-2xl p-6 shadow-xl w-xs mx-4">
-                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M42 18C42 30 24 42 24 42C24 42 6 30 6 18C6 14.8174 7.26428 11.7652 9.51472 9.51472C11.7652 7.26428 14.8174 6 18 6H30C33.1826 6 36.2348 7.26428 38.4853 9.51472C40.7357 11.7652 42 14.8174 42 18Z" stroke="#4318D1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M24 24C27.3137 24 30 21.3137 30 18C30 14.6863 27.3137 12 24 12C20.6863 12 18 14.6863 18 18C18 21.3137 20.6863 24 24 24Z" stroke="#4318D1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-                </div>
-                <h3 className="text-lg font-semibold text-center mb-2" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)' }}>
-                  Live Navigation
-                </h3>
-                <p className="text-center text-sm mb-4" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>
-                  Real-time directions and<br />traffic updates
-                </p>
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }}></div>
-                  <span className="text-sm font-medium" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-primary)' }}>Heading to restaurant</span>
-                </div>
-              </div>
-
-              {/* Map Controls */}
-              <div className="absolute bottom-6 right-6 flex flex-row space-x-2">
-                <button className="w-10 h-10 bg-white rounded-md shadow-lg flex items-center justify-center hover:bg-gray-50">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="var(--color-primary)" strokeWidth="2"/>
-                    <polyline points="12,6 12,12 16,14" stroke="var(--color-primary)" strokeWidth="2"/>
-                  </svg>
-                </button>
-                <button className="w-10 h-10 bg-white rounded-md shadow-lg flex items-center justify-center hover:bg-gray-50">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2" fill="var(--color-primary)"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
+          <div className="h-80 relative">
+            <LiveNavigationMap
+              driverLocation={driverData ? {
+                latitude: driverData.latitude || 40.7505,
+                longitude: driverData.longitude || -73.9934,
+                name: driverData.fullName || 'Driver'
+              } : undefined}
+              restaurantLocation={restaurantData ? {
+                latitude: restaurantData.latitude || 40.7589,
+                longitude: restaurantData.longitude || -73.9851,
+                name: restaurantData.name || 'Restaurant'
+              } : undefined}
+              customerLocation={customerData ? {
+                latitude: customerData.latitude || 40.7128,
+                longitude: customerData.longitude || -74.0060,
+                name: customerData.fullName || 'Customer'
+              } : undefined}
+              orderStatus={orderStatusData?.status || "PENDING"}
+            />
           </div>
         )}
 
@@ -346,41 +363,58 @@ const OrderDetailsTracking: React.FC = () => {
               </div>
               
               <div className="p-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary-alt)' }}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M13.5 5L6 12.5L2.5 9" stroke="var(--color-secondary-lighter)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                {orderStatusLoading ? (
+                  <div className="animate-pulse">
+                    <div className="h-5 bg-gray-200 rounded mb-2 w-48"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-4 w-32"></div>
+                    <div className="space-y-3">
+                      {[1, 2, 3, 4, 5].map((item) => (
+                        <div key={item} className="flex items-center space-x-3">
+                          <div className="w-3 h-3 rounded-full bg-gray-200"></div>
+                          <div className="h-4 bg-gray-200 rounded w-32"></div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>En Route to Restaurant</h3>
-                    <p className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>Heading to pickup location</p>
+                ) : orderStatusError ? (
+                  <div className="text-red-500 text-sm">
+                    <p>Error loading order status: {orderStatusError}</p>
                   </div>
-                </div>
-                
-                {/* Progress indicators */}
-                <div className="mt-4 space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
-                    <span className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Order confirmed</span>
+                ) : orderStatusData ? (
+                  <>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary-alt)' }}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M13.5 5L6 12.5L2.5 9" stroke="var(--color-secondary-lighter)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-medium" style={{ color: 'var(--color-secondary-dark)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>
+                          {getStageLabelFromStatus(orderStatusData.status)}
+                        </h3>
+                        <p className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)' }}>
+                          Order #{orderStatusData.orderId.slice(-8)}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Progress indicators */}
+                    <div className="mt-4 space-y-3">
+                      {STAGES.filter(s => s.key !== statusToStageKey(orderStatusData.status)).map((stage) => (
+                        <div key={stage.key} className="flex items-center space-x-3">
+                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
+                          <span className="text-sm font-medium" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>
+                            {stage.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-gray-500 text-sm">
+                    <p>No order status available</p>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
-                    <span className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Food being prepared</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-primary-alt)' }}></div>
-                    <span className="text-sm font-medium" style={{ color: 'var(--color-primary-alt)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>En route to pickup</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
-                    <span className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Out for delivery</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-secondary-light)' }}></div>
-                    <span className="text-sm" style={{ color: 'var(--color-secondary-gray)', fontFamily: 'var(--font-primary)', fontWeight: '600' }}>Delivered</span>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
