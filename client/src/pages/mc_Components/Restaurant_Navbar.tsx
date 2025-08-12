@@ -1,11 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store';
 import custProfile from "../profiles/mc_Customerprofile/CustomerProfile";
 import cart_Icon from "../../assets/Restuarant_Navbar/cart_Icon.png";
 const Navbar: React.FC = () => {
 const Navigate = useNavigate();
+const cartCount = useSelector((state: RootState) => state.cart.count);
+
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -35,9 +39,13 @@ const Navigate = useNavigate();
               </svg>
             </div>
             <a href="#" className="MA__sign-in-link">Sign In</a>
-            <a href="#" className="MA__order-now-btn">
-                
-<img src={cart_Icon} alt="Description" />
+            <a href="#" className="MA__order-now-btn relative ml-4" onClick={() => Navigate('/order-view-before-payment')}>
+              <img src={cart_Icon} alt="Cart" />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 py-0.5 text-xs font-bold">
+  {cartCount}
+</span>
+              )}
             </a>
             <button
               className="ml-4 p-2 rounded focus:outline-none focus:ring-2 focus:ring-primary-DEFAULT"

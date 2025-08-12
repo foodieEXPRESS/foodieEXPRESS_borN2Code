@@ -4,6 +4,7 @@ import type { RootState, AppDispatch } from '../../../store';
 import{  fetchUserById ,updateUserLocation } from '../../../store/restaurantListSlice';
 import type { StatisticCardProps } from '../../../types/mc_Types';
 import UpdateProfile from './UpdateProfile';
+import Navbar from '../../mc_Components/Restaurant_Navbar';
 const StatisticCard: React.FC<StatisticCardProps & { className?: string }> = ({
   value,
   label,
@@ -78,6 +79,8 @@ const CustomerProfile: React.FC = () => {
   const initials = `${name[0] || ''}${name.split(' ')[1]?.[0] || ''}`.toUpperCase();
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8 overflow-x-hidden">
       {/* Headings */}
       <div className="w-full max-w-7xl mb-6">
@@ -162,6 +165,7 @@ const CustomerProfile: React.FC = () => {
 </section>
       </div>
     </div>
+        </div>
   );
 };
 
