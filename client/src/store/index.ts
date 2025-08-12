@@ -5,7 +5,7 @@ import authReducer from './authSlice';
     import counterReducer from './counterSlice';
     import restaurantDetailReducer from './restaurantDetailsSlice';
     import restaurantListReducer  from './restaurantListSlice';
-   
+    import CartReducer from './CartReducer';
 
 import orderTrackingReducer from './orderTrackingSlice';
 
@@ -17,6 +17,7 @@ export const store = configureStore({
     rider: riderReducer,
     auth: authReducer,
     orderTracking: orderTrackingReducer,
+    cart: CartReducer,
   },
 });
 

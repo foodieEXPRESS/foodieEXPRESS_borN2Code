@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 // Import types for form data, step, and errors
 import type { CheckoutFormData, CheckoutStep, CheckoutFormErrors } from './dataTypes';
 import type { CheckoutProps } from './propsTypes';
-
+impo
 // Brand logo component using the Italiana font
 const BrandLogo = () => (
   <span className="font-italiana text-[1.7rem] tracking-tight text-[#1A1A1A]">FoodieExpress</span>
@@ -124,23 +124,7 @@ const Checkout: React.FC<CheckoutProps> = ({
   // Render the component
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-inter">
-      {/* Header Bar with logo and navigation */}
-      <header className="w-full bg-white shadow-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-3">
-            {/* Logo icon */}
-            <div className="rounded-lg bg-[#4318D1] p-1.5 flex items-center justify-center mr-2">
-              <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#fff"/><rect x="4" y="4" width="16" height="16" rx="4" stroke="#4318D1" strokeWidth="2"/></svg>
-            </div>
-            {/* Brand name */}
-            <BrandLogo />
-          </div>
-          <div className="flex items-center gap-4">
-            <a href="#signin" className="text-[#1A1A1A] font-medium hover:underline">Sign In</a>
-            <a href="#help" className="bg-[#4318D1] hover:bg-[#10B981] text-white font-semibold px-4 py-2 rounded-lg transition-all">Help</a>
-          </div>
-        </div>
-      </header>
+
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
