@@ -4,6 +4,7 @@ export interface MenuItem {
   tags?: string[];
   description: string;
   price: number;
+  restaurantName?: string;
 }
 
 
