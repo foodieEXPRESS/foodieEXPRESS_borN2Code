@@ -271,8 +271,8 @@ const OrderTrackPage: React.FC = () => {
             <div className="MACH-card">
               <h3 className="MACH-card-title">Order Summary</h3>
 
-              <div className="summary-store">
-                <div className="store-badge">BI</div>
+              <div className="MACH-summary-store">
+                <div className="MACH-store-badge">BI</div>
                 <div>
                   <div className="font-semibold">Bella Italia</div>
                   <div className="MACH-card-subtle">456 Restaurant Ave, New York, NY</div>
@@ -280,31 +280,31 @@ const OrderTrackPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="summary-items">
-                <div className="summary-row">
-                  <div className="summary-left"><span className="pill pill-pizza">Pizza</span> Margherita Pizza (x2)</div>
-                  <div className="price">$33.98</div>
+              <div className="MACH-summary-items">
+                <div className="MACH-summary-row">
+                  <div className="MACH-summary-left"><span className="MACH-pill MACH-pill-pizza">Pizza</span> Margherita Pizza (x2)</div>
+                  <div className="MACH-price">$33.98</div>
                 </div>
-                <div className="summary-row">
-                  <div className="summary-left"><span className="pill pill-salad">Salad</span> Caesar Salad (x1)</div>
-                  <div className="price">$12.99</div>
+                <div className="MACH-summary-row">
+                  <div className="MACH-summary-left"><span className="MACH-pill MACH-pill-salad">Salad</span> Caesar Salad (x1)</div>
+                  <div className="MACH-price">$12.99</div>
                 </div>
-                <div className="summary-row">
-                  <div className="summary-left"><span className="pill pill-dessert">Dessert</span> Tiramisu (x1)</div>
-                  <div className="price">$7.99</div>
+                <div className="MACH-summary-row">
+                  <div className="MACH-summary-left"><span className="MACH-pill MACH-pill-dessert">Dessert</span> Tiramisu (x1)</div>
+                  <div className="MACH-price">$7.99</div>
                 </div>
               </div>
 
-              <div className="summary-row total-row">
+              <div className="MACH-summary-row MACH-total-row">
                 <div>Total</div>
-                <div className="price">$54.97</div>
+                <div className="MACH-price">$54.97</div>
               </div>
               <div className="MACH-card-subtle">Ordered at {status.etaText || '02:30 PM'}</div>
 
               <div className="mt-3" />
-              <button className="btn btn-muted">Report an Issue</button>
+              <button className="MACH-btn MACH-btn-muted">Report an Issue</button>
               <div className="mt-2" />
-              <button className="btn btn-prim">Reorder Items</button>
+              <button className="MACH-btn MACH-btn-prim">Reorder Items</button>
 
               <div className="mt-6 callout">
                 <div className="flex items-center"><div className="icon">✅</div> <div><strong>Order Delivered!</strong><div className="card-subtle">Hope you enjoyed your meal!</div></div></div>

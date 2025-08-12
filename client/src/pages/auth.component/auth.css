@@ -12,7 +12,7 @@
 }
 
 /* Main Styles */
-.MACHRapp {
+.MACHR-app {
   font-family: 'Arial', sans-serif;
   width: 63%;
   margin: 0 auto;
@@ -30,7 +30,7 @@
 }
 
 /* Brand header (logo + text) */
-.MACHRbrand {
+.MACH-brand {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -38,7 +38,7 @@
   justify-content: center;
 }
 
-.MACHRbrand-badge {
+.MACHR-brand-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -52,7 +52,7 @@
   line-height: 1;
 }
 
-.MACHRbrand-text {
+.MACHR-brand-text {
   font-weight: 800;
   font-size: 1.5rem;
   color: #0f0f0f;
@@ -65,14 +65,14 @@
   margin-bottom: 0.5rem;
 }
 
-.MACHRsubtitle {
+.MACHR-subtitle {
   text-align: center;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: #333;
 }
 
-.MACHRdescription {
+.MACHR-description {
   text-align: center;
   color: #888;
   margin-bottom: 2rem;
@@ -80,13 +80,13 @@
 }
 
 /* Tabs */
-.MACHRtabs {
+.MACH-tabs {
   display: flex;
   border-bottom: 1px solid #ddd;
   margin-bottom: 1.5rem;
 }
 
-.MACHRtab {
+.MACH-tab {
   flex: 1;
   padding: 1rem;
   border: none;
@@ -96,27 +96,27 @@
   cursor: pointer;
 }
 
-.MACHRtab.active {
+.MACHR-tab.active {
   color: #4318D1;
   border-bottom: 2px solid #4318D1;
 }
 
 /* Form Elements */
-.MACHRform {
+.MACHR-form {
   margin-top: 1.5rem;
 }
 
-.MACHRform-group {
+.MACH-form-group {
   margin-bottom: 1.2rem;
 }
 
-.MACHRform-group label {
+.MACH-form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
 
-.MACHRform-group input {
+.MACHR-form-group input {
   width: 100%;
   padding: 0.8rem;
   border: 1px solid #ddd;
@@ -124,26 +124,26 @@
   font-size: 1rem;
 }
 
-.MACHRform-options {
+.MACHR-form-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 1rem 0;
 }
 
-.MACHRcheckbox-label {
+.MACH-checkbox-label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.MACHRforgot-link {
+.MACH-forgot-link {
   color: #4318D1;
   text-decoration: none;
 }
 
 /* Buttons */
-.MACHRbtn {
+.MACHR-btn {
   width: 100%;
   padding: 0.8rem;
   border: none;
@@ -271,7 +271,7 @@
   background: linear-gradient(135deg, #FAFAFA 0%, #FAFAFA 100%);
 }
 
-.MACHRform-container {
+.MACHR-form-container {
   background: white;
   padding: 2rem;
   border-radius: 8px;
@@ -280,7 +280,7 @@
   width: 100%;
 }
 
-.MACHRtab-container {
+.MACHR-tab-container {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -292,7 +292,7 @@
   margin: 0 auto 1.5rem;
 }
 
-.MACHRtab-container button {
+.MACHR-tab-container_button {
   padding: 10px 18px;
   background: transparent;
   border: none;
@@ -303,17 +303,17 @@
   transition: all 0.18s ease;
 }
 
-.MACHRtab-container button:hover {
+.MACHR-tab-container button:hover {
   color: #4b5563;
 }
 
-.MACHRtab-container .active {
+.MACHR-tab-container .active {
   background: #ffffff;
   color: #4318D1;
   box-shadow: 0 2px 6px rgba(67, 24, 209, 0.15), 0 12px 22px rgba(17, 24, 39, 0.06);
 }
 
-input {
+.MACHR-input {
   width: 100%;
   padding: 0.75rem;
   margin-bottom: 1rem;
@@ -321,7 +321,7 @@ input {
   border-radius: 4px;
 }
 
-button[type="submit"] {
+.MACHR-button[type="submit"] {
   width: 100%;
   padding: 0.75rem;
   background: #4318D1;
@@ -374,12 +374,12 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-.MACHRgoogle-btn {
+.MACHR-google-btn {
   border-color: #db4437;
   color: #db4437;
 }
 
-.MACHRfacebook-btn {
+.MACH-facebook-btn {
   border-color: #4267B2;
   color: #4267B2;
 }
@@ -397,7 +397,7 @@ button[type="submit"] {
   text-decoration: underline;
 }
 
-.MACHRerror {
+.MACHR-error {
   background: #ffebee;
   color: #c62828;
   padding: 12px 16px;
@@ -407,7 +407,7 @@ button[type="submit"] {
   font-size: 0.95rem;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .MACHR-auth-container {
     padding: 10px;
@@ -512,29 +512,30 @@ button[type="submit"] {
 .MACHR-items-center { align-items: center; }
 .MACHR-justify-center { justify-content: center; }
 
-/* Table styles */
-table { border-collapse: collapse; width: 100%; }
-th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
-th { font-weight: 500; color: #6b7280; }
 
-/* Button styles */
-button { cursor: pointer; border: none; background: none; }
-button:hover { opacity: 0.8; }
+.MACHR-table { border-collapse: collapse; width: 100%; }
 
-/* Responsive design */
+.MACHR-th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+.MACHR-th { font-weight: 500; color: #6b7280; }
+
+
+.MACHR-button { cursor: pointer; border: none; background: none; }
+.MACHR-button:hover { opacity: 0.8; }
+
+
 @media (min-width: 768px) {
   .MACHR-md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .MACHR-md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 /* Custom styles for the new auth components */
-.auth-tab-container {
+.MACHR-auth-tab-container {
   display: flex;
   border-bottom: 1px solid #ddd;
   margin-bottom: 1.5rem;
 }
 
-.auth-tab-active {
+.MACHR-auth-tab-active {
   flex: 1;
   padding: 1rem;
   border: none;
@@ -546,7 +547,7 @@ button:hover { opacity: 0.8; }
   transition: all 0.2s ease;
 }
 
-.auth-tab-inactive {
+.MACHR-auth-tab-inactive {
   flex: 1;
   padding: 1rem;
   border: none;
@@ -557,24 +558,24 @@ button:hover { opacity: 0.8; }
   transition: all 0.2s ease;
 }
 
-.auth-tab-active:hover {
+.MACHR-auth-tab-active:hover {
   color: #4318D1;
   border-bottom: 2px solid #4318D1;
 }
 
-.auth-tab-inactive:hover {
+.MACHR-auth-tab-inactive:hover {
   color: #666;
 }
 
-.MACHRrole-section-custom {
+.MACH-role-section-custom {
   margin: 1.5rem 0;
 }
 
-.MACHRrole-dropdown-container {
+.MACH-role-dropdown-container {
   position: relative;
 }
 
-.MACHRrole-dropdown-button {
+.MACH-role-dropdown-button {
   width: 100%;
   padding: 1rem;
   border: 1px solid #ddd;
@@ -655,13 +656,13 @@ button:hover { opacity: 0.8; }
   text-align: center;
 }
 
-.MACHRsocial-buttons-container {
+.MACHR-social-buttons-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-.MACHRsocial-button {
+.MACHR-social-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -678,7 +679,7 @@ button:hover { opacity: 0.8; }
 .MACHR-social-button:hover {
   background-color: #f5f5f5;
 }
-/* SignInForm Component Styles */
+
 .auth-tab-container {
   display: flex;
   background: #f5f5f5;
@@ -688,7 +689,7 @@ button:hover { opacity: 0.8; }
   position: relative;
 }
 
-.auth-tab-active {
+.MACHR-auth-tab-active {
   flex: 1;
   padding: 12px 24px;
   border: none;
@@ -703,7 +704,7 @@ button:hover { opacity: 0.8; }
   z-index: 2;
 }
 
-.auth-tab-inactive {
+.MACHR-auth-tab-inactive {
   flex: 1;
   padding: 12px 24px;
   border: none;
