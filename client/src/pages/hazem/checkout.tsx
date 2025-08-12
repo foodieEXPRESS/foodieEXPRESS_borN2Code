@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 // Import types for form data, step, and errors
 import type { CheckoutFormData, CheckoutStep, CheckoutFormErrors } from './dataTypes';
 import type { CheckoutProps } from './propsTypes';
+
 // Brand logo component using the Italiana font
 const BrandLogo = () => (
   <span className="font-italiana text-[1.7rem] tracking-tight text-[#1A1A1A]">FoodieExpress</span>
