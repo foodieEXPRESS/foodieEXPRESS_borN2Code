@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 // Get current driver profile
 const getDriverProfile = async (req, res) => {
   try {
-    // const { userId } = req.user; 
+    const { userId } = req.user; 
     // // Assuming authentication middleware sets this
-    const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
+    // const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
 
     const driver = await prisma.driver.findUnique({
       where: { id:userId },
@@ -69,8 +69,8 @@ const getAllDrivers = async (req, res) => {
 
 const updateDriverPhoneNumber = async (req, res) => {
   try {
-    // const { userId } = req.user;
-    const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
+    const { userId } = req.user;
+    // const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
     const { phoneNumber } = req.body;
 
     // First update the user's phoneNumber
@@ -112,8 +112,8 @@ const updateDriverPhoneNumber = async (req, res) => {
 //update driver full name
 const updateDriverFullName = async (req, res) => {
   try {
-    // const { userId } = req.user;
-    const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
+    const { userId } = req.user;
+    // const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
     const { fullName } = req.body;
 
     // First update the user's fullName
@@ -194,8 +194,8 @@ const getDriverById = async (req, res) => {
 // Update driver availability
 const updateDriverAvailability = async (req, res) => {
   try {
-    // const { userId } = req.user;
-    const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
+    const { userId } = req.user;
+    // const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
     const { isAvailable } = req.body;
 
     const updatedDriver = await prisma.driver.update({
@@ -229,8 +229,8 @@ const updateDriverAvailability = async (req, res) => {
 // Update driver vehicle info
 const updateDriverVehicleInfo = async (req, res) => {
   try {
-    // const { userId } = req.user;
-    const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
+    const { userId } = req.user;
+    // const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
     const { vehicleInfo } = req.body;
 
     const updatedDriver = await prisma.driver.update({

@@ -10,8 +10,8 @@ const SearchControls: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row  gap-3 items-stretch md:items-center">
-      <div className="relative flex-1">
+    <div className="flex flex-col md:flex-row  gap-3 items-stretch md:items-center ">
+      <div className=" relative flex-1 ">
         <svg className='absolute left-3 top-1/2 -translate-y-1/2' width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18.4546 17.5421L13.4546 12.5421M15.1213 8.37545C15.1213 9.14149 14.9704 9.90004 14.6772 10.6078C14.3841 11.3155 13.9544 11.9586 13.4127 12.5002C12.871 13.0419 12.228 13.4716 11.5202 13.7647C10.8125 14.0579 10.054 14.2088 9.28792 14.2088C8.52188 14.2088 7.76334 14.0579 7.0556 13.7647C6.34787 13.4716 5.70481 13.0419 5.16313 12.5002C4.62146 11.9586 4.19178 11.3155 3.89863 10.6078C3.60547 9.90004 3.45459 9.14149 3.45459 8.37545C3.45459 6.82835 4.06917 5.34462 5.16313 4.25066C6.2571 3.1567 7.74083 2.54211 9.28792 2.54211C10.835 2.54211 12.3188 3.1567 13.4127 4.25066C14.5067 5.34462 15.1213 6.82835 15.1213 8.37545Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>

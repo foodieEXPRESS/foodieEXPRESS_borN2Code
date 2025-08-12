@@ -63,4 +63,32 @@
   --btn-padding-lg: 1rem 2rem;
   --btn-padding-xl: 1.25rem 2.5rem;
 }
- 
+
+/* Leaflet Map Styles */
+.leaflet-container {
+  font-family: var(--font-primary);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-popup-content {
+  margin: 8px 12px;
+  font-size: 14px;
+}
+
+.leaflet-popup-tip {
+  background: white;
+}
+
+.custom-marker {
+  background: transparent;
+  border: none;
+}
+
+.driver-marker {
+  background: transparent;
+  border: none;
+}
