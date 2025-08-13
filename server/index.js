@@ -13,6 +13,7 @@ const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
 const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
 // const multerRoutes = require('./routes/mc_routes/multerRoute.js')  ;
 
+
 app.use(express.json());
 app.use(cors());
 
@@ -25,10 +26,7 @@ app.use("/api/order-tracking", orderTrackingRoute);
 
 app.use("/api/restaurants", RestaurantListRoutes);
 app.use("/api/rider-profile", riderProfileRoutes);{/* TO DELETE LATER*/}
-
 const deliveryRoutes = require('./routes/MO_routes/deliveryRoutes');
-const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
-const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
 app.get("/:restId", async (req, res) => {
   try {
     const { restId } = req.params;
@@ -69,12 +67,11 @@ app.get("/:restId", async (req, res) => {
 app.use("/api/details",RestDetailsRoutes);
 // app.use("/api/upload", multerRoutes);
 
-
-const landingpage = require("./routes/landingpage")
+const searchqueryRoutes = require('./routes/MO_routes/searchqueryRoutes')
+app.use("/api/search", searchqueryRoutes);
 const landingpage = require("./routes/MO_routes/landingpage")
+
 app.use("/api/landingpage",landingpage)
-
-
 
 
 app.use("/api/restaurants", RestaurantListRoutes);

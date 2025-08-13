@@ -20,20 +20,10 @@ export const store = configureStore({
     auth: authReducer,
     orderTracking: orderTrackingReducer,
     cart: CartReducer,
+    deliveryHistory: deliveryHistoryReducer
   },
 });
-    export const store = configureStore({
-      reducer: {
-        counter: counterReducer,
-        restaurantDetails: restaurantDetailReducer,
-        restaurantList: restaurantListReducer,
 
-        rider: riderReducer,
-        auth: authReducer,
-        deliveryHistory: deliveryHistoryReducer
-        
-      },
-    });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -1,29 +1,52 @@
-import React, { useState } from 'react';
-import NavBar from '../LandingPage/Navbar';
-import Hero from './Hero';
-import SearchControls from './SearchControls';
-import Filters from './Filters';
-import FooterControls from './FooterControls';
+import { useState } from "react";
+import NavBar from "../LandingPage/Navbar";
+import Hero from "./Hero";
+import SearchControls from "./SearchControls";
+import Filters from "./Filters";
+import ResultsHeader from "./ResultsHeader";
+import api from "../../../services/api";
 
-const RestaurantSearch: React.FC = () => {
+export default function FoodieExpressApp() {
   const [view, setView] = useState<'grid' | 'list'>('grid');
+  const [resultsCount, setResultsCount] = useState<number>(0);
 
-  console.log('RestaurantSearch: Component loaded, current view:', view);
-
+  const handleSearch = async (query: string) => {
+    const q = String(query || '').trim();
+    if (!q) {
+      setResultsCount(0);
+      return;
+    }
+    try {
+      const { data } = await api.get('/search', { params: { query: q } });
+      const total = typeof data?.total === 'number' ? data.total : Array.isArray(data?.data) ? data.data.length : 0;
+      setResultsCount(total);
+    } catch (err) {
+      setResultsCount(0);
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
-      <main className="flex flex-col content-between max-w-6xl mx-auto px-4 py-4 mt-6">
-        <Hero />
-        <section className="bg-white rounded-md shadow-md p-6 mb-4 ">
-          <SearchControls />
-          <div className=" flex flex-row justify-between border-t border-gray-200 my-3 w-full"></div>
-          <Filters />
-        </section>
-        <FooterControls resultsCount={8} view={view} onChange={setView} />
-      </main>
+
+      {/* Hero Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <Hero />
+
+          {/* Search and Filter Section */}
+          <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+            <SearchControls onSearch={handleSearch} />
+            <Filters />
+          </div>
+        </div>
+      </div>
+
+      {/* Results Section */}
+      <div className="bg-white py-8">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <ResultsHeader resultsCount={resultsCount} view={view} onChange={setView} />
+        </div>
+      </div>
     </div>
   );
-};
-
-export default RestaurantSearch; 
+}
