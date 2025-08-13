@@ -67,7 +67,7 @@ function App() {
           <Route path="/rider-profile" element={<RiderProfile />} />
 
 
-          <Route path="/order-details-tracking" element={<OrderDetailsTracking />} />
+          <Route path="/order-details-tracking/:orderId" element={<OrderDetailsTracking />} />
     
         </Routes>
       </BrowserRouter>
