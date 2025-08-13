@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../../store';
 import { fetchProfile, fetchDashboard, changeOrderStatus, fetchOrders, fetchMenus } from '../../../store/restaurantProfileSlice';
+import { logout } from '../../../store/authSlice';
 import './restaurantprofile.css';
 
 const RestaurantProfile: React.FC = () => {
@@ -76,7 +77,15 @@ const RestaurantProfile: React.FC = () => {
             <span className="machraoui-help-text">Help</span>
           </div>
         </div>
-        <button className="machraoui-settings-btn">Settings</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            className="machraoui-view-earnings-btn"
+            onClick={() => { dispatch(logout()); navigate('/'); }}
+          >
+            Logout
+          </button>
+          <button className="machraoui-settings-btn">Settings</button>
+        </div>
       </div>
 
       {/* Restaurant Information Card */}
