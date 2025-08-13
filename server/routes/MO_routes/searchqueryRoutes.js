@@ -1,12 +1,18 @@
 const express = require('express');
-const { searchRestaurants, getCuisines } = require('../../controllers/MO_conntrollers/searchquerycontroller');
+// Ensure CommonJS import (no TypeScript/ESM syntax)
+const controller = require('../../controllers/MO_conntrollers/searchquerycontroller');
 
 const router = express.Router();
 
 // GET /api/search?query=something
-router.get('/', searchRestaurants);
+router.get('/', controller.searchRestaurants);
 
 // GET /api/search/cuisines
-router.get('/cuisines', getCuisines);
+router.get('/cuisines', controller.getCuisines);
+
+// GET /api/search/names -> restaurants, cuisines, items
+if (controller.getNames) {
+  router.get('/names', controller.getNames);
+}
 
 module.exports = router;

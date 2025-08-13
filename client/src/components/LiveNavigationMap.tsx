@@ -92,16 +92,17 @@ interface LiveNavigationMapProps {
   orderStatus?: string;
 }
 
-// Component to handle map updates
-const MapUpdater: React.FC<{ locations: Location[] }> = ({ locations }) => {
+// Component to initially fit map to static points (restaurant/customer) and when they change
+const MapUpdater: React.FC<{ fitTargets: Location[] }> = ({ fitTargets }) => {
   const map = useMap();
 
   useEffect(() => {
-    if (locations.length > 0) {
-      const bounds = L.latLngBounds(locations.map(loc => [loc.latitude, loc.longitude]));
+    if (fitTargets.length > 0) {
+      const bounds = L.latLngBounds(fitTargets.map(loc => [loc.latitude, loc.longitude]));
       map.fitBounds(bounds, { padding: [20, 20] });
     }
-  }, [locations, map]);
+    // Intentionally do NOT depend on driver updates; only refit when static targets change
+  }, [map, JSON.stringify(fitTargets)]);
 
   return null;
 };
@@ -114,29 +115,10 @@ const LiveNavigationMap: React.FC<LiveNavigationMapProps> = ({
 }) => {
   const mapRef = useRef<L.Map>(null);
 
-  // Create locations array for the map
-  const locations: Location[] = [];
-  
-  if (driverLocation) {
-    locations.push({
-      ...driverLocation,
-      type: 'driver'
-    });
-  }
-  
-  if (restaurantLocation) {
-    locations.push({
-      ...restaurantLocation,
-      type: 'restaurant'
-    });
-  }
-  
-  if (customerLocation) {
-    locations.push({
-      ...customerLocation,
-      type: 'customer'
-    });
-  }
+  // Build fit targets that exclude the driver so zoom isn't reset on live updates
+  const fitTargets: Location[] = [];
+  if (restaurantLocation) fitTargets.push({ ...restaurantLocation, type: 'restaurant' });
+  if (customerLocation) fitTargets.push({ ...customerLocation, type: 'customer' });
 
   // Default center (New York City)
   const defaultCenter: [number, number] = [40.7128, -74.0060];
@@ -181,6 +163,7 @@ const LiveNavigationMap: React.FC<LiveNavigationMapProps> = ({
         {/* Driver Marker */}
         {driverLocation && (
           <Marker
+            key={`${driverLocation.latitude.toFixed(5)},${driverLocation.longitude.toFixed(5)}`}
             position={[driverLocation.latitude, driverLocation.longitude]}
             icon={createDriverIcon()}
           >
@@ -237,8 +220,8 @@ const LiveNavigationMap: React.FC<LiveNavigationMapProps> = ({
           />
         )}
 
-        {/* Map Updater */}
-        <MapUpdater locations={locations} />
+        {/* Initial/Static fit only (restaurant & customer) */}
+        <MapUpdater fitTargets={fitTargets} />
       </MapContainer>
 
       {/* Status Overlay */}

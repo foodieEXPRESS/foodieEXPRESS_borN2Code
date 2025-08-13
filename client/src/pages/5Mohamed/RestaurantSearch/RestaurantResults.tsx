@@ -1,3 +1,6 @@
+import { StarIcon as StarSolid } from '@heroicons/react/24/solid';
+import { StarIcon as StarOutline } from '@heroicons/react/24/outline';
+
 interface Props {
   results: any[];
   view: 'grid' | 'list';
@@ -5,6 +8,20 @@ interface Props {
 }
 
 export default function RestaurantResults({ results, view, loading }: Props) {
+  const RatingStars = ({ value }: { value: number }) => {
+    const filled = Math.max(0, Math.min(5, Math.round(value || 0)));
+    return (
+      <div className="flex items-center" aria-label={`Rating ${filled} of 5`}>
+        {Array.from({ length: 5 }).map((_, i) => (
+          i < filled ? (
+            <StarSolid key={i} className="w-4 h-4 md:w-5 md:h-5 text-amber-500" />
+          ) : (
+            <StarOutline key={i} className="w-4 h-4 md:w-5 md:h-5 text-gray-300" />
+          )
+        ))}
+      </div>
+    );
+  };
   if (loading) {
     return (
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -33,13 +50,11 @@ export default function RestaurantResults({ results, view, loading }: Props) {
             {/* Restaurant Info */}
             <div className="flex-1">
               <div className="font-semibold text-lg text-gray-900">{r.name}</div>
-              <div className="text-sm text-gray-600">{r.cuisine} • {r.deliveryTime}</div>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-yellow-500">⭐</span>
-                <span className="text-sm text-gray-700">{r.rating}</span>
-                <span className="text-sm text-gray-500">•</span>
-                <span className="text-sm text-gray-700">{r.price}</span>
-              </div>
+              <div className="text-sm text-gray-600">{r.cuisine}</div>
+            </div>
+            {/* Rating on the side (professional alignment) */}
+            <div className="ml-auto">
+              <RatingStars value={Number(r.rating)} />
             </div>
           </div>
         ))}
@@ -50,7 +65,11 @@ export default function RestaurantResults({ results, view, loading }: Props) {
   return (
     <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {results.map((r) => (
-        <div key={r.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-white">
+        <div key={r.id} className="relative border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-white">
+          {/* Rating badge in corner */}
+          <div className="absolute top-3 right-3">
+            <RatingStars value={Number(r.rating)} />
+          </div>
           {/* Restaurant Image */}
           <div className="w-full h-32 bg-gray-100 rounded-lg mb-3 flex items-center justify-center text-5xl">
             {r.image}
@@ -58,17 +77,10 @@ export default function RestaurantResults({ results, view, loading }: Props) {
           {/* Restaurant Name */}
           <div className="font-semibold text-lg text-gray-900 text-center mb-2">{r.name}</div>
           {/* Restaurant Details */}
-          <div className="text-center space-y-1">
-            <div className="text-sm text-gray-600">{r.cuisine}</div>
-            <div className="flex items-center justify-center gap-2">
-              <span className="text-yellow-500">⭐</span>
-              <span className="text-sm text-gray-700">{r.rating}</span>
-              <span className="text-sm text-gray-500">•</span>
-              <span className="text-sm text-gray-700">{r.deliveryTime}</span>
-              <span className="text-sm text-gray-500">•</span>
-              <span className="text-sm text-gray-700">{r.price}</span>
+            <div className="text-center space-y-1">
+              <div className="text-sm text-gray-600">{r.cuisine}</div>
+            {/* stars already shown in corner for grid */}
             </div>
-          </div>
         </div>
       ))}
     </div>

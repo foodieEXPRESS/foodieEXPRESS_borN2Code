@@ -50,6 +50,12 @@ console.log(results ,"data is here")
       const params: any = {};
       if (q.length >= 2) params.query = q;
       if (currentFilters.cuisineType) params.cuisine = currentFilters.cuisineType;
+      if (typeof currentFilters.rating === 'number') params.rating = currentFilters.rating;
+      if (currentFilters.openNow) {
+        params.openNow = true;
+        params.now = new Date().toISOString();
+        params.tzOffset = new Date().getTimezoneOffset();
+      }
 
       console.log('🔍 API call params:', params);
       const response = await api.get('/search', { params, signal: controller.signal });
@@ -67,9 +73,7 @@ console.log(results ,"data is here")
           image: restaurant.image || getPlaceholderImage(restaurant.cuisine?.name || 'restaurant'),
           // Ensure all required fields exist
           cuisine: restaurant.cuisine?.name || 'Unknown',
-          rating: restaurant.rating || 0,
-          deliveryTime: restaurant.deliveryTime || '30-45 min',
-          price: restaurant.price || '$$'
+          rating: restaurant.rating ?? 0
         })) || [];
         
         console.log('🔍 Processed results:', processedResults);
@@ -83,7 +87,7 @@ console.log(results ,"data is here")
       if (err?.name === 'CanceledError') return;
       console.error('❌ Search error:', err);
       setResults([]);
-      setError('حدث خطأ أثناء البحث. حاول مرة أخرى.');
+      setError('An error occurred while searching. Please try again.');
     } finally {
       setLoading(false);
     }
