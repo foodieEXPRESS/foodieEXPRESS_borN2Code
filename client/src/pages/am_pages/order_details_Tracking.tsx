@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { fetchCustomerData, fetchRestaurantData, fetchDriverData, fetchOrderItemsData, fetchOrderStatusData } from '../../store/orderTrackingSlice';
 import LiveNavigationMap from '../../components/LiveNavigationMap';
+import { io, Socket } from 'socket.io-client';
 
 const OrderDetailsTracking: React.FC = () => {
   const [showMap, setShowMap] = useState(true);
+  const [liveDriverLocation, setLiveDriverLocation] = useState<{ latitude: number; longitude: number; name: string } | undefined>(undefined);
   
   // Redux hooks
   const dispatch = useAppDispatch();
@@ -27,8 +30,9 @@ const OrderDetailsTracking: React.FC = () => {
     orderStatusError
   } = useAppSelector((state) => state.orderTracking);
 
-  // For demo purposes, using a sample order ID - in real app this would come from props or route params
-  const orderId = "123"; // Replace with actual order ID from your app
+  // Read orderId from route params; fallback to a default for safety
+  const { orderId: routeOrderId } = useParams<{ orderId: string }>();
+  const orderId = routeOrderId || "123";
 
   // Helper function to determine status colors
   const STAGES = [
@@ -64,13 +68,38 @@ const OrderDetailsTracking: React.FC = () => {
   };
 
   useEffect(() => {
-    // Dispatch Redux actions to fetch data
+    if (!orderId) return;
     dispatch(fetchCustomerData(orderId));
     dispatch(fetchRestaurantData(orderId));
     dispatch(fetchDriverData(orderId));
     dispatch(fetchOrderItemsData(orderId));
     dispatch(fetchOrderStatusData(orderId));
   }, [dispatch, orderId]);
+
+  // Live driver tracking via Socket.IO
+  useEffect(() => {
+    if (!orderId) return;
+    // Connect to the standalone socket server on port 8081
+    const socket: Socket = io('http://localhost:8081', {
+      transports: ['websocket'],
+    });
+
+    // Join this order's room to receive driver updates
+    socket.emit('join_order', { orderId, role: 'client' });
+
+    const onDriverLocation = (payload: { orderId: string; lat: number; lng: number; heading?: number; speedKmh?: number; ts?: number }) => {
+      if (!payload || payload.orderId !== orderId) return;
+      setLiveDriverLocation({ latitude: payload.lat, longitude: payload.lng, name: 'Driver' });
+    };
+
+    socket.on('driver_location', onDriverLocation);
+
+    return () => {
+      socket.off('driver_location', onDriverLocation);
+      socket.emit('leave_order', { orderId });
+      socket.disconnect();
+    };
+  }, [orderId]);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FAFAFA' }}>
@@ -109,11 +138,7 @@ const OrderDetailsTracking: React.FC = () => {
         {showMap && (
           <div className="h-80 relative">
             <LiveNavigationMap
-              driverLocation={driverData ? {
-                latitude: driverData.latitude || 40.7505,
-                longitude: driverData.longitude || -73.9934,
-                name: driverData.fullName || 'Driver'
-              } : undefined}
+              driverLocation={liveDriverLocation}
               restaurantLocation={restaurantData ? {
                 latitude: restaurantData.latitude || 40.7589,
                 longitude: restaurantData.longitude || -73.9851,

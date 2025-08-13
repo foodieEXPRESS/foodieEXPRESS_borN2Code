@@ -4,6 +4,7 @@ const PORT = 8080;
 const app = express();
 const prisma = require("./database");
 
+
 // Import routes
 const riderProfileRoutes = require("./routes/riderProfile-am");{/* TO DELETE LATER*/}
 const authRoutes = require('./routes/auth');
