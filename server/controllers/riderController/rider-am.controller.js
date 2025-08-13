@@ -4,12 +4,15 @@ const prisma = new PrismaClient();
 // Get current driver profile
 const getDriverProfile = async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: 'Authentication required' });
+    }
     const { userId } = req.user; 
     // // Assuming authentication middleware sets this
     // const userId = '84d234f5-24c6-4f27-b9c6-712afce8d806';
 
     const driver = await prisma.driver.findUnique({
-      where: { id:userId },
+      where: { userId },
       include: {
         user: {
           include: {
