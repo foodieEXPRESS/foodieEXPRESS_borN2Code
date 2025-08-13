@@ -9,10 +9,11 @@ import { useParams } from "react-router-dom";
 import Navbar from "../mc_Components/Restaurant_Navbar"
 import { increment,addItem } from '../../store/CartReducer';
 import type { CartItem } from '../../types/mc_Types'; 
+import type{ RestaurantDetailsProps } from '../../types/mc_Types';
 
 
 
-const RestaurantDetails: React.FC = () => {
+const RestaurantDetails: React.FC<RestaurantDetailsProps> = () => {
   const { restId } = useParams<{ restId: string }>(); 
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error, imageUrl } = useSelector((state: RootState) => state.restaurantDetails);

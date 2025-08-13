@@ -2,22 +2,27 @@
   import { useNavigate } from "react-router-dom";
   import type { RestaurantDetails } from '../../types/mc_Types';
 
+  
   const OneRestaurant: React.FC<RestaurantDetails> = ({
-    id,
-    name,
-    cuisine,
-    cuisineType,
-    description,
-    rating,
-    priceLevel,
-    deliveryTime,
-    freeDelivery = true,
-  }) => {
-    const navigate = useNavigate();
+  id,
+  name,
+  cuisine,
+  cuisineType,
+  description,
+  rating,
+  priceLevel,
+  deliveryTime,
+  freeDelivery = true,
+  media,
+  menus,
+  reviews
+}) => {
 
-    const handleOrderNow = () => {
-      navigate(`/list/details/${id}`);
-    };
+  const [showDetails, setShowDetails] = React.useState(false);
+
+  const handleOrderNow = () => {
+    setShowDetails(true);
+  };
 
     const bgColors = [
       "bg-red-500",
@@ -94,8 +99,8 @@ const renderStars = (rating: number) => {
           <div className="flex items-center justify-between text-sm text-gray-600 mt-2">
             <div className="flex gap-3">
              <span className="flex items-center gap-1">
-  {renderStars(rating ?? 0)}
-</span>
+                {renderStars(rating ?? 0)}
+                  </span>
 
               <span className="flex items-center gap-1">
                 {/* Clock SVG */}
@@ -137,6 +142,7 @@ const renderStars = (rating: number) => {
               </svg>
             </button>
           </div>
+          
         </div>
       </div>
     );

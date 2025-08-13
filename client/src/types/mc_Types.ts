@@ -72,6 +72,18 @@ export interface RestaurantDetails {
   reviews?: Review[];
 }
 
+export interface RestaurantDetailsProps {
+  id: string;
+  name: string;
+  description?: string;
+  rating?: number;
+  deliveryTime?: string;
+  deliveryFee?: string;
+  address?: string;
+  contactPhone?: string;
+  media?: Media[]; 
+}
+
 export interface AboutCardProps {
   restaurantId?: string;
   name?: string;
