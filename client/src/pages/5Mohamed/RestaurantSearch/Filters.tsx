@@ -24,7 +24,6 @@ export default function Filters({ onFiltersChange }: Props) {
 
   return (
     <div className="flex items-start justify-between">
-      {/* Filter Categories */}
       <div className="flex items-center"> 
         {/* Cuisine Type */}
         <div className="flex items-center gap-3">
@@ -47,12 +46,10 @@ export default function Filters({ onFiltersChange }: Props) {
             <option value="Greek">Greek</option>
           </select>
         </div>
-        {/* Delivery Time - larger spacing from Cuisine Type */}
         <div className="flex items-center gap-3 ml-32"> 
           <Clock className="w-5 h-5 text-gray-800" />
           <span className="text-lg font-semibold text-gray-900">Delivery Time</span>
         </div>
-        {/* Rating - close spacing to Delivery Time */}
         <button
           type="button"
           className="flex items-center gap-3 ml-24 cursor-pointer select-none"
@@ -61,22 +58,18 @@ export default function Filters({ onFiltersChange }: Props) {
           <Star className="w-5 h-5 text-gray-800" />
           <span className="text-lg font-semibold text-gray-900">Rating{filters.rating ? `: ${filters.rating}+` : ''}</span>
         </button>
-        {/* Price Range - close spacing to Rating */}
         <div className="flex items-center gap-3 ml-24"> 
           <DollarSign className="w-5 h-5 text-gray-800" />
           <span className="text-lg font-semibold text-gray-900">Price Range</span>
         </div>
       </div>
 
-      {/* Special Offers Section - On the right */}
       <div className="flex flex-col space-y-4">
-        {/* Special Offers Heading */}
         <div className="flex items-center gap-3">
           <Sparkles className="w-5 h-5 text-gray-800" />
           <span className="text-lg font-semibold text-gray-900">Special Offers</span>
         </div>
 
-        {/* Special Offers Checkboxes */}
         <div className="flex flex-col space-y-4">
           <label className="flex items-center gap-3 cursor-pointer select-none">
             <input type="checkbox" className="w-4 h-4" />
@@ -97,7 +90,6 @@ export default function Filters({ onFiltersChange }: Props) {
           </label>
         </div>
       </div>
-      {/* Rating Modal */}
       {showRating ? (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"

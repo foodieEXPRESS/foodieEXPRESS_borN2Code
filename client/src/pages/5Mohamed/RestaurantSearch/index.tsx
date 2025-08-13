@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import NavBar from "../LandingPage/Navbar";
 import Hero from "./Hero";
 import SearchControls from "./SearchControls";
@@ -6,35 +6,34 @@ import Filters from "./Filters";
 import ResultsHeader from "./ResultsHeader";
 import api from "../../../services/api";
 import RestaurantResults from "./RestaurantResults";
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { localStore, type LocalRootState } from './localStore';
+import { setView, setSearchQuery, setFilters, setResults, setLoading, setError } from './searchSlice';
 
-export default function FoodieExpressApp() {
-  const [view, setView] = useState<'grid' | 'list'>('grid');
-  const [results, setResults] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [filters, setFilters] = useState<any>({});
+function SearchAppInner() {
+  const dispatch = useDispatch();
+  const view = useSelector((s: LocalRootState) => s.restaurantSearchLocal.view);
+  const results = useSelector((s: LocalRootState) => s.restaurantSearchLocal.results);
+  const searchQuery = useSelector((s: LocalRootState) => s.restaurantSearchLocal.searchQuery);
+  const loading = useSelector((s: LocalRootState) => s.restaurantSearchLocal.loading);
+  const error = useSelector((s: LocalRootState) => s.restaurantSearchLocal.error);
+  const filters = useSelector((s: LocalRootState) => s.restaurantSearchLocal.filters);
   const abortRef = useRef<AbortController | null>(null);
-console.log(results ,"data is here")
   const handleSearchQueryChange = (query: string) => {
-    console.log('🔍 Search query changed:', query);
-    setSearchQuery(query);
+    dispatch(setSearchQuery(query));
   };
 
   const handleFiltersChange = (newFilters: any) => {
-    console.log('🔍 Filters changed:', newFilters);
-    setFilters(newFilters);
+    dispatch(setFilters(newFilters));
   };
 
   // Fetch restaurants from database based on search query and filters
   const fetchRestaurants = async (query: string, currentFilters: any) => {
     const q = query.trim();
-    console.log('🔍 Fetching restaurants for query:', q, 'with filters:', currentFilters);
     
     // Only search if query is at least 2 characters
     if (q.length < 2) {
-      console.log('🔍 Query too short, clearing results');
-      setResults([]);
+      dispatch(setResults([]));
       return;
     }
 
@@ -43,8 +42,8 @@ console.log(results ,"data is here")
     const controller = new AbortController();
     abortRef.current = controller;
 
-    setLoading(true);
-    setError(null);
+    dispatch(setLoading(true));
+    dispatch(setError(null));
     
     try {
       const params: any = {};
@@ -57,43 +56,31 @@ console.log(results ,"data is here")
         params.tzOffset = new Date().getTimezoneOffset();
       }
 
-      console.log('🔍 API call params:', params);
       const response = await api.get('/search', { params, signal: controller.signal });
-      console.log('🔍 API response:', response);
       
       const { data } = response;
-      console.log('🔍 Response data:', data);
       
       if (data.success) {
-        console.log('🔍 Raw results from API:', data.data);
-        // Process results to add placeholder images if no real images
         const processedResults = data.data?.map((restaurant: any) => ({
           ...restaurant,
-          // Use placeholder image if no real image exists
           image: restaurant.image || getPlaceholderImage(restaurant.cuisine?.name || 'restaurant'),
-          // Ensure all required fields exist
           cuisine: restaurant.cuisine?.name || 'Unknown',
           rating: restaurant.rating ?? 0
         })) || [];
-        
-        console.log('🔍 Processed results:', processedResults);
-        setResults(processedResults);
+        dispatch(setResults(processedResults));
       } else {
-        console.log('🔍 API returned success: false');
-        setResults([]);
-        setError('Failed to fetch restaurants');
+        dispatch(setResults([]));
+        dispatch(setError('Failed to fetch restaurants'));
       }
     } catch (err: any) {
       if (err?.name === 'CanceledError') return;
-      console.error('❌ Search error:', err);
-      setResults([]);
-      setError('An error occurred while searching. Please try again.');
+      dispatch(setResults([]));
+      dispatch(setError('An error occurred while searching. Please try again.'));
     } finally {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   };
 
-  // Get placeholder image based on cuisine type
   const getPlaceholderImage = (cuisineType: string) => {
     const cuisineImages: { [key: string]: string } = {
       'Italian': '🍕',
@@ -114,7 +101,6 @@ console.log(results ,"data is here")
 
   useEffect(() => {
     const q = searchQuery.trim();
-    console.log('🔍 useEffect triggered with query:', q);
     const timeoutId = setTimeout(() => {
       fetchRestaurants(q, filters);
     }, 350);
@@ -127,24 +113,18 @@ console.log(results ,"data is here")
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
-
-      {/* Hero Section */}
       <div className="bg-gray-50 py-16">
         <div className="max-w-[1200px] mx-auto px-6">
           <Hero />
-
-          {/* Search and Filter Section */}
           <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
             <SearchControls onSearch={handleSearchQueryChange} />
             <Filters onFiltersChange={handleFiltersChange} />
           </div>
         </div>
       </div>
-
-      {/* Results Section */}
       <div className="py-8">
         <div className="max-w-[1200px] mx-auto px-6">
-          <ResultsHeader resultsCount={results.length} view={view} onChange={setView} />
+          <ResultsHeader resultsCount={results.length} view={view} onChange={(v) => dispatch(setView(v))} />
           {error ? (
             <div className="mt-4 text-sm text-red-600">{error}</div>
           ) : null}
@@ -152,5 +132,13 @@ console.log(results ,"data is here")
         </div>
       </div>
     </div>
+  );
+}
+
+export default function FoodieExpressApp() {
+  return (
+    <Provider store={localStore}>
+      <SearchAppInner />
+    </Provider>
   );
 }
