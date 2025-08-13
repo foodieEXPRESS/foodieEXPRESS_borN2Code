@@ -47,11 +47,11 @@ export interface Review {
   };
 }
 
-export interface RestaurantDetails {
+export interface RestaurantDetailsType {
   id: string;
   name: string;
   category?: string;
-  cuisine?: string;
+  cuisine?: string | null;
   cuisineType?: string;
   description?: string;
   rating?: number;
@@ -70,6 +70,7 @@ export interface RestaurantDetails {
   media?: Media[];
   menus: Menu[];
   reviews?: Review[];
+  imageUrl?: string; 
 }
 
 export interface RestaurantDetailsProps {
@@ -81,7 +82,8 @@ export interface RestaurantDetailsProps {
   deliveryFee?: string;
   address?: string;
   contactPhone?: string;
-  media?: Media[]; 
+  media?: Media[];
+  menuItemImages: Record<string, string[]>;
 }
 
 export interface AboutCardProps {
@@ -103,16 +105,17 @@ export interface StatisticCardProps {
 }
 
 export interface RestaurantDetailsState {
-  data: RestaurantDetails | null;
+  data: RestaurantDetailsType | null;
   loading: boolean;
   error: string | null;
   imageUrl: string | null;
   reviews: Review[];
+  menuItemImages: string[];
 }
 
 export interface RestaurantListState {
   user: User | null;
-  restaurants: RestaurantDetails[];
+  restaurants: RestaurantDetailsType[];
   loading: boolean;
   error: string | null;
 }

@@ -1,28 +1,43 @@
-  import React from "react";
+  import React, { useEffect } from "react";
   import { useNavigate } from "react-router-dom";
-  import type { RestaurantDetails } from '../../types/mc_Types';
+  import type { RestaurantDetailsType } from '../../types/mc_Types';
+  import { useState } from "react";
+  import axios from "axios";      
+  const OneRestaurant: React.FC<RestaurantDetailsType> = ({
+    id,
+    name,
+    cuisine,
+    cuisineType,
+    description,
+    rating,
+    priceLevel,
+    deliveryTime,
+    freeDelivery = true,
+  }) => {
+    const navigate = useNavigate();
+   const [imageUrl, setImageUrl] = useState<string | null>(null);
+     useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`http://localhost:8080/api/details/image/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setImageUrl(res.data.mediaUrl);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchImage();
+  }, [id]);
 
-  
-  const OneRestaurant: React.FC<RestaurantDetails> = ({
-  id,
-  name,
-  cuisine,
-  cuisineType,
-  description,
-  rating,
-  priceLevel,
-  deliveryTime,
-  freeDelivery = true,
-  media,
-  menus,
-  reviews
-}) => {
 
-  const [showDetails, setShowDetails] = React.useState(false);
-
-  const handleOrderNow = () => {
-    setShowDetails(true);
-  };
+    const handleOrderNow = () => {
+      navigate(`/list/details/${id}`);
+    };
+    
 
     const bgColors = [
       "bg-red-500",
@@ -64,12 +79,18 @@ const renderStars = (rating: number) => {
     
 
     return (
-<div className="max-w-[373px] w-full rounded-xl shadow-lg bg-white overflow-hidden flex flex-col h-[403px]">
-        {/* Top Image/Banner */}
-        <div
-          className={`relative ${randomColor} h-60 flex items-center justify-center text-white text-7xl font-semibold`}
-        >
-          {cuisineType}
+ <div className="max-w-[373px] w-full rounded-xl shadow-lg bg-white overflow-hidden flex flex-col h-[403px]">
+      {/* Top Image Banner */}
+      <div
+        className="relative h-60 flex items-center justify-center text-white text-7xl font-semibold"
+        style={{
+          backgroundImage: imageUrl ? `url(${imageUrl})` : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundColor: !imageUrl ? "gray" : undefined,
+        }}
+      >
+        {!imageUrl && cuisineType} {/* fallback text if no image */}
           {freeDelivery && (
             <span className="absolute top-2 left-2 text-xs bg-green-400 text-white px-2 py-1 rounded-full">
               Free Delivery
@@ -142,7 +163,6 @@ const renderStars = (rating: number) => {
               </svg>
             </button>
           </div>
-          
         </div>
       </div>
     );

@@ -60,6 +60,7 @@ const getImageById = async (req, res) => {
         }
       }
     });
+    
 
     if (!restaurant) {
       return res.status(404).json({ error: "Restaurant not found" });
@@ -67,6 +68,29 @@ const getImageById = async (req, res) => {
 
     const mediaUrl = restaurant.media[0]?.url
     res.json({ mediaUrl });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+const menuItemIdImage = async (req, res) => {
+  const menuItemId = req.params.menuItemId;
+  try {
+    const menuItem = await prisma.menuItem.findUnique({
+      where: { id: menuItemId },
+      include: {
+        media: true,
+      },
+    });
+
+    if (!menuItem) {
+      return res.status(404).json({ error: "Menu item not found" });
+    }
+
+    const mediaUrls = menuItem.media.map(m => m.url);
+    res.json({ mediaUrls });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -147,4 +171,4 @@ const addRestaurantReview = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-module.exports = { getRestbyId, getImageById, getOrderHistoryByUser, addRestaurantReview }
+module.exports = { getRestbyId, getImageById ,menuItemIdImage, getOrderHistoryByUser, addRestaurantReview }

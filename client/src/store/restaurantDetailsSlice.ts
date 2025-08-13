@@ -40,6 +40,22 @@ export const fetchRestaurantImage = createAsyncThunk(
   }
 );
 
+export const fetchMenuItemImages = createAsyncThunk(
+  'restaurant/fetchMenuItemImages',
+  async (menuItemId: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get(
+        `http://localhost:8080/api/menu/image/${menuItemId}`,
+        token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+      );
+      return res.data.mediaUrls || [];
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 // mc :Submit or update review
 
 export const submitRestaurantReview = createAsyncThunk(
@@ -68,6 +84,7 @@ export const initialState: RestaurantDetailsState = {
   error: null,
   imageUrl: null,
   reviews: [],
+  menuItemImages: [],
 };
 
 const restaurantDetailsSlice = createSlice({

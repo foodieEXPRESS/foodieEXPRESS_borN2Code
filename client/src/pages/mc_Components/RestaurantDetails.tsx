@@ -12,13 +12,13 @@ import type { CartItem } from '../../types/mc_Types';
 import type{ RestaurantDetailsProps } from '../../types/mc_Types';
 
 
-
 const RestaurantDetails: React.FC<RestaurantDetailsProps> = () => {
   const { restId } = useParams<{ restId: string }>(); 
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error, imageUrl } = useSelector((state: RootState) => state.restaurantDetails);
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const reviews = useSelector((state: RootState) => state.restaurantDetails.reviews ?? []);
+  
 
   const averageRating =
     reviews.length > 0
@@ -122,6 +122,7 @@ const RestaurantDetails: React.FC<RestaurantDetailsProps> = () => {
             available={item.available}
             tags={item.tags?.map((t: any) => t.tag.name) || []}
             restaurantName={data.name}
+            media={item.media}
           />
         ))
       ) : (
@@ -158,10 +159,10 @@ const MenuItem: React.FC<MenuItem & {}> = ({
   tags = [],
   description,
   price,
-  restaurantName
+  restaurantName,
+  media
 }) => {
-  const firstWord = name.split(" ")[0];
-
+  
   const getTagClasses = (tag: string) => {
     switch (tag.toLowerCase()) {
       case "popular":
@@ -174,7 +175,7 @@ const MenuItem: React.FC<MenuItem & {}> = ({
         return "bg-red-100 text-gray-800";
     }
   };
-    const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleToCart = (item:CartItem) => {
     dispatch(increment());
@@ -185,12 +186,11 @@ const MenuItem: React.FC<MenuItem & {}> = ({
   return (
     <article className="rounded-lg p-5 bg-white shadow hover:shadow-lg transition-shadow flex flex-col sm:flex-row gap-x-6">
       <div className="flex gap-4 flex-1">
-        <span
-          className="bg-red-500 text-white font-bold text-xl rounded select-none flex items-center justify-center flex-shrink-0"
-          style={{ width: 150, height: 150 }}
-        >
-          {firstWord}
-        </span>
+     <img
+  src={media?.[0]?.url || 'https://via.placeholder.com/150'}
+  alt={name}
+  className="w-36 h-36 object-cover rounded flex-shrink-0"
+/>
 
         <div className="flex flex-col justify-between">
           <div className="flex items-center gap-2 flex-wrap">

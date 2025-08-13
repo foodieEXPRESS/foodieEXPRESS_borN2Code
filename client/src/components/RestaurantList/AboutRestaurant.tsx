@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import type { AboutCardProps } from '../../types/mc_Types';
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { fetchRestaurantById } from '../../store/restaurantDetailsSlice';
-import type { RootState, AppDispatch } from "../../store";
+import type { AppDispatch } from "../../store";
 import { useDispatch } from 'react-redux';
 export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string }> = ({
   description,
@@ -15,7 +14,6 @@ export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string 
   restaurantId,
 }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
-  const reduxReviews = useSelector((state: RootState) => state.restaurantDetails.reviews ?? []);
   const [reviewRating, setReviewRating] = useState(0);
   const [comment, setComment] = useState("");
   const dispatch = useDispatch<AppDispatch>();
