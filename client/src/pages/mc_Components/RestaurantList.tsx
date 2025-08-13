@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../store";
 import { fetchUserById, fetchRestaurantsNearUser, updateUserLocation,} from "../../store/restaurantListSlice";
 import OneRestaurant from "./OneRestaurant";
-import type { Restaurant } from "../../types/mc_Types";
+import type { RestaurantDetailsType } from "../../types/mc_Types";
 import { useNavigate } from "react-router-dom";
 import Navbar from '../5Mohamed/LandingPage/Navbar'
 
-//  http://localhost:5173/list
+// mc :  http://localhost:5173/list
 
 const RestaurantList: React.FC= () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const RestaurantList: React.FC= () => {
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;
 
-          // Optionally update user location in backend and redux state
+          // mc :  Optionally update user location in backend and redux state
           dispatch(updateUserLocation({ latitude: lat, longitude: lng }));
         },
         (err) => {
@@ -41,7 +41,7 @@ const RestaurantList: React.FC= () => {
   }, [dispatch]);
 
   useEffect(() => {
-    // Once user has lat & lng, fetch nearby restaurants
+    // mc : Once user has lat & lng, fetch nearby restaurants
     if (user?.latitude != null && user?.longitude != null) {
       dispatch(
         fetchRestaurantsNearUser({
@@ -56,12 +56,12 @@ const RestaurantList: React.FC= () => {
     navigate(`/restaurant-search/`);
   };
 
-  const safeRestaurants: Restaurant[] = Array.isArray(restaurants)
+  const safeRestaurants: RestaurantDetailsType[] = Array.isArray(restaurants)
     ? restaurants
     : [];
 
   const filteredRestaurants = safeRestaurants.filter(
-    (rest: Restaurant) =>
+    (rest: RestaurantDetailsType) =>
       (rest.name &&
         rest.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (rest.cuisineType &&
@@ -132,7 +132,7 @@ const RestaurantList: React.FC= () => {
 
       {/* Restaurant Grid */}
       <div className="grid gap-6 grid-cols-3 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredRestaurants.map((rest: Restaurant) => (
+        {filteredRestaurants.map((rest: RestaurantDetailsType) => (
           <OneRestaurant key={rest.id} {...rest} />
         ))}
       </div>

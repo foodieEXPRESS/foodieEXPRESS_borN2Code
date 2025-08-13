@@ -2,32 +2,11 @@ import React, { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../store';
 import{  fetchUserById ,updateUserLocation } from '../../../store/restaurantListSlice';
-import type { StatisticCardProps } from '../../../types/mc_Types';
 import UpdateProfile from './UpdateProfile';
+import { useNavigate } from 'react-router-dom';  
+
 import Navbar from '../../mc_Components/Restaurant_Navbar';
-const StatisticCard: React.FC<StatisticCardProps & { className?: string }> = ({
-  value,
-  label,
-  date,
-  dateLabel,
-  className = '',
-}) => (
-  <div
-    className={`bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center ${className}`}
-  >
-    <p
-      className={`font-bold text-3xl leading-tight mb-1 ${
-        label === 'Total Orders' ? 'text-indigo-700' : 'text-green-600'
-      }`}
-    >
-      {value}
-    </p>
-    <p className="text-gray-600 text-lg font-semibold mb-2">{label}</p>
-    <p className="text-gray-400 text-sm">
-      {dateLabel}: {date}
-    </p>
-  </div>
-);
+
 
 const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value }) => (
   <div>
@@ -36,11 +15,12 @@ const InfoBlock: React.FC<{ label: string; value: string }> = ({ label, value })
   </div>
 );
 
-
-
 const CustomerProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate(); 
   const { user, loading, error } = useSelector((state: RootState) => state.restaurantList);
+  const totalOrders = useSelector((state: RootState) => state.orderHistory.totalOrders) ?? 0;
+
   const [editMode, setEditMode] = useState(false);
   useEffect(() => {
     dispatch(fetchUserById())
@@ -71,10 +51,9 @@ const CustomerProfile: React.FC = () => {
   const email = user.email || 'N/A';
   const phone = user.phoneNumber || 'N/A';
   const address = user.address || 'N/A';
-  const memberSince = 'N/A'; 
-  const totalOrders = 0;
+  const memberSince = '3 days'; 
   const rating = 0; 
-  const cuisineType = 'N/A'; 
+  const cuisineType = 'Bella Italia'; 
 
   const initials = `${name[0] || ''}${name.split(' ')[1]?.[0] || ''}`.toUpperCase();
 
@@ -92,31 +71,51 @@ const CustomerProfile: React.FC = () => {
         {/* Sidebar */}
         <aside className="flex-1 md:max-w-sm w-full bg-white rounded-lg p-8 shadow flex flex-col items-center">
             <div className="flex flex-col items-center mb-6">
+    <div className="w-50 h-50 rounded-full overflow-hidden mb-4">
+  {user.profileImage ? (
+    <img
+      src={`http://localhost:8080${user.profileImage}`}
+      alt={`${name}'s profile`}
+      className="w-full h-full object-cover"
+    />
+  ) : (
     <div
       aria-label={`User initials avatar for ${name}`}
       role="img"
-      className="w-32 h-32 bg-indigo-700 rounded-full flex items-center justify-center text-white text-7xl font-bold mb-4 select-none"
+      className="w-50 h-50 bg-indigo-700 flex items-center justify-center text-white text-7xl font-bold select-none"
     >
       {initials}
     </div>
-  <h2 className="text-xl font-semibold mb-2">{name}</h2>
-  <p className="text-gray-500 text-sm">Member since {memberSince}</p>
+  )}
+</div>
+
 </div>
           
           {/* Navigation */}
           <nav className="w-full space-y-3 mb-8">{/* ... */}</nav>
 
           {/* Profile Stats */}
-          <div className="w-full flex flex-nowrap gap-4 justify-center">
-            <div className="bg-gray-50 p-4 rounded-lg shadow flex-shrink-0 text-center min-w-[140px]">
-              <p className="text-indigo-700 font-bold text-3xl mb-2">{totalOrders}</p>
-              <p className="text-gray-600 text-lg">Total Orders</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg shadow flex-shrink-0 text-center min-w-[140px]">
-              <p className="text-green-600 font-bold text-3xl mb-2">{rating.toFixed(1)}</p>
-              <p className="text-gray-600 text-lg">Avg Rating</p>
-            </div>
-          </div>
+          <div className="w-full flex flex-col items-center">
+  <div className="flex gap-4 justify-center">
+    <div className="bg-gray-50 p-4 rounded-lg shadow flex-shrink-0 text-center min-w-[140px]">
+      <p className="text-indigo-700 font-bold text-3xl mb-2">{totalOrders}</p>
+      <p className="text-gray-600 text-lg">Total Orders</p>
+    </div>
+    <div className="bg-gray-50 p-4 rounded-lg shadow flex-shrink-0 text-center min-w-[140px]">
+      <p className="text-green-600 font-bold text-3xl mb-2">{rating.toFixed(1)}</p>
+      <p className="text-gray-600 text-lg">Avg Rating</p>
+    </div>
+  </div>
+
+  <button
+    onClick={() => navigate('/OrderHistory')}
+className="text-sm text-indigo-600 hover:text-indigo-800 underline mt-3 cursor-pointer"
+    type="button"
+  >
+    View Order History
+  </button>
+</div>
+          
         </aside>
 
         {/* Main Content */}
@@ -127,7 +126,7 @@ const CustomerProfile: React.FC = () => {
       <div className="flex justify-end mb-4">
         <button
           onClick={() => setEditMode(true)}
-          className="bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-800"
+            className="bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-800 cursor-pointer"
         >
           Edit Profile
         </button>
@@ -145,23 +144,42 @@ const CustomerProfile: React.FC = () => {
       </div>
 
       {/* Account Statistics */}
-      <div>
-        <h3 className="text-xl font-semibold mb-4">Account Statistics</h3>
-        <div className="flex flex-wrap gap-6 justify-center">
-          <StatisticCard value={totalOrders} label="Total Orders" date="Oct 2023" dateLabel="Updated" />
-          <StatisticCard value={cuisineType} label="Favorite Restaurant" date="Oct 2023" dateLabel="Since" />
-          <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
-            <p className="text-orange-600 font-semibold mb-2 text-xl leading-tight">{memberSince}</p>
-            <p className="text-gray-600 text-lg">Member Since</p>
-          </div>
-        </div>
-      </div>
+      <div className="flex flex-col md:flex-row gap-6 justify-center">
+  {/* Total Orders Card */}
+  <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
+    <p className="font-bold text-3xl leading-tight mb-1 text-indigo-700">
+      {totalOrders}
+    </p>
+    <p className="text-gray-600 text-lg font-semibold mb-2">Total Orders</p>
+    <p className="text-gray-400 text-sm">Updated: Oct 2023</p>
+  </div>
+
+  {/* Favorite Restaurant Card */}
+  <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
+    <p className="font-bold text-3xl leading-tight mb-1 text-green-600">
+      {cuisineType}
+    </p>
+    <p className="text-gray-600 text-lg font-semibold mb-2">Favorite Restaurant</p>
+    <p className="text-gray-400 text-sm">Since: Oct 2023</p>
+  </div>
+
+  {/* Member Since Card */}
+  <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
+    <p className="text-orange-600 font-semibold mb-2 text-xl leading-tight">
+      {memberSince}
+    </p>
+    <p className="text-gray-600 text-lg">Member Since</p>
+  </div>
+  
+</div>
+
     </>
   )}
-
-  {editMode && (
+{editMode && (
+  <div className="w-full max-w-3xl mx-auto p-4 bg-white rounded-lg shadow overflow-auto max-h-[600px]">
     <UpdateProfile onCancel={() => setEditMode(false)} />
-  )}
+  </div>
+)}
 </section>
       </div>
     </div>

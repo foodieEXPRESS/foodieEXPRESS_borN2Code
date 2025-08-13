@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type {  PayloadAction } from '@reduxjs/toolkit';
-import type {RestaurantListState,User,Restaurant,} from '../types/mc_Types';
+import type {RestaurantListState,User,RestaurantDetailsType,UserUpdatePayload} from '../types/mc_Types';
 import axios from 'axios';
 
 
@@ -30,7 +30,6 @@ export const fetchUserById = createAsyncThunk<User>(
   }
 );
 
-
 // mc : update user location
 
 export const updateUserLocation = createAsyncThunk<User, { latitude: number; longitude: number }>(
@@ -50,8 +49,9 @@ export const updateUserLocation = createAsyncThunk<User, { latitude: number; lon
 
 //mc : Fetch the restaurants >>>>>> then >>>>>>>> sort by proximity meaning closed to user location
 
+
 export const fetchRestaurantsNearUser = createAsyncThunk<
-  Restaurant[],
+  RestaurantDetailsType[],
   { userLat: number; userLng: number },
   { rejectValue: string }
 >(
@@ -62,7 +62,7 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
       const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
       const res = await axios.get(`http://localhost:8080/api/restaurants`, config);
 
-      const restaurants: Restaurant[] = res.data;
+      const restaurants: RestaurantDetailsType[] = res.data;
 
       const getDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
         const R = 6371; // Radius of the Earth in meters
@@ -78,6 +78,10 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
       };
 
       const sortedRestaurants = restaurants
+       .filter(
+    (rest): rest is RestaurantDetailsType & { latitude: number; longitude: number } =>
+      rest.latitude != null && rest.longitude != null
+  )
         .map((rest) => ({
           ...rest,
           distance: getDistanceKm(userLat, userLng, rest.latitude, rest.longitude),
@@ -91,37 +95,56 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
   }
 );
 
+
+
+
+
 export const updateUserProfile = createAsyncThunk<
   User,
-  Partial<User> & { picture?: File }, // mc : add profileImage as optional File
+  UserUpdatePayload,
   { rejectValue: string }
 >(
   'restaurantList/updateUserProfile',
   async (updatedData, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem('token');
-      const config = token ? { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' } } : {};
+      const config = token ? { headers: { Authorization: `Bearer ${token}` , 'Content-Type': 'multipart/form-data',
+ } } : {};
       
         const formData = new FormData();
 
-      // mc : Append each key except profileImage normally
 
-      (Object.keys(updatedData) as (keyof typeof updatedData)[]).forEach((key) => {
-        const value = updatedData[key]
-        if (value !== undefined && value !== null) {
-          if (key === 'picture' && value instanceof File) {
-            formData.append('picture', value)
-          } else {
-            // mc : Convert non-string to string to be safe
 
-            formData.append(key, String(value))
-          }
-        }
-      });
+//mc : Type guard to check if a value is a File
+const isFile = (value: unknown): value is File =>
+  value instanceof File;
+
+
+
+     (Object.keys(updatedData) as (keyof typeof updatedData)[]).forEach((key) => {
+      const value = updatedData[key];
+      
+  if (value !== undefined && value !== null) {
+    if (key === 'image' && isFile(value)) {
+      formData.append('image', value);
+      
+      
+    } else if (
+      typeof value === 'string' ||
+      typeof value === 'number' ||
+      typeof value === 'boolean'
+    ) {
+      formData.append(key, String(value));
+    } else {
+      // Skip unsupported types (or handle differently if needed)
+      console.warn(`Skipping key "${key}" because it is not string, number, boolean, or File.`);
+    }
+  }
+});
       
       
       
-      const res = await axios.put<User>('http://localhost:8080/api/restaurants/', formData,
+      const res = await axios.put<User>('http://localhost:8080/api/restaurants', formData,
  config);
       return res.data;
     } catch (error: any) {
@@ -182,7 +205,7 @@ const restaurantListSlice = createSlice({
         state.error = null;
       })
       //mc : either fetched successfully ...  👌
-      .addCase(fetchRestaurantsNearUser.fulfilled, (state, action: PayloadAction<Restaurant[]>) => {
+      .addCase(fetchRestaurantsNearUser.fulfilled, (state, action: PayloadAction<RestaurantDetailsType[]>) => {
         state.loading = false;
         state.restaurants = action.payload;
       })

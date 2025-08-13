@@ -5,26 +5,26 @@ import type { RootState, AppDispatch } from '../../store';
 import type { MenuItem } from '../../types/mc_Types'
 import { AboutRestaurant } from '../../components/RestaurantList/AboutRestaurant';
 import { fetchRestaurantImage } from '../../store/restaurantDetailsSlice';
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "../mc_Components/Restaurant_Navbar"
 import { increment,addItem } from '../../store/CartReducer';
-interface CartItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  tags?: string[];
-  restaurantId?: string;
-  restaurantName?: string;
-}
+import type { CartItem } from '../../types/mc_Types'; 
+import type{ RestaurantDetailsProps } from '../../types/mc_Types';
 
 
-const RestaurantDetails: React.FC = () => {
+const RestaurantDetails: React.FC<RestaurantDetailsProps> = () => {
   const { restId } = useParams<{ restId: string }>(); 
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error, imageUrl } = useSelector((state: RootState) => state.restaurantDetails);
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const reviews = useSelector((state: RootState) => state.restaurantDetails.reviews ?? []);
+  
+
+  const averageRating =
+    reviews.length > 0
+      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+      : data?.rating || 0;
+
   
   useEffect(() => {
     if (restId) {
@@ -35,7 +35,7 @@ const RestaurantDetails: React.FC = () => {
 
 
    useEffect(() => {
-    if (data && data.menus.length > 0) {
+    if (data && data.menus?.length > 0) {
       setActiveTab(data.menus[0].name);
     }
   }, [data]);
@@ -70,12 +70,13 @@ const RestaurantDetails: React.FC = () => {
 
       <section className="mb-8 flex flex-col items-center">
         <AboutRestaurant
-          description={data.description}
-          rating={data.rating}
-          deliveryTime={data.deliveryTime}
-          deliveryFee={data.deliveryFee}
-          address={data.address}
-          contactPhone={data.contactPhone}
+          restaurantId={data.id}
+          description={data.description || ""}
+          rating={averageRating}
+          deliveryTime={data.deliveryTime || ""}
+          deliveryFee={data.deliveryFee || ""}
+          address={data.address || ""}
+          contactPhone={data.contactPhone || ""}
         />
       </section>
 
@@ -83,7 +84,7 @@ const RestaurantDetails: React.FC = () => {
 
       <section className="mb-6">
         <div className="flex flex-wrap gap-2 border-b border-gray-200 mb-4">
-          {data.menus.map((menu: any) => (
+          {data.menus?.map((menu: any) => (
             <button
               key={menu.id}
               onClick={() => setActiveTab(menu.name)}
@@ -103,36 +104,51 @@ const RestaurantDetails: React.FC = () => {
       
       <section>
         <h2 className="text-2xl font-bold text-gray-800 mb-2">{activeTab}</h2>
-        {data.menus
-          .filter((menu: any) => menu.name === activeTab)
-          .map((menu: any) => (
-            <div
-              key={menu.id}
-              className="mb-8"
-              style={{
-                boxShadow: "0px 4px 20px 0px #00000014"
-              }}
-            >
-              <div className="flex flex-col gap-4">
-                {menu.items.length > 0 ? (
-                  menu.items.map((item: any) => (
-                    <MenuItem
-                      key={item.id}
-                      id={item.id}
-                      name={item.name}
-                      description={item.description}
-                      price={item.price}
-                      tags={item.tags?.map((t: any) => t.tag.name) || []}
-                      restaurantName={data.name}
-                    />
-                  ))
-                ) : (
-                  <p className="text-gray-500">No items in this category.</p>
-                )}
-              </div>
-            </div>
-          ))}
+        {data.menus?.filter((menu: any) => menu.name === activeTab).map((menu: any) => (
+  <div
+    key={menu.id}
+    className="mb-8"
+    style={{ boxShadow: "0px 4px 20px 0px #00000014" }}
+  >
+    <div className="flex flex-col gap-4">
+      {menu.items?.length > 0 ? (
+        menu.items.map((item: any) => (
+          <MenuItem
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            description={item.description}
+            price={item.price}
+            available={item.available}
+            tags={item.tags?.map((t: any) => t.tag.name) || []}
+            restaurantName={data.name}
+            media={item.media}
+          />
+        ))
+      ) : (
+        <p className="text-gray-500">No items in this category.</p>
+      )}
+    </div>
+  </div>
+))}
       </section>
+
+      <section className="mt-10 w-full ">
+  <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+  {reviews.length > 0 ? (
+    reviews.map((review) => (
+      <div key={review.id} className="border-b py-3">
+        <div className="flex justify-between">
+          <span className="font-semibold">{review.user.fullName}</span>
+          <span className="text-yellow-400">{'★'.repeat(review.rating)}</span>
+        </div>
+        <p>{review.comment}</p>
+      </div>
+    ))
+  ) : (
+    <p className="text-gray-500">No reviews yet.</p>
+  )}
+</section>
     </main>
   );
 };
@@ -143,10 +159,10 @@ const MenuItem: React.FC<MenuItem & {}> = ({
   tags = [],
   description,
   price,
-  restaurantName
+  restaurantName,
+  media
 }) => {
-  const firstWord = name.split(" ")[0];
-
+  
   const getTagClasses = (tag: string) => {
     switch (tag.toLowerCase()) {
       case "popular":
@@ -159,8 +175,7 @@ const MenuItem: React.FC<MenuItem & {}> = ({
         return "bg-red-100 text-gray-800";
     }
   };
-    const navigate = useNavigate(); 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleToCart = (item:CartItem) => {
     dispatch(increment());
@@ -171,17 +186,16 @@ const MenuItem: React.FC<MenuItem & {}> = ({
   return (
     <article className="rounded-lg p-5 bg-white shadow hover:shadow-lg transition-shadow flex flex-col sm:flex-row gap-x-6">
       <div className="flex gap-4 flex-1">
-        <span
-          className="bg-red-500 text-white font-bold text-xl rounded select-none flex items-center justify-center flex-shrink-0"
-          style={{ width: 150, height: 150 }}
-        >
-          {firstWord}
-        </span>
+     <img
+  src={media?.[0]?.url || 'https://via.placeholder.com/150'}
+  alt={name}
+  className="w-36 h-36 object-cover rounded flex-shrink-0"
+/>
 
         <div className="flex flex-col justify-between">
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="text-lg font-semibold">{name}</h3>
-            {tags.map((tag) => (
+            {tags?.map((tag) => (
               <span
                 key={tag}
                 className={`${getTagClasses(tag)} text-xs font-semibold px-2 py-1 rounded select-none`}
@@ -191,7 +205,15 @@ const MenuItem: React.FC<MenuItem & {}> = ({
             ))}
           </div>
           <p className="text-gray-700 text-sm leading-relaxed mt-1">{description}</p>
-          <button onClick={()=>handleToCart({id,name,tags,description,price,quantity:1,restaurantName})}
+          <button onClick={()=>handleToCart({
+  id,
+  name,
+  tags,
+  description: description || "",
+  price,
+  quantity: 1,
+  restaurantName,
+})}
             className="mt-4 bg-indigo-500 text-white rounded px-6 py-2 font-semibold transition hover:bg-indigo-800 w-fit"
           >
             Add to Cart
@@ -203,6 +225,7 @@ const MenuItem: React.FC<MenuItem & {}> = ({
         <p className="text-indigo-500 font-extrabold text-2xl">${price.toFixed(2)}</p>
       </div>
     </article>
+    
   );
 };
 
