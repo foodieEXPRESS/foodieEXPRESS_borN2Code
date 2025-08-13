@@ -1,15 +1,3 @@
-/* Global Styles */
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
-
-body {
-  font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
-}
 
 
 .machraoui-p-4 { padding: 1rem; }
@@ -606,6 +594,14 @@ body {
     flex-shrink: 0;
   }
   
+  .machraoui-menu-item-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+  }
+  
   .machraoui-menu-item-details {
     flex: 1;
   }
@@ -1097,64 +1093,624 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 24px 0;
+    background-color: #f5f5f5;
+    min-height: 100vh;
   }
-  
+
   .machraoui-reviews-card {
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    border: 1px solid #f0f0f0;
   }
-  
+
   .machraoui-reviews-header {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f0f0f0;
   }
-  
+
   .machraoui-reviews-title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
     color: #1f2937;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    letter-spacing: -0.025em;
   }
-  
+
   .machraoui-reviews-subtitle {
     color: #6b7280;
     font-weight: 500;
     font-size: 16px;
+    line-height: 1.5;
   }
-  
+
   .machraoui-rating-display {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
+    padding: 24px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
   }
-  
+
   .machraoui-rating-number {
-    font-size: 56px;
-    font-weight: 700;
+    font-size: 64px;
+    font-weight: 800;
     color: #6c47ff;
     margin-bottom: 8px;
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(108, 71, 255, 0.1);
   }
-  
+
   .machraoui-rating-text {
     color: #6b7280;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 16px;
   }
-  
+
+  .machraoui-reviews-list {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+
+  .machraoui-reviews-list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .machraoui-reviews-list::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+  }
+
+  .machraoui-reviews-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+  }
+
+  .machraoui-reviews-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+
+  .machraoui-review-item {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  }
+
+  .machraoui-review-item:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .machraoui-review-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .machraoui-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .machraoui-review-author {
+    font-weight: 700;
+    font-size: 16px;
+    color: #1f2937;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .machraoui-review-date {
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 500;
+    background: #f9fafb;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #f3f4f6;
+  }
+
+  .machraoui-review-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #374151;
+  }
+
+  .machraoui-review-rating::before {
+    content: "Rating:";
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .machraoui-review-rating-value {
+    color: #6c47ff;
+    font-weight: 700;
+  }
+
+  .machraoui-review-comment {
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 400;
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 3px solid #6c47ff;
+  }
+
+  .machraoui-review-comment:empty {
+    display: none;
+  }
+
   .machraoui-view-reviews-btn {
     background: #6c47ff;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 12px 24px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
-    display: block;
-    margin: 0 auto;
     transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(108, 71, 255, 0.25);
   }
-  
+
   .machraoui-view-reviews-btn:hover {
     background: #5b35d9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 71, 255, 0.35);
+  }
+
+  .machraoui-view-reviews-btn:disabled {
+    background: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .machraoui-pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .machraoui-pagination-info {
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    background: #f9fafb;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #f3f4f6;
+  }
+
+  .machraoui-loading-state {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .machraoui-error-state {
+    text-align: center;
+    padding: 40px;
+    color: #ef4444;
+    font-size: 16px;
+    font-weight: 500;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    margin: 20px 0;
+  }
+
+  .machraoui-empty-state {
+    text-align: center;
+    padding: 60px 40px;
+    color: #6b7280;
+  }
+
+  .machraoui-empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .machraoui-empty-state-text {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .machraoui-empty-state-subtext {
+    font-size: 14px;
+    color: #9ca3af;
+  }
+
+  /* Star Rating Display */
+  .machraoui-star-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .machraoui-star {
+    color: #fbbf24;
+    font-size: 16px;
+  }
+
+  .machraoui-star.empty {
+    color: #e5e7eb;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .machraoui-reviews-container {
+      width: 95%;
+      padding: 16px 0;
+    }
+    
+    .machraoui-reviews-card {
+      padding: 20px;
+      border-radius: 12px;
+    }
+    
+    .machraoui-reviews-title {
+      font-size: 24px;
+    }
+    
+    .machraoui-rating-number {
+      font-size: 48px;
+    }
+    
+    .machraoui-review-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    
+    .machraoui-review-date {
+      align-self: flex-end;
+    }
+    
+    .machraoui-pagination-container {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .machraoui-reviews-card {
+      padding: 16px;
+    }
+    
+    .machraoui-review-item {
+      padding: 16px;
+    }
+    
+    .machraoui-review-author {
+      font-size: 15px;
+    }
+    
+    .machraoui-review-comment {
+      font-size: 13px;
+      padding: 10px;
+    }
+  }
+
+  /* Add New Item - Reusable Styles */
+  .machraoui-add-item-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #6c47ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .machraoui-add-item-btn:hover {
+    background: #5b35d9;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(108,71,255,0.25);
+  }
+
+  .machraoui-add-item-btn .plus {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.2);
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+  }
+
+  /* Modal */
+  .machraoui-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 16px;
+  }
+
+  .machraoui-modal {
+    width: 100%;
+    max-width: 560px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+  }
+
+  .machraoui-modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .machraoui-modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  .machraoui-modal-close-btn {
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .machraoui-modal-body {
+    padding: 20px;
+  }
+
+  .machraoui-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .machraoui-form-grid.single {
+    grid-template-columns: 1fr;
+  }
+
+  .machraoui-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .machraoui-form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .machraoui-input,
+  .machraoui-select,
+  .machraoui-textarea {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #111827;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .machraoui-input:focus,
+  .machraoui-select:focus,
+  .machraoui-textarea:focus {
+    outline: none;
+    border-color: #6c47ff;
+    box-shadow: 0 0 0 4px rgba(108,71,255,0.15);
+  }
+
+  .machraoui-textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+
+  .machraoui-form-hint {
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  .machraoui-form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 16px 20px;
+    border-top: 1px solid #f3f4f6;
+    background: #fafafa;
+  }
+
+  .machraoui-btn-primary {
+    background: #6c47ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .machraoui-btn-primary:hover {
+    background: #5b35d9;
+  }
+
+  .machraoui-btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .machraoui-btn-secondary:hover {
+    background: #e5e7eb;
+  }
+
+  /* Inline form row: Name | Description | Price | [ ] Available */
+  .machraoui-inline-form-row {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr 0.8fr auto;
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .machraoui-inline-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .machraoui-inline-label {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  .machraoui-inline-availability {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #374151;
+    font-weight: 600;
+  }
+
+  .machraoui-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #6c47ff; /* modern browsers */
+  }
+
+  /* Responsive stack for small screens */
+  @media (max-width: 768px) {
+    .machraoui-inline-form-row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .machraoui-inline-availability {
+      justify-self: start;
+    }
+  }
+
+  /* Profile informative chips */
+  .machraoui-profile-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .machraoui-profile-chip {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Rating summary inline block */
+  .machraoui-rating-summary {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .machraoui-rating-summary .machraoui-rating-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1;
+  }
+  .machraoui-rating-summary .machraoui-rating-text {
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  /* Status badge variants */
+  .machraoui-status-badge.is-pending { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+  .machraoui-status-badge.is-confirmed { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .machraoui-status-badge.is-preparing { background: #fef9c3; color: #a16207; border: 1px solid #fde68a; }
+  .machraoui-status-badge.is-out { background: #eef2ff; color: #4f46e5; border: 1px solid #c7d2fe; }
+  .machraoui-status-badge.is-delivered { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+  .machraoui-status-badge.is-completed { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+  .machraoui-status-badge.is-cancelled { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+  /* Menus overview */
+  .machraoui-menus-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    padding: 12px 16px 16px;
+  }
+  @media (max-width: 900px) {
+    .machraoui-menus-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 600px) {
+    .machraoui-menus-grid { grid-template-columns: 1fr; }
+  }
+  .machraoui-menu-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .machraoui-menu-card-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 4px;
+  }
+  .machraoui-menu-card-desc {
+    font-size: 13px;
+    color: #6b7280;
   }
