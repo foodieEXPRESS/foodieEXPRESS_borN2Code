@@ -9,6 +9,8 @@ const prisma = require("./database");
 const riderProfileRoutes = require("./routes/riderProfile-am");{/* TO DELETE LATER*/}
 const authRoutes = require('./routes/auth');
 const orderTrackingRoute= require('./routes/am_routes/order_details_tracking')
+const restaurantProfileRoutes = require('./routes/restaurantprofile/restaurantProfile');
+const mediaRoutes = require('./routes/restaurantprofile/media');
 
 const RestDetailsRoutes = require('./routes/mc_routes/RestDetailsRoute')
 const RestaurantListRoutes = require('./routes/mc_routes/RestaurantListRoute');
@@ -25,6 +27,8 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/rider-profile", riderProfileRoutes);
 app.use("/api/order-tracking", orderTrackingRoute);
+app.use("/api/restaurant-profile", restaurantProfileRoutes);
+app.use("/api/media", mediaRoutes);
 
 app.use("/api/restaurants", RestaurantListRoutes);
 app.use("/api/details",RestDetailsRoutes);
