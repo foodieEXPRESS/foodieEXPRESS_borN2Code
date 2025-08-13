@@ -100,8 +100,6 @@ const menuItemIdImage = async (req, res) => {
 const getOrderHistoryByUser = async (req, res) => {
   try {
     const userId = req.user?.userId;
-    console.log('Request received for userId:', userId);
-
     if (!userId) {
       return res.status(400).json({ success: false, error: "User ID required" });
     }
@@ -111,18 +109,33 @@ const getOrderHistoryByUser = async (req, res) => {
       select: {
         id: true,
         status: true,
-        totalAmount: true
+        totalAmount: true,
+        orderItems: {
+          select: {
+            id: true,
+            quantity: true,
+            price: true,
+            menu: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+              },
+            },
+          },
+        },
+        restaurantId: true,
+        driverId: true,
       },
+      orderBy: { id: "desc" },
     });
-
-    console.log('Orders found:', orders.length);
+    
 
     return res.status(200).json({
       success: true,
       totalOrders: orders.length,
-      orders: orders,
+      orders,
     });
-
   } catch (error) {
     console.error("Error in getOrderHistoryByUser:", error);
     return res.status(500).json({
@@ -132,7 +145,6 @@ const getOrderHistoryByUser = async (req, res) => {
     });
   }
 };
-
 
 
 
