@@ -48,7 +48,7 @@ function App() {
           <Route path="/OrderHistory" element={<OrderHistory />} />
 
           <Route path="/" element={<AuthPage />} />
-          <Route path="/order-tracking" element={<OrderTrackPage />} />
+          <Route path="/order-tracking/:orderId" element={<OrderTrackPage />} />
           <Route path="/restaurant-profile" element={<RestaurantProfile />} />
           <Route path="/earnings-reports" element={<EarningsReports />} />
           <Route path="/reviews" element={<Reviews />} />
@@ -71,7 +71,7 @@ function App() {
           <Route path="/rider-profile" element={<RiderProfile />} />
 
 
-          <Route path="/order-details-tracking" element={<OrderDetailsTracking />} />
+          <Route path="/order-details-tracking/:orderId" element={<OrderDetailsTracking />} />
     
         </Routes>
       </BrowserRouter>

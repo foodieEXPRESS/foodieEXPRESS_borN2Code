@@ -5,6 +5,7 @@ const app = express();
 const path = require('path');
 const prisma = require("./database");
 
+
 // Import routes
 const riderProfileRoutes = require("./routes/riderProfile-am");{/* TO DELETE LATER*/}
 const authRoutes = require('./routes/auth');
