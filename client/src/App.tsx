@@ -30,7 +30,7 @@ import LastReview from './pages/hazem/last review';
 
 import RiderProfile from './pages/profiles/riderProfile-am/RiderProfile-am';
 import OrderDetailsTracking from './pages/am_pages/order_details_Tracking';
-import OrderHistory from './pages/mc_Components/CustOrders/OrderHistory';
+import OrderHistory from './pages/mc_Components/OrderHistory';
 import RestauranSearch from './pages/5Mohamed/RestaurantSearch/index';
 
 function App() {

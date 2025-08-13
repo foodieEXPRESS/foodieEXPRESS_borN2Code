@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type {  PayloadAction } from '@reduxjs/toolkit';
-import type {RestaurantListState,User,Restaurant,UserUpdatePayload} from '../types/mc_Types';
+import type {RestaurantListState,User,RestaurantDetails,UserUpdatePayload} from '../types/mc_Types';
 import axios from 'axios';
 
 
@@ -49,8 +49,9 @@ export const updateUserLocation = createAsyncThunk<User, { latitude: number; lon
 
 //mc : Fetch the restaurants >>>>>> then >>>>>>>> sort by proximity meaning closed to user location
 
+
 export const fetchRestaurantsNearUser = createAsyncThunk<
-  Restaurant[],
+  RestaurantDetails[],
   { userLat: number; userLng: number },
   { rejectValue: string }
 >(
@@ -61,7 +62,7 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
       const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
       const res = await axios.get(`http://localhost:8080/api/restaurants`, config);
 
-      const restaurants: Restaurant[] = res.data;
+      const restaurants: RestaurantDetails[] = res.data;
 
       const getDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
         const R = 6371; // Radius of the Earth in meters
@@ -77,6 +78,10 @@ export const fetchRestaurantsNearUser = createAsyncThunk<
       };
 
       const sortedRestaurants = restaurants
+       .filter(
+    (rest): rest is RestaurantDetails & { latitude: number; longitude: number } =>
+      rest.latitude != null && rest.longitude != null
+  )
         .map((rest) => ({
           ...rest,
           distance: getDistanceKm(userLat, userLng, rest.latitude, rest.longitude),
@@ -200,7 +205,7 @@ const restaurantListSlice = createSlice({
         state.error = null;
       })
       //mc : either fetched successfully ...  👌
-      .addCase(fetchRestaurantsNearUser.fulfilled, (state, action: PayloadAction<Restaurant[]>) => {
+      .addCase(fetchRestaurantsNearUser.fulfilled, (state, action: PayloadAction<RestaurantDetails[]>) => {
         state.loading = false;
         state.restaurants = action.payload;
       })

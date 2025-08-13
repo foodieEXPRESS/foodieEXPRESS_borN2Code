@@ -4,6 +4,7 @@ import axios from 'axios';
 
 
 // mc : refactor to use auth
+
 export const fetchRestaurantById = createAsyncThunk(
   'restaurant/fetchById',
  async (restId: string, { rejectWithValue }) => {
@@ -19,6 +20,8 @@ export const fetchRestaurantById = createAsyncThunk(
     }
   }
 );
+
+
 // mc : refactor to use auth
 export const fetchRestaurantImage = createAsyncThunk(
   'restaurant/fetchImage',
@@ -31,6 +34,26 @@ export const fetchRestaurantImage = createAsyncThunk(
       return res.data.mediaUrl || null;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message)
+    }
+  }
+);
+
+export const submitRestaurantReview = createAsyncThunk(
+  'restaurant/submitReview',
+  async (
+    { restId, rating, comment }: { restId: string; rating: number; comment: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.put(
+        `http://localhost:8080/api/details/review/${restId}`,
+        { rating, comment },
+        token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+      );
+      return res.data.review;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -62,8 +85,9 @@ const restaurantDetailsSlice = createSlice({
       })
       .addCase(fetchRestaurantImage.fulfilled, (state, action) => {
         state.imageUrl = action.payload;
-      });
+      })
+
   },
 });
 
-export default restaurantDetailsSlice.reducer
+export default restaurantDetailsSlice.reducer;

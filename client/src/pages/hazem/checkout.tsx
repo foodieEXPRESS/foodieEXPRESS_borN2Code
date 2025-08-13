@@ -4,9 +4,7 @@ import type { CheckoutFormData, CheckoutStep, CheckoutFormErrors } from './dataT
 import type { CheckoutProps } from './propsTypes';
 
 // Brand logo component using the Italiana font
-const BrandLogo = () => (
-  <span className="font-italiana text-[1.7rem] tracking-tight text-[#1A1A1A]">FoodieExpress</span>
-);
+
 
 // Define the steps for the checkout process
 const steps: Array<{ key: CheckoutStep; label: string; number: number }> = [

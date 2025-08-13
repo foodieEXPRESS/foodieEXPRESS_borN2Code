@@ -10,11 +10,14 @@ import Navbar from "../mc_Components/Restaurant_Navbar"
 import { increment,addItem } from '../../store/CartReducer';
 import type { CartItem } from '../../types/mc_Types'; 
 
+
+
 const RestaurantDetails: React.FC = () => {
   const { restId } = useParams<{ restId: string }>(); 
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error, imageUrl } = useSelector((state: RootState) => state.restaurantDetails);
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  
   
   useEffect(() => {
     if (restId) {
@@ -60,12 +63,13 @@ const RestaurantDetails: React.FC = () => {
 
       <section className="mb-8 flex flex-col items-center">
         <AboutRestaurant
-          description={data.description}
-          rating={data.rating}
-          deliveryTime={data.deliveryTime}
-          deliveryFee={data.deliveryFee}
-          address={data.address}
-          contactPhone={data.contactPhone}
+          restaurantId={data.id}
+          description={data.description || ""}
+          rating={data.rating || 0}
+          deliveryTime={data.deliveryTime || ""}
+          deliveryFee={data.deliveryFee || ""}
+          address={data.address || ""}
+          contactPhone={data.contactPhone || ""}
         />
       </section>
 
@@ -112,6 +116,7 @@ const RestaurantDetails: React.FC = () => {
                       name={item.name}
                       description={item.description}
                       price={item.price}
+                      available={item.available} // ✅ Add this
                       tags={item.tags?.map((t: any) => t.tag.name) || []}
                       restaurantName={data.name}
                     />
@@ -180,7 +185,15 @@ const MenuItem: React.FC<MenuItem & {}> = ({
             ))}
           </div>
           <p className="text-gray-700 text-sm leading-relaxed mt-1">{description}</p>
-          <button onClick={()=>handleToCart({id,name,tags,description,price,quantity:1,restaurantName})}
+          <button onClick={()=>handleToCart({
+  id,
+  name,
+  tags,
+  description: description || "",
+  price,
+  quantity: 1,
+  restaurantName,
+})}
             className="mt-4 bg-indigo-500 text-white rounded px-6 py-2 font-semibold transition hover:bg-indigo-800 w-fit"
           >
             Add to Cart

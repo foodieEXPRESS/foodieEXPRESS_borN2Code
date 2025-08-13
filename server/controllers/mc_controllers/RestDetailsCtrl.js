@@ -1,23 +1,39 @@
 const prisma = require("../../database");
 // const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501"; // mc : not needed anymore
+// const userId = "d18d270b-bdc4-403e-adc8-32f6fca48544";
 
 const getRestbyId = async (req, res) => {
-    const restId = req.params.restId
-  try {
-    
+  const restId = req.params.restId;
+     try {
     const restaurant = await prisma.restaurant.findUnique({
-      where: {
-        id: restId,
-      },
+      where: { id: restId },
       include: {
         menus: {
           include: {
+           
             items: {
               include: {
+   
                 tags: {
-                  include: {
-                    tag: true
-                }}}}}}}});
+                  include: { tag: true },
+                },
+                media: true,
+              },
+            },
+            media: true,
+          },
+        },
+        media: true, 
+     
+        reviews: {
+          include: {
+            user: {
+              select: { id: true, fullName: true},
+            },
+          },
+        },
+      },
+    });
                     
     if (!restaurant) {
       return res.status(404).json({ error: "Restaurant not found" });
@@ -57,33 +73,76 @@ const getImageById = async (req, res) => {
   }
 };
 
-
 const getOrderHistoryByUser = async (req, res) => {
-const userId = req.user.userId;
-const orders = await prisma.order.findMany({
-  where: { customerId: userId },
-  include: {
-    orderItems: {
-      include: {
-        menu: {
-          include: {
-            restaurant: true,
-          },
-        },
-      },
-    },
-    restaurant: {
-      include: {
-        restaurant: true,
-      },
-    },
-  },
-});
-  if (!orders || orders.length === 0) {
-    return res.status(404).json({ error: "No orders found" });
-  }
-  return res.status(200).json(orders);
+  try {
+    const userId = req.user?.userId;
+    console.log('Request received for userId:', userId);
 
+    if (!userId) {
+      return res.status(400).json({ success: false, error: "User ID required" });
+    }
+
+    const orders = await prisma.order.findMany({
+      where: { customerId: userId },
+      select: {
+        id: true,
+        status: true,
+        totalAmount: true,
+        customerId: true,
+      },
+    });
+
+    console.log('Orders found:', orders.length);
+
+    return res.status(200).json({
+      success: true,
+      totalOrders: orders.length,
+      orders: orders,
+    });
+
+  } catch (error) {
+    console.error("Error in getOrderHistoryByUser:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal server error",
+      details: error.message,
+    });
+  }
 };
 
-module.exports = { getRestbyId, getImageById, getOrderHistoryByUser };
+const addRestaurantReview = async (req, res) => {
+  try {
+    const { restId } = req.params.restId;
+    const { rating, comment } = req.body;
+    const userId = req.user?.userId;
+
+    if (!userId) return res.status(401).json({ error: "Unauthorized" });
+    if (!rating || rating < 0 || rating > 5)
+      return res.status(400).json({ error: "Rating must be between 0 and 5" });
+
+    const review = await prisma.review.upsert({
+      where: {
+        userId_restaurantId: { userId, restaurantId: restId }
+      },
+      update: {
+        rating,
+        comment
+      },
+      create: {
+        rating,
+        comment,
+        restaurantId: restId,
+        userId
+      },
+      include: {
+        user: { select: { id: true, fullName: true } }
+      }
+    });
+
+    return res.status(200).json({ success: true, review });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+module.exports = { getRestbyId, getImageById, getOrderHistoryByUser, addRestaurantReview }

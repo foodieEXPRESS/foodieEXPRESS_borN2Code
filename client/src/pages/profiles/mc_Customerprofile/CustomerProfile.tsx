@@ -19,6 +19,8 @@ const CustomerProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate(); 
   const { user, loading, error } = useSelector((state: RootState) => state.restaurantList);
+  const totalOrders = useSelector((state: RootState) => state.orderHistory.totalOrders) ?? 0;
+
   const [editMode, setEditMode] = useState(false);
   useEffect(() => {
     dispatch(fetchUserById())
@@ -49,10 +51,9 @@ const CustomerProfile: React.FC = () => {
   const email = user.email || 'N/A';
   const phone = user.phoneNumber || 'N/A';
   const address = user.address || 'N/A';
-  const memberSince = 'N/A'; 
-  const totalOrders = 0;
+  const memberSince = '3 days'; 
   const rating = 0; 
-  const cuisineType = 'N/A'; 
+  const cuisineType = 'Bella Italia'; 
 
   const initials = `${name[0] || ''}${name.split(' ')[1]?.[0] || ''}`.toUpperCase();
 
@@ -156,7 +157,7 @@ className="text-sm text-indigo-600 hover:text-indigo-800 underline mt-3 cursor-p
   {/* Favorite Restaurant Card */}
   <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
     <p className="font-bold text-3xl leading-tight mb-1 text-green-600">
-      {cuisineType || 'N/A'}
+      {cuisineType}
     </p>
     <p className="text-gray-600 text-lg font-semibold mb-2">Favorite Restaurant</p>
     <p className="text-gray-400 text-sm">Since: Oct 2023</p>
@@ -165,7 +166,7 @@ className="text-sm text-indigo-600 hover:text-indigo-800 underline mt-3 cursor-p
   {/* Member Since Card */}
   <div className="bg-gray-50 p-6 rounded-lg shadow flex-1 min-w-[220px] max-w-[300px] flex flex-col items-center justify-center text-center">
     <p className="text-orange-600 font-semibold mb-2 text-xl leading-tight">
-      {memberSince || 'N/A'}
+      {memberSince}
     </p>
     <p className="text-gray-600 text-lg">Member Since</p>
   </div>
