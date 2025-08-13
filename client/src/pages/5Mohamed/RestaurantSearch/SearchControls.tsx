@@ -11,8 +11,11 @@ export default function SearchControls({ onSearch }: Props) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const q = e.target.value;
     setQuery(q);
-    onSearch?.(q);
+    if (onSearch) {
+      onSearch(q);
+    }
   };
+
   return (
     <div className="flex gap-4 mb-10">
       <div className="flex-1 relative">
@@ -20,9 +23,9 @@ export default function SearchControls({ onSearch }: Props) {
         <input
           type="text"
           value={query}
-          onChange={handleChange}
           placeholder="Search restaurants, cuisines, or dishes..."
           className="w-full h-14 pl-12 pr-4 border border-gray-300 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+          onChange={handleChange}
         />
       </div>
       <div className="w-48 relative">

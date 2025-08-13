@@ -40,7 +40,8 @@ const authenticateToken = async (req, res, next) => {
 
     // Add user info to request object
     req.user = {
-      userId: user.id,
+      userId: user.id, // preferred field used across new code
+      id: user.id,     // backward compatibility for existing code referencing req.user.id
       email: user.email,
       role: user.role,
       fullName: user.fullName
@@ -177,6 +178,7 @@ const optionalAuth = async (req, res, next) => {
     if (user) {
       req.user = {
         userId: user.id,
+        id: user.id,
         email: user.email,
         role: user.role,
         fullName: user.fullName

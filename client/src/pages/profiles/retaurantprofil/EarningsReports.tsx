@@ -1,93 +1,53 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import type { RootState } from '../../../store';
+import { fetchEarnings } from '../../../store/restaurantProfileSlice';
 import './restaurantprofile.css';
+
+// Define the shape of a top performing item so TS doesn't infer `never`
+type TopItem = {
+  color: string;
+  icon: React.ReactNode;
+  name: string;
+  orders: number | string;
+  sales: number | string;
+  change: string;
+};
 
 const EarningsReports: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { earnings, earningsLoading, error } = useSelector((s: RootState) => s.restaurantProfile);
+  const [period, setPeriod] = useState<'week' | 'month' | 'year' | 'all'>('week');
+
+  useEffect(() => {
+    dispatch(fetchEarnings({ period }));
+  }, [dispatch, period]);
 
   const handleNavigation = (route: string) => {
     navigate(route);
   };
 
-  const metrics = [
-    {
-      title: "Today's Sales",
-      amount: "$486.50",
-      change: "+8.2% vs yesterday",
-      details: "24 orders + $20.27 avg",
-      accent: "green"
-    },
-    {
-      title: "This Week",
-      amount: "$2,847.20",
-      change: "+12.5% vs last week",
-      details: "142 orders + $20.05 avg",
-      accent: "blue"
-    },
-    {
-      title: "This Month",
-      amount: "$12,456.80",
-      change: "+18.3% vs last month",
-      details: "623 orders + $19.99 avg",
-      accent: "yellow"
-    },
-    {
-      title: "Total Earnings",
-      amount: "$45,892.30",
-      change: "All time",
-      details: "2,347 orders + $19.55 avg",
-      accent: "purple"
-    }
-  ];
+  const metrics = useMemo(() => {
+    const total = earnings?.totalEarnings ?? 0;
+    const orders = earnings?.totalOrders ?? 0;
+    const avg = earnings?.averageOrderValue ?? 0;
+    return [
+      {
+        title: 'Total Earnings',
+        amount: `$${total.toFixed(2)}`,
+        change: 'All time',
+        details: `${orders} orders + $${avg.toFixed(2)} avg`,
+        accent: 'purple'
+      }
+    ];
+  }, [earnings]);
 
-  const revenueBreakdown = [
-    {
-      label: "Food Sales",
-      amount: "$11,247.60",
-      percentage: "90.3%",
-      dot: "blue"
-    },
-    {
-      label: "Delivery Fees",
-      amount: "$1,209.20",
-      percentage: "9.7%",
-      dot: "green"
-    },
-    {
-      label: "Platform Fees",
-      amount: "-$1,869.12",
-      percentage: "15%",
-      dot: "red",
-      negative: true
-    }
-  ];
+  const daily = earnings?.dailyEarnings ?? [];
 
-  const topItems = [
-    {
-      name: "Margherita Pizza",
-      orders: "89 orders",
-      sales: "$1,689.11",
-      change: "+15%",
-      icon: "🍕",
-      color: "#f87171"
-    },
-    {
-      name: "Chicken Alfredo",
-      orders: "67 orders",
-      sales: "$1,540.33",
-      change: "+8%",
-      icon: "🍝",
-      color: "#34d399"
-    },
-    {
-      name: "Caesar Salad",
-      orders: "54 orders",
-      sales: "$809.46",
-      change: "+12%",
-      icon: "🥗",
-      color: "#06b6d4"
-    }
-  ];
+  const topItems: TopItem[] = []; // placeholder for future enhancement
 
   return (
     <div className="machraoui-earnings-reports-container">
@@ -112,9 +72,14 @@ const EarningsReports: React.FC = () => {
               Track your restaurant's financial performance and sales analytics
             </div>
           </div>
-          <div className="machraoui-earnings-actions">
-            <button className="machraoui-export-report-btn">Export Report</button>
-            <button className="machraoui-download-pdf-btn">Download PDF</button>
+          <div className="machraoui-earnings-actions" style={{ display: 'flex', gap: 8 }}>
+            <select className="machraoui-earnings-tab" value={period} onChange={(e) => setPeriod(e.target.value as any)}>
+              <option value="week">Week</option>
+              <option value="month">Month</option>
+              <option value="year">Year</option>
+              <option value="all">All</option>
+            </select>
+            <button className="machraoui-export-report-btn">Export CSV</button>
           </div>
         </div>
 
@@ -127,7 +92,9 @@ const EarningsReports: React.FC = () => {
 
         {/* Key Metrics Cards */}
         <div className="machraoui-metrics-grid">
-          {metrics.map((metric, idx) => (
+          {earningsLoading && <div style={{ gridColumn: '1/-1', textAlign: 'center' }}>Loading earnings...</div>}
+          {error && <div style={{ gridColumn: '1/-1', textAlign: 'center', color: 'red' }}>{error}</div>}
+          {!earningsLoading && metrics.map((metric, idx) => (
             <div key={idx} className="machraoui-metric-card">
               <div className={`machraoui-metric-accent ${metric.accent}`}></div>
               <div className="machraoui-metric-title">{metric.title}</div>
@@ -140,30 +107,33 @@ const EarningsReports: React.FC = () => {
 
         {/* Additional Sections */}
         <div className="machraoui-additional-sections">
-          {/* Weekly Orders */}
+          {/* Monthly Earnings (list) */}
           <div className="machraoui-weekly-orders-section">
-            <div className="machraoui-weekly-orders-title">Weekly Orders</div>
-            <div className="machraoui-weekly-orders-placeholder">
-              Chart placeholder
+            <div className="machraoui-weekly-orders-title">Earnings ({period})</div>
+            <div className="machraoui-weekly-orders-placeholder" style={{ display: 'grid', gap: 8 }}>
+              {daily.map((d: any) => (
+                <div key={d.date} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span>{d.date}</span>
+                  <span>${(d.earnings ?? 0).toFixed(2)} • {d.orders ?? 0} orders</span>
+                </div>
+              ))}
+              {!daily.length && !earningsLoading && <div style={{ textAlign: 'center' }}>No data</div>}
             </div>
           </div>
 
-          {/* Revenue Breakdown */}
+          {/* Summary */}
           <div className="machraoui-revenue-breakdown-section">
-            <div className="machraoui-revenue-breakdown-title">Revenue Breakdown</div>
-            {revenueBreakdown.map((item, idx) => (
-              <div key={idx} className="machraoui-revenue-item">
-                <div className="machraoui-revenue-label">
-                  <div className={`machraoui-revenue-dot ${item.dot}`}></div>
-                  {item.label}
-                </div>
-                <div className={`machraoui-revenue-amount ${item.negative ? 'negative' : ''}`}>
-                  {item.amount} ({item.percentage})
-                </div>
-              </div>
-            ))}
+            <div className="machraoui-revenue-breakdown-title">Summary</div>
+            <div className="machraoui-revenue-item">
+              <div className="machraoui-revenue-label">Total Earnings</div>
+              <div className="machraoui-revenue-amount">${(earnings?.totalEarnings ?? 0).toFixed(2)}</div>
+            </div>
+            <div className="machraoui-revenue-item">
+              <div className="machraoui-revenue-label">Total Orders</div>
+              <div className="machraoui-revenue-amount">{earnings?.totalOrders ?? 0}</div>
+            </div>
             <div className="machraoui-net-earnings">
-              <div className="machraoui-net-earnings-amount">$10,587.68</div>
+              <div className="machraoui-net-earnings-amount">Avg Order: ${((earnings?.averageOrderValue) ?? 0).toFixed(2)}</div>
             </div>
           </div>
         </div>

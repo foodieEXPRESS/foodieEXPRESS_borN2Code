@@ -12,6 +12,20 @@ const searchRestaurants = async (req, res) => {
     const results = await prisma.restaurant.findMany({
       where: {
         OR: [
+          // Match restaurant names
+          {
+            name: {
+              contains: searchQuery,
+            },
+          },
+          // Match cuisine names
+          {
+            cuisine: {
+              name: {
+                contains: searchQuery,
+              },
+            },
+          },
           // Match menu names
           {
             menus: {
@@ -22,7 +36,7 @@ const searchRestaurants = async (req, res) => {
               },
             },
           },
-          // Match menu item names
+          // Match menu item names (dishes)
           {
             menus: {
               some: {
@@ -39,6 +53,7 @@ const searchRestaurants = async (req, res) => {
         ],
       },
       include: {
+        cuisine: true,
         menus: {
           include: {
             items: true,
