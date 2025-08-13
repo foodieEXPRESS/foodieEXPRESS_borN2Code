@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import type { AboutCardProps } from '../../types/mc_Types';
 import axios from "axios";
-import type { RootState } from "../../store";
 import { useSelector } from "react-redux";
+import { fetchRestaurantById } from '../../store/restaurantDetailsSlice';
+import type { RootState, AppDispatch } from "../../store";
+import { useDispatch } from 'react-redux';
 export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string }> = ({
   description,
   rating,
@@ -13,9 +15,11 @@ export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string 
   restaurantId,
 }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
-  const reviews = useSelector((state: RootState) => state.restaurantDetails.reviews ?? []);
+  const reduxReviews = useSelector((state: RootState) => state.restaurantDetails.reviews ?? []);
   const [reviewRating, setReviewRating] = useState(0);
   const [comment, setComment] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
+
 
 
   const handleSubmitReview = async () => {
@@ -25,23 +29,29 @@ export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string 
     
 
     try {
+ 
       const token = localStorage.getItem("token");
       await axios.put(
         `http://localhost:8080/api/details/review/${restaurantId}`,
         { rating: reviewRating, comment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      if (!restaurantId) return
+      dispatch(fetchRestaurantById(restaurantId));
       alert("Review added successfully!");
+
       setShowReviewForm(false);
       setReviewRating(0);
       setComment("");
+    
+    
     } catch (err) {
       console.error(err);
       alert("Failed to submit review");
     }
     
   };
-
+  
   return (
     <div className="rounded-lg shadow-md p-6 w-full" style={{ background: "#FFFFFF" }}>
       {/* === Original AboutRestaurant content === */}

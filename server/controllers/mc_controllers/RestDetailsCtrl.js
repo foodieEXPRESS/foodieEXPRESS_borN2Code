@@ -1,6 +1,6 @@
 const prisma = require("../../database");
 // const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501"; // mc : not needed anymore
-// const userId = "d18d270b-bdc4-403e-adc8-32f6fca48544";
+const userId = "a1494056-46fc-469d-9c7c-70609d034d6d";
 
 const getRestbyId = async (req, res) => {
   const restId = req.params.restId;
@@ -75,7 +75,7 @@ const getImageById = async (req, res) => {
 
 const getOrderHistoryByUser = async (req, res) => {
   try {
-    const userId = req.user?.userId;
+    // const userId = req.user?.userId;
     console.log('Request received for userId:', userId);
 
     if (!userId) {
@@ -109,6 +109,9 @@ const getOrderHistoryByUser = async (req, res) => {
     });
   }
 };
+
+
+
 
 const addRestaurantReview = async (req, res) => {
   try {

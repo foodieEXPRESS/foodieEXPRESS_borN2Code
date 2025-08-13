@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../store";
 import { fetchUserById, fetchRestaurantsNearUser, updateUserLocation,} from "../../store/restaurantListSlice";
 import OneRestaurant from "./OneRestaurant";
-import type { Restaurant } from "../../types/mc_Types";
+import type { RestaurantDetails } from "../../types/mc_Types";
 import { useNavigate } from "react-router-dom";
 import Navbar from '../5Mohamed/LandingPage/Navbar'
 
@@ -56,12 +56,12 @@ const RestaurantList: React.FC= () => {
     navigate(`/restaurant-search/`);
   };
 
-  const safeRestaurants: Restaurant[] = Array.isArray(restaurants)
+  const safeRestaurants: RestaurantDetails[] = Array.isArray(restaurants)
     ? restaurants
     : [];
 
   const filteredRestaurants = safeRestaurants.filter(
-    (rest: Restaurant) =>
+    (rest: RestaurantDetails) =>
       (rest.name &&
         rest.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (rest.cuisineType &&
@@ -132,7 +132,7 @@ const RestaurantList: React.FC= () => {
 
       {/* Restaurant Grid */}
       <div className="grid gap-6 grid-cols-3 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredRestaurants.map((rest: Restaurant) => (
+        {filteredRestaurants.map((rest: RestaurantDetails) => (
           <OneRestaurant key={rest.id} {...rest} />
         ))}
       </div>

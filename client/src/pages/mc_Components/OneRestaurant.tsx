@@ -1,8 +1,8 @@
   import React from "react";
   import { useNavigate } from "react-router-dom";
-  import type { Restaurant } from '../../types/mc_Types';
+  import type { RestaurantDetails } from '../../types/mc_Types';
 
-  const OneRestaurant: React.FC<Restaurant> = ({
+  const OneRestaurant: React.FC<RestaurantDetails> = ({
     id,
     name,
     cuisine,
@@ -32,7 +32,7 @@
     const initials = name
       .split(" ")
       .filter(Boolean)
-      .map((word, idx, arr) => (idx === 0 || idx === arr.length - 1 ? word[0].toUpperCase() : null))
+      .map(((word: string, idx: number, arr: string[]) => (idx === 0 || idx === arr.length - 1 ? word[0].toUpperCase() : null)))
       .filter(Boolean)
       .join("");
 
@@ -94,7 +94,7 @@ const renderStars = (rating: number) => {
           <div className="flex items-center justify-between text-sm text-gray-600 mt-2">
             <div className="flex gap-3">
              <span className="flex items-center gap-1">
-  {renderStars(rating)}
+  {renderStars(rating ?? 0)}
 </span>
 
               <span className="flex items-center gap-1">
