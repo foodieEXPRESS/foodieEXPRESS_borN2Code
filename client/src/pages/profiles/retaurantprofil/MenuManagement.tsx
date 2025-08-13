@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import type { RootState } from '../../../store';
 import { 
@@ -14,6 +15,7 @@ import restaurantProfileService from '../../../services/restaurantProfileService
 import './restaurantprofile.css';
 
 const MenuManagement: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { menus, menusLoading, menuItemsByMenuId, menuItemsLoadingByMenuId, error } = useSelector((s: RootState) => s.restaurantProfile);
 
@@ -185,7 +187,15 @@ const MenuManagement: React.FC = () => {
             <span className="machraoui-help-text">help</span>
           </div>
         </div>
-        <button className="machraoui-settings-btn">Settings</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            className="machraoui-view-earnings-btn"
+            onClick={() => navigate('/restaurant-profile')}
+          >
+            Back to Profile
+          </button>
+          <button className="machraoui-settings-btn">Settings</button>
+        </div>
       </div>
 
       {/* Menu Management Section */}

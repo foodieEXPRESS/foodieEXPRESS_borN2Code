@@ -26,10 +26,6 @@ const EarningsReports: React.FC = () => {
     dispatch(fetchEarnings({ period }));
   }, [dispatch, period]);
 
-  const handleNavigation = (route: string) => {
-    navigate(route);
-  };
-
   const metrics = useMemo(() => {
     const total = earnings?.totalEarnings ?? 0;
     const orders = earnings?.totalOrders ?? 0;
@@ -60,7 +56,15 @@ const EarningsReports: React.FC = () => {
             <span className="machraoui-help-text">help</span>
           </div>
         </div>
-        <button className="machraoui-settings-btn">Settings</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            className="machraoui-view-earnings-btn"
+            onClick={() => navigate('/restaurant-profile')}
+          >
+            Back to Profile
+          </button>
+          <button className="machraoui-settings-btn">Settings</button>
+        </div>
       </div>
 
       {/* Earnings & Reports Section */}

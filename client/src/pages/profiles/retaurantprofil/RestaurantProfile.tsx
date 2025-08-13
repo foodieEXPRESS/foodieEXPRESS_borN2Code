@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../../store';
 import { fetchProfile, fetchDashboard, changeOrderStatus, fetchOrders, fetchMenus } from '../../../store/restaurantProfileSlice';
+import { logout } from '../../../store/authSlice';
 import './restaurantprofile.css';
 
 const RestaurantProfile: React.FC = () => {
@@ -76,7 +77,15 @@ const RestaurantProfile: React.FC = () => {
             <span className="machraoui-help-text">Help</span>
           </div>
         </div>
-        <button className="machraoui-settings-btn">Settings</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            className="machraoui-view-earnings-btn"
+            onClick={() => { dispatch(logout()); navigate('/'); }}
+          >
+            Logout
+          </button>
+          <button className="machraoui-settings-btn">Settings</button>
+        </div>
       </div>
 
       {/* Restaurant Information Card */}
@@ -241,7 +250,17 @@ const RestaurantProfile: React.FC = () => {
                 <tr key={o.id}>
                   <td>#{o.id}</td>
                   <td>{o.customer?.fullName ?? 'N/A'}</td>
-                  <td>{Array.isArray(o.items) ? o.items.length : (o.itemsCount ?? '—')}</td>
+                  <td>
+                    {Array.isArray(o.orderItems) && o.orderItems.length > 0
+                      ? o.orderItems
+                          .map((it: any) => `${it.menu?.name ?? 'Item'} x${it.quantity ?? 1}`)
+                          .join(', ')
+                      : (Array.isArray(o.items)
+                          ? `${o.items.length} item(s)`
+                          : (o.itemsCount ?? '—')
+                        )
+                    }
+                  </td>
                   <td>${(o.totalAmount ?? o.total ?? 0).toFixed ? (o.totalAmount ?? o.total ?? 0).toFixed(2) : Number(o.totalAmount ?? o.total ?? 0).toFixed(2)}</td>
                   <td>
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
