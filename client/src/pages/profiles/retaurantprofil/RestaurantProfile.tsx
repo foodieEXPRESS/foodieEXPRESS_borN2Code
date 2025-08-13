@@ -241,7 +241,17 @@ const RestaurantProfile: React.FC = () => {
                 <tr key={o.id}>
                   <td>#{o.id}</td>
                   <td>{o.customer?.fullName ?? 'N/A'}</td>
-                  <td>{Array.isArray(o.items) ? o.items.length : (o.itemsCount ?? '—')}</td>
+                  <td>
+                    {Array.isArray(o.orderItems) && o.orderItems.length > 0
+                      ? o.orderItems
+                          .map((it: any) => `${it.menu?.name ?? 'Item'} x${it.quantity ?? 1}`)
+                          .join(', ')
+                      : (Array.isArray(o.items)
+                          ? `${o.items.length} item(s)`
+                          : (o.itemsCount ?? '—')
+                        )
+                    }
+                  </td>
                   <td>${(o.totalAmount ?? o.total ?? 0).toFixed ? (o.totalAmount ?? o.total ?? 0).toFixed(2) : Number(o.totalAmount ?? o.total ?? 0).toFixed(2)}</td>
                   <td>
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
