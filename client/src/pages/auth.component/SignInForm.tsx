@@ -35,9 +35,16 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     // Dispatch Redux login thunk; navigation happens on success via state
     dispatch(login({ email: form.email, password: form.password }))
       .unwrap()
-      .then(() => {
+      .then((data) => {
         // optional rememberMe handling could persist token differently if needed
-        navigate(`/landing-page`);
+        const role = data?.user?.role;
+        if (role === 'RESTAURANT') {
+          navigate('/restaurant-profile');
+        } else if (role === 'DRIVER') {
+          navigate('/rider-profile');
+        } else {
+          navigate('/landing-page');
+        }
       })
       .catch(() => {
         // error is already set in the store via rejected case
@@ -49,6 +56,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     console.log('Google sign in clicked');
     // For demo purposes, navigate to dashboard
     navigate('/restaurant-profile');
+
   };
 
   const handleFacebookSignIn = () => {
