@@ -1,14 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import io, { Socket } from 'socket.io-client';
-import L, { Map as LeafletMap, Marker as LeafletMarker, Polyline as LeafletPolyline } from 'leaflet'
-import 'leaflet/dist/leaflet.css';
+import { io, Socket } from 'socket.io-client';
+import LiveNavigationMap from '../../components/LiveNavigationMap';
 import './OrderTrackPage.css';
 
-// Make sure Leaflet CSS is included in index.html or imported globally
-// import 'leaflet/dist/leaflet.css';
-
-// Types
 interface DriverInfo {
   name: string;
   rating?: number;
@@ -29,133 +24,72 @@ interface OrderStatus {
   etaText?: string; // e.g., "Delivered!" or "15-20 min"
 }
 
-interface LocationPayload {
-  lat: number;
-  lng: number;
-}
-
-const socketBaseUrl = 'http://localhost:8080'; // keep in sync with server
+const SOCKET_URL = 'http://localhost:8081';
 
 const OrderTrackPage: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const [driver, setDriver] = useState<DriverInfo | null>(null);
   const [status, setStatus] = useState<OrderStatus>({ stage: 'PLACED', etaText: undefined });
   const [distanceRemaining, setDistanceRemaining] = useState<string>('-');
-
-  const mapRef = useRef<LeafletMap | null>(null);
-  const driverMarkerRef = useRef<LeafletMarker | null>(null);
-  const userMarkerRef = useRef<LeafletMarker | null>(null);
+  const [liveDriverLocation, setLiveDriverLocation] = useState<{ latitude: number; longitude: number; name: string } | undefined>(undefined);
+  const [customerLocation, setCustomerLocation] = useState<{ latitude: number; longitude: number; name: string } | undefined>(undefined);
+  const [restaurantLocation, setRestaurantLocation] = useState<{ latitude: number; longitude: number; name: string } | undefined>(undefined);
   const socketRef = useRef<Socket | null>(null);
-  const routeRef = useRef<LeafletPolyline | null>(null);
   const geoWatchIdRef = useRef<number | null>(null);
 
-  // Default positions just to initialize map
-  const defaultCenter = useMemo(() => ({ lat: 40.7128, lng: -74.0060 }), []); // NYC fallback
-
+  // Watch user's real location (customer)
   useEffect(() => {
-    // Init map
-    if (!mapRef.current) {
-      mapRef.current = L.map('live-map', { zoomControl: true }).setView([defaultCenter.lat, defaultCenter.lng], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-      }).addTo(mapRef.current);
-    }
-
-    // Add initial user marker; will be updated by Geolocation below
-    if (!userMarkerRef.current && mapRef.current) {
-      userMarkerRef.current = L.marker([defaultCenter.lat + 0.01, defaultCenter.lng + 0.01], {
-        title: 'Your Location',
-      }).addTo(mapRef.current);
-    }
-
-    // Create route line between driver and user
-    if (!routeRef.current && mapRef.current) {
-      routeRef.current = L.polyline([], { color: '#10b981', weight: 4, opacity: 0.7 }).addTo(mapRef.current);
-    }
-
-    // Watch user's real location
     if ('geolocation' in navigator) {
       geoWatchIdRef.current = navigator.geolocation.watchPosition(
         (pos) => {
           const { latitude, longitude } = pos.coords;
-          if (userMarkerRef.current) {
-            userMarkerRef.current.setLatLng([latitude, longitude]);
-          }
-          if (mapRef.current && driverMarkerRef.current) {
-            const bounds: L.LatLngExpression[] = [
-              [latitude, longitude],
-              driverMarkerRef.current.getLatLng(),
-            ];
-            mapRef.current.fitBounds(bounds as any, { padding: [40, 40] });
-            // update distance
-            const d = mapRef.current.distance(L.latLng(latitude, longitude), driverMarkerRef.current.getLatLng());
-            setDistanceRemaining(`${(d / 1000).toFixed(2)} km`);
-          }
-          // update route
-          if (routeRef.current && driverMarkerRef.current) {
-            routeRef.current.setLatLngs([
-              driverMarkerRef.current.getLatLng(),
-              L.latLng(latitude, longitude),
-            ]);
-          }
+          setCustomerLocation({ latitude, longitude, name: 'You' });
         },
-        () => {
-          // ignore errors, fallback location kept
-        },
+        () => {},
         { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 }
       );
     }
-
     return () => {
       if (geoWatchIdRef.current !== null && 'geolocation' in navigator) {
         navigator.geolocation.clearWatch(geoWatchIdRef.current);
       }
-      // keep map instance to avoid flicker
     };
-  }, [defaultCenter]);
+  }, []);
 
   useEffect(() => {
     if (!orderId) return;
-    // Connect socket.io
-    const socket = io(socketBaseUrl + '/tracking', { transports: ['websocket'] });
+    // Connect to standalone socket.io server and join order room
+    const socket = io(SOCKET_URL, { transports: ['websocket'] });
     socketRef.current = socket;
 
     socket.on('connect', () => {
-      socket.emit('join', { orderId });
+      console.log('[OrderTrackPage] socket connected', socket.id);
+      console.log('[OrderTrackPage] joining order room', orderId);
+      socket.emit('join_order', { orderId, role: 'client' });
+    });
+
+    socket.on('connect_error', (err) => {
+      console.error('[OrderTrackPage] socket connect_error:', err.message);
     });
 
     // Driver location updates
-    socket.on('location:update', (payload: LocationPayload) => {
-      if (!mapRef.current) return;
-      const { lat, lng } = payload;
-
-      if (!driverMarkerRef.current) {
-        driverMarkerRef.current = L.marker([lat, lng], { title: 'Driver Location' }).addTo(mapRef.current);
-      } else {
-        driverMarkerRef.current.setLatLng([lat, lng]);
+    socket.on('driver_location', (payload: { orderId: string; lat: number; lng: number }) => {
+      console.log('[OrderTrackPage] driver_location received', payload);
+      if (!payload || payload.orderId !== orderId) return;
+      // set static restaurant location on first tick to help fit bounds between ends
+      if (!restaurantLocation) {
+        setRestaurantLocation({ latitude: payload.lat, longitude: payload.lng, name: 'Restaurant' });
       }
-
-      // Fit bounds if we have both markers
-      const bounds: L.LatLngExpression[] = [];
-      if (userMarkerRef.current) bounds.push(userMarkerRef.current.getLatLng());
-      if (driverMarkerRef.current) bounds.push(driverMarkerRef.current.getLatLng());
-      if (bounds.length >= 2) {
-        mapRef.current.fitBounds(bounds as any, { padding: [40, 40] });
-      }
-
-      // Optionally compute a simple distance remaining
-      if (userMarkerRef.current) {
-        const d = mapRef.current.distance(userMarkerRef.current.getLatLng(), L.latLng(lat, lng));
-        const km = (d / 1000).toFixed(2);
-        setDistanceRemaining(`${km} km`);
-      }
-
-      // Update route line
-      if (routeRef.current && userMarkerRef.current) {
-        routeRef.current.setLatLngs([
-          [lat, lng],
-          userMarkerRef.current.getLatLng(),
-        ]);
+      setLiveDriverLocation({ latitude: payload.lat, longitude: payload.lng, name: 'Driver' });
+      if (customerLocation) {
+        // Approximate distance for display
+        const R = 6371000; // m
+        const toRad = (d: number) => (d * Math.PI) / 180;
+        const dLat = toRad(payload.lat - customerLocation.latitude);
+        const dLng = toRad(payload.lng - customerLocation.longitude);
+        const a = Math.sin(dLat/2)**2 + Math.cos(toRad(customerLocation.latitude)) * Math.cos(toRad(payload.lat)) * Math.sin(dLng/2)**2;
+        const d = 2 * R * Math.asin(Math.sqrt(a));
+        setDistanceRemaining(`${(d / 1000).toFixed(2)} km`);
       }
     });
 
@@ -170,10 +104,11 @@ const OrderTrackPage: React.FC = () => {
     });
 
     return () => {
-      socket.emit('leave', { orderId });
+      console.log('[OrderTrackPage] leaving order room', orderId);
+      socket.emit('leave_order', { orderId });
       socket.disconnect();
     };
-  }, [orderId]);
+  }, [orderId, restaurantLocation, customerLocation]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -252,8 +187,13 @@ const OrderTrackPage: React.FC = () => {
                   <span className="MACH-tag">Driver Location</span>
                   <span className="MACH-tag">Your Location</span>
                 </div>
-                <div className="MACH-map-wrap">
-                  <div id="live-map" />
+                <div className="MACH-map-wrap" style={{ height: 320 }}>
+                  <LiveNavigationMap
+                    driverLocation={liveDriverLocation}
+                    restaurantLocation={restaurantLocation}
+                    customerLocation={customerLocation}
+                    orderStatus={status.stage === 'OUT_FOR_DELIVERY' ? 'OUT_FOR_DELIVERY' : status.stage === 'DELIVERED' ? 'DELIVERED' : 'PREPARING'}
+                  />
                 </div>
               </div>
               <div className="MACH-track-stats">

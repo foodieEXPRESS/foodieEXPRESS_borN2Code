@@ -38,12 +38,17 @@ io.on('connection', (socket) => {
     socket.data.orderId = orderId;
     socket.data.role = role || 'client';
     socket.emit('joined_order', { orderId });
+    // debug
+    // eslint-disable-next-line no-console
+    console.log(`[socket.io] ${socket.id} joined ${orderRoom(orderId)} as ${socket.data.role}`);
   });
 
   // Leave order room
   socket.on('leave_order', ({ orderId }) => {
     if (!orderId) return;
     socket.leave(orderRoom(orderId));
+    // eslint-disable-next-line no-console
+    console.log(`[socket.io] ${socket.id} left ${orderRoom(orderId)}`);
   });
 
   // Driver sends live location updates
@@ -51,6 +56,8 @@ io.on('connection', (socket) => {
   socket.on('driver_location', (payload) => {
     const { orderId, lat, lng, heading, speedKmh } = payload || {};
     if (!orderId || typeof lat !== 'number' || typeof lng !== 'number') return;
+    // eslint-disable-next-line no-console
+    console.log(`[socket.io] driver_location from ${socket.id} for ${orderRoom(orderId)}:`, lat, lng);
     io.to(orderRoom(orderId)).emit('driver_location', {
       orderId,
       lat,

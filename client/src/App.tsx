@@ -46,7 +46,7 @@ function App() {
           <Route path="/custProfile" element={<CustomerProfile />} />
 
           <Route path="/" element={<AuthPage />} />
-          <Route path="/order-tracking" element={<OrderTrackPage />} />
+          <Route path="/order-tracking/:orderId" element={<OrderTrackPage />} />
           <Route path="/restaurant-profile" element={<RestaurantProfile />} />
           <Route path="/earnings-reports" element={<EarningsReports />} />
           <Route path="/reviews" element={<Reviews />} />

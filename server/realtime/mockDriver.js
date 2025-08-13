@@ -1,10 +1,3 @@
-// Mock driver that emits periodic location updates to the Socket.IO server
-// Usage:
-//   node realtime/mockDriver.js <ORDER_ID>
-// or set env var:
-//   PowerShell:   $env:ORDER_ID = "your-order-id"; node realtime/mockDriver.js
-//   CMD:          set ORDER_ID=your-order-id && node realtime/mockDriver.js
-//   Bash (WSL):   ORDER_ID=your-order-id node realtime/mockDriver.js
 
 const { io } = require('socket.io-client');
 
@@ -12,8 +5,8 @@ const { io } = require('socket.io-client');
 const DRIVER_ID = '7212e0a5-88f4-4a47-b415-85f9671d8dc3';
 
 // Order ID from CLI arg or ENV
-// CLI format: node realtime/mockDriver.js <ORDER_ID> [<startLat> <startLng> <endLat> <endLng>]
 const ORDER_ID = process.argv[2] || process.env.ORDER_ID || '483a2d3c-106d-4ddf-90b6-0009816d9134';
+
 if (!ORDER_ID) {
   console.error('\nMissing ORDER_ID. Provide it as an arg or env variable.');
   console.error('Examples:');
@@ -24,37 +17,11 @@ if (!ORDER_ID) {
 }
 
 const SOCKET_URL = process.env.SOCKET_URL || 'http://localhost:8081';
-const API_BASE_URL = process.env.API_BASE_URL; // e.g. http://localhost:8080/api/am/order-details-tracking
-const API_TOKEN = process.env.API_TOKEN;      // Bearer token for protected endpoints
+const USE_REAL = String(process.env.USE_REAL || '').toLowerCase() === 'true';
+const API_BASE_URL = process.env.API_BASE_URL; 
+const API_TOKEN = process.env.API_TOKEN;   
 
 const socket = io(SOCKET_URL, { transports: ['websocket'] });
-
-// Attempt to fetch restaurant/customer coordinates for the given order
-async function resolveStartEndFromAPI(orderId) {
-  if (!API_BASE_URL || !API_TOKEN) return null;
-  try {
-    const headers = { 'Authorization': `Bearer ${API_TOKEN}` };
-    const [restRes, custRes] = await Promise.all([
-      fetch(`${API_BASE_URL}/order/${orderId}/restaurant`, { headers }),
-      fetch(`${API_BASE_URL}/order/${orderId}/customer`, { headers })
-    ]);
-    if (!restRes.ok || !custRes.ok) {
-      console.warn('API fetch failed with status:', restRes.status, custRes.status);
-      return null;
-    }
-    const restaurant = await restRes.json();
-    const customer = await custRes.json();
-    const rLat = parseFloat(restaurant?.latitude ?? restaurant?.data?.latitude);
-    const rLng = parseFloat(restaurant?.longitude ?? restaurant?.data?.longitude);
-    const cLat = parseFloat(customer?.latitude ?? customer?.data?.latitude);
-    const cLng = parseFloat(customer?.longitude ?? customer?.data?.longitude);
-    if ([rLat, rLng, cLat, cLng].some(Number.isNaN)) return null;
-    return { START_LAT: rLat, START_LNG: rLng, END_LAT: cLat, END_LNG: cLng };
-  } catch (e) {
-    console.warn('API fetch error:', e.message || e);
-    return null;
-  }
-}
 
 socket.on('connect', async () => {
   console.log('Driver connected:', socket.id, 'driverId:', DRIVER_ID, 'orderId:', ORDER_ID);
@@ -62,57 +29,90 @@ socket.on('connect', async () => {
   // Join the order room as a driver
   socket.emit('join_order', { orderId: ORDER_ID, role: 'driver', driverId: DRIVER_ID });
 
-  // Determine dynamic start/end (restaurant -> customer)
-  // Priority: API (if configured) > CLI args > ENV vars > defaults
   const cliStartLat = parseFloat(process.argv[3]);
   const cliStartLng = parseFloat(process.argv[4]);
   const cliEndLat = parseFloat(process.argv[5]);
   const cliEndLng = parseFloat(process.argv[6]);
 
-  let coords = await resolveStartEndFromAPI(ORDER_ID);
-  let START_LAT, START_LNG, END_LAT, END_LNG;
-  if (coords) {
-    ({ START_LAT, START_LNG, END_LAT, END_LNG } = coords);
-  } else {
-    START_LAT = !Number.isNaN(cliStartLat) ? cliStartLat : (process.env.START_LAT ? parseFloat(process.env.START_LAT) : 40.7589);
-    START_LNG = !Number.isNaN(cliStartLng) ? cliStartLng : (process.env.START_LNG ? parseFloat(process.env.START_LNG) : -73.9851);
-    END_LAT   = !Number.isNaN(cliEndLat)   ? cliEndLat   : (process.env.END_LAT   ? parseFloat(process.env.END_LAT)   : 40.7616);
-    END_LNG   = !Number.isNaN(cliEndLng)   ? cliEndLng   : (process.env.END_LNG   ? parseFloat(process.env.END_LNG)   : -73.9776);
+  const DEFAULT_ROUTE = [
+    { lat: 40.7589, lng: -73.9851 }, 
+    { lat: 40.7596, lng: -73.9837 },
+    { lat: 40.7602, lng: -73.9824 },
+    { lat: 40.7608, lng: -73.9810 },
+    { lat: 40.7613, lng: -73.9797 },
+    { lat: 40.7616, lng: -73.9786 },
+    { lat: 40.7616, lng: -73.9776 }, 
+  ];
+  const startOverride = !Number.isNaN(cliStartLat) && !Number.isNaN(cliStartLng)
+    ? { lat: cliStartLat, lng: cliStartLng }
+    : (process.env.START_LAT && process.env.START_LNG
+        ? { lat: parseFloat(process.env.START_LAT), lng: parseFloat(process.env.START_LNG) }
+        : null);
+  const endOverride = !Number.isNaN(cliEndLat) && !Number.isNaN(cliEndLng)
+    ? { lat: cliEndLat, lng: cliEndLng }
+    : (process.env.END_LAT && process.env.END_LNG
+        ? { lat: parseFloat(process.env.END_LAT), lng: parseFloat(process.env.END_LNG) }
+        : null);
+  let ROUTE = [...DEFAULT_ROUTE];
+  if (USE_REAL && API_BASE_URL) {
+    try {
+      const url = `${API_BASE_URL.replace(/\/$/, '')}/${ORDER_ID}`;
+      const headers = API_TOKEN ? { Authorization: `Bearer ${API_TOKEN}` } : {};
+      console.log('Fetching real order details from:', url);
+      const resp = await fetch(url, { headers });
+      if (!resp.ok) throw new Error(`API ${resp.status}`);
+      const json = await resp.json();
+      const data = json?.data || json; 
+      const rLat = data?.restaurant?.latitude ?? data?.restaurant?.lat;
+      const rLng = data?.restaurant?.longitude ?? data?.restaurant?.lng;
+      const cLat = data?.customer?.latitude ?? data?.customer?.lat;
+      const cLng = data?.customer?.longitude ?? data?.customer?.lng;
+      if (
+        typeof rLat === 'number' && typeof rLng === 'number' &&
+        typeof cLat === 'number' && typeof cLng === 'number'
+      ) {
+        const start = startOverride || { lat: rLat, lng: rLng };
+        const end = endOverride || { lat: cLat, lng: cLng };
+        const steps = 25;
+        const pts = [];
+        for (let i = 0; i <= steps; i += 1) {
+          const t = i / steps;
+          pts.push({ lat: start.lat + (end.lat - start.lat) * t, lng: start.lng + (end.lng - start.lng) * t });
+        }
+        ROUTE = pts;
+        console.log('Using REAL route', `(${start.lat},${start.lng}) -> (${end.lat},${end.lng})`, 'with', ROUTE.length, 'waypoints');
+      } else {
+        console.warn('API response missing lat/lng, falling back to dummy route');
+      }
+    } catch (e) {
+      console.warn('Failed to fetch real order details:', e.message, '— falling back to dummy route');
+    }
   }
 
-  console.log('Using route:', { START_LAT, START_LNG, END_LAT, END_LNG });
+  if (startOverride) ROUTE[0] = startOverride;
+  if (endOverride) ROUTE[ROUTE.length - 1] = endOverride;
 
-  // Linear interpolation between start and end; ping-pong back and forth
-  const steps = parseInt(process.env.STEPS || '20', 10); // number of segments between points
+  console.log('Using', USE_REAL && API_BASE_URL ? 'REAL' : 'DUMMY', 'route with', ROUTE.length, 'waypoints');
+
   const intervalMs = parseInt(process.env.INTERVAL_MS || '1500', 10);
   let idx = 0;
-  let forward = true;
 
   const emitPoint = () => {
-    const t = idx / steps; // 0..1
-    const lat = START_LAT + (END_LAT - START_LAT) * t;
-    const lng = START_LNG + (END_LNG - START_LNG) * t;
-
-    // Rough speed estimate for UI
-    const dLat = (END_LAT - START_LAT) / steps;
-    const dLng = (END_LNG - START_LNG) / steps;
-    const approxMeters = Math.sqrt(dLat*dLat + dLng*dLng) * 111_000; // per step
-    const speedKmh = Math.max(10, Math.min(50, (approxMeters / 1000) / (intervalMs/3600000)));
-
-    const payload = { orderId: ORDER_ID, driverId: DRIVER_ID, lat, lng, speedKmh, ts: Date.now() };
+    const point = ROUTE[idx];
+    const payload = { orderId: ORDER_ID, driverId: DRIVER_ID, lat: point.lat, lng: point.lng, ts: Date.now() };
     socket.emit('driver_location', payload);
 
-    if (forward) {
-      idx += 1;
-      if (idx >= steps) { forward = false; }
-    } else {
-      idx -= 1;
-      if (idx <= 0) { forward = true; }
+    // One-way: advance until final waypoint, then stop
+    if (idx >= ROUTE.length - 1) {
+      console.log('Reached customer destination, stopping driver updates.');
+      clearInterval(interval);
+      return;
     }
+    idx += 1;
   };
 
   const interval = setInterval(emitPoint, intervalMs);
-  emitPoint(); // emit immediately
+  emitPoint();
 
   socket.on('disconnect', () => {
     clearInterval(interval);
