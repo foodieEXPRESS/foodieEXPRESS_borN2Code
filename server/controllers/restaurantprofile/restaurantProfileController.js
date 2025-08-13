@@ -459,9 +459,20 @@ const updateOrderStatus = async (req, res) => {
             restaurant: { some: { restaurantId: restaurant.id } },
             status: 'DELIVERED'
           },
-          include: { payment: true }
+          include: { 
+            payment: true,
+            orderItems: true
+          }
         });
-        const totalEarnings = deliveredOrders.reduce((sum, o) => sum + (o.payment?.amount || 0), 0);
+        const totalEarnings = deliveredOrders.reduce((sum, o) => {
+          const byOrder = typeof o.totalAmount === 'number' ? o.totalAmount : null;
+          const byPayment = typeof o.payment?.amount === 'number' ? o.payment.amount : null;
+          const byItems = Array.isArray(o.orderItems)
+            ? o.orderItems.reduce((s, it) => s + (Number(it.price) * Number(it.quantity || 1)), 0)
+            : null;
+          const val = byOrder ?? byPayment ?? byItems ?? 0;
+          return sum + Number(val || 0);
+        }, 0);
         const totalOrders = deliveredOrders.length;
         const averageOrderValue = totalOrders > 0 ? totalEarnings / totalOrders : 0;
         earnings = { totalEarnings, totalOrders, averageOrderValue };
@@ -537,7 +548,13 @@ const getRestaurantEarnings = async (req, res) => {
     });
 
     const totalEarnings = orders.reduce((sum, order) => {
-      return sum + (order.payment?.amount || 0);
+      const byOrder = typeof order.totalAmount === 'number' ? order.totalAmount : null;
+      const byPayment = typeof order.payment?.amount === 'number' ? order.payment.amount : null;
+      const byItems = Array.isArray(order.orderItems)
+        ? order.orderItems.reduce((s, it) => s + (Number(it.price) * Number(it.quantity || 1)), 0)
+        : null;
+      const val = byOrder ?? byPayment ?? byItems ?? 0;
+      return sum + Number(val || 0);
     }, 0);
 
     const totalOrders = orders.length;
