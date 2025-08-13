@@ -1,6 +1,6 @@
 const prisma = require("../../database");
 // const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501"; // mc : not needed anymore
-// const userId = "a1494056-46fc-469d-9c7c-70609d034d6d";
+const userId = "a1494056-46fc-469d-9c7c-70609d034d6d";
 
 const getRestbyId = async (req, res) => {
   const restId = req.params.restId;
@@ -111,8 +111,7 @@ const getOrderHistoryByUser = async (req, res) => {
       select: {
         id: true,
         status: true,
-        totalAmount: true,
-        customerId: true,
+        totalAmount: true
       },
     });
 
