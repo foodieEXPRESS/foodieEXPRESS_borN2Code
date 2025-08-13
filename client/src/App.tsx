@@ -43,7 +43,7 @@ function App() {
           <Route path="/counter" element={<Counter />} />
 
           <Route path="/list" element={<RestaurantList/>} />
-          <Route path="/list/details/:restId" element={<RestaurantDetails />} />
+          <Route path="/list/details/:restId" element={<RestaurantDetails/>} />
           <Route path="/custProfile" element={<CustomerProfile />} />
           <Route path="/OrderHistory" element={<OrderHistory />} />
 
