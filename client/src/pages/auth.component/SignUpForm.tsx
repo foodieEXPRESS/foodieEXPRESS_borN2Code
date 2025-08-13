@@ -91,23 +91,16 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
 
   return (
     <div className="MACHR-container">
-      <div className="MACHRbrand">
-        <span className="MACHRbrand-badge" aria-hidden>+</span>
-        <span className="MACHRbrand-text">FoodieExpress</span>
+      <div className="MACH-brand">
+        <span className="MACHR-brand-badge" aria-hidden>+</span>
+        <span className="MACHR-brand-text">FoodieExpress</span>
       </div>
-      <h2 className="MACHRsubtitle">Join FoodieExpress!</h2>
-      <p className="MACHRdescription">Create your account and start your journey</p>
+      <h2 className="MACHR-subtitle">Join FoodieExpress!</h2>
+      <p className="MACHR-description">Create your account and start your journey</p>
 
-      <div className="MACHRtab-container">
-        <button
-          onClick={onSwitch}
-          className=""
-        >
-          Sign In
-        </button>
-        <button className="active">
-          Sign Up
-        </button>
+      <div className="auth-tab-container">
+        <button onClick={onSwitch} className="MACHR-auth-tab-inactive">Sign In</button>
+        <button className="MACHR-auth-tab-active">Sign Up</button>
       </div>
 
       <div className="MACHR-role-section-custom">
@@ -152,11 +145,11 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="MACHRform">
-        {error && <div className="MACHRerror">{error}</div>}
-        {localError && <div className="MACHRerror">{localError}</div>}
-        <div className="MACHR-grid MACHR-grid-cols-2 MACHR-gap-4">
-          <div className="MACHRform-group">
+      <form onSubmit={handleSubmit} className="MACHR-form">
+        {error && <div className="MACHR-error">{error}</div>}
+        {localError && <div className="MACHR-error">{localError}</div>}
+        <div className="MACHR-grid MACHR-md:grid-cols-2 MACHR-gap-4">
+          <div className="MACH-form-group MACHR-form-group">
             <label>Full Name</label>
             <input
               type="text"
@@ -168,7 +161,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
             />
           </div>
 
-          <div className="MACHRform-group">
+          <div className="MACH-form-group MACHR-form-group">
             <label>Phone Number</label>
             <input
               type="tel"
@@ -181,7 +174,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           </div>
         </div>
 
-        <div className="MACHRform-group">
+        <div className="MACH-form-group MACHR-form-group">
           <label>Email Address</label>
           <input
             type="email"
@@ -193,8 +186,8 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="MACHR-grid MACHR-grid-cols-2 MACHR-gap-4">
-          <div className="MACHRform-group">
+        <div className="MACHR-grid MACHR-md:grid-cols-2 MACHR-gap-4">
+          <div className="MACH-form-group MACHR-form-group">
             <label>Password</label>
             <input
               type="password"
@@ -206,7 +199,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
             />
           </div>
 
-          <div className="MACHRform-group">
+          <div className="MACH-form-group MACHR-form-group">
             <label>Confirm Password</label>
             <input
               type="password"
@@ -219,7 +212,7 @@ const SignUpForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           </div>
         </div>
 
-        <button type="submit" className="MACHRbtn MACHR-btn primary" disabled={isLoading}>
+        <button type="submit" className="MACHR-btn primary" disabled={isLoading}>
           {isLoading ? 'Creating Account...' : 'Create Account'}
         </button>
       </form>

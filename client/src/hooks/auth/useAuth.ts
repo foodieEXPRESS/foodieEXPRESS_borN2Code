@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
-import type { RootState, AppDispatch } from '../../../store';
+import type { RootState, AppDispatch } from '../../store';
 import { 
   login, 
   register, 
   logout,  
   changePassword,
   clearError 
-} from '../../../store/authSlice';
-import type { LoginCredentials, RegisterData, ChangePasswordData } from '../../../types/auth';
+} from '../../store/authSlice';
+import type { LoginCredentials, RegisterData, ChangePasswordData } from '../../types/auth';
 
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();

@@ -6,7 +6,6 @@ import { Routes, Route,BrowserRouter } from 'react-router-dom';
 // Importing the necessary components for routing
 import OrderTrackPage from './pages/OrderTrackPage/OrderTrackPage';
 import RestaurantProfile from './pages/profiles/retaurantprofil/RestaurantProfile';
-import Earnings from './pages/profiles/retaurantprofil/Earnings';
 import EarningsReports from './pages/profiles/retaurantprofil/EarningsReports';
 import Reviews from './pages/profiles/retaurantprofil/Reviews';
 import MenuManagement from './pages/profiles/retaurantprofil/MenuManagement';
@@ -49,7 +48,6 @@ function App() {
           <Route path="/" element={<AuthPage />} />
           <Route path="/order-tracking" element={<OrderTrackPage />} />
           <Route path="/restaurant-profile" element={<RestaurantProfile />} />
-          <Route path="/earnings" element={<Earnings />} />
           <Route path="/earnings-reports" element={<EarningsReports />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/menu-management" element={<MenuManagement />} />

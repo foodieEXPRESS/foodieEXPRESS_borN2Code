@@ -60,28 +60,21 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
 
   return (
     <div className="MACHR-container">
-      <div className="MACHRbrand">
-        <span className="MACHRbrand-badge" aria-hidden>+</span>
-        <span className="MACHRbrand-text">FoodieExpress</span>
+      <div className="MACH-brand">
+        <span className="MACHR-brand-badge" aria-hidden>+</span>
+        <span className="MACHR-brand-text">FoodieExpress</span>
       </div>
-      <h2 className="MACHRsubtitle">Welcome Back!</h2>
-      <p className="MACHRdescription">Sign in to your account to continue ordering</p>
+      <h2 className="MACHR-subtitle">Welcome Back!</h2>
+      <p className="MACHR-description">Sign in to your account to continue ordering</p>
 
-      <div className="MACHRtab-container">
-        <button className="active">
-          Sign In
-        </button>
-        <button
-          onClick={onSwitch}
-          className=""
-        >
-          Sign Up
-        </button>
+      <div className="auth-tab-container">
+        <button className="MACHR-auth-tab-active">Sign In</button>
+        <button onClick={onSwitch} className="MACHR-auth-tab-inactive">Sign Up</button>
       </div>
 
-      <form onSubmit={handleSubmit} className="MACHRform">
-        {error && <div className="MACHRerror">{error}</div>}
-        <div className="MACHRform-group">
+      <form onSubmit={handleSubmit} className="MACHR-form">
+        {error && <div className="MACHR-error">{error}</div>}
+        <div className="MACH-form-group MACHR-form-group">
           <label>Email Address</label>
           <input
             type="email"
@@ -93,7 +86,7 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="MACHRform-group">
+        <div className="MACH-form-group MACHR-form-group">
           <label>Password</label>
           <input
             type="password"
@@ -105,8 +98,8 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           />
         </div>
 
-        <div className="MACHRform-options">
-          <label className="MACHRcheckbox-label">
+        <div className="MACHR-form-options">
+          <label className="MACH-checkbox-label">
             <input
               type="checkbox"
               name="rememberMe"
@@ -115,10 +108,10 @@ const SignInForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
             />
             Remember me
           </label>
-          <a href="#" className="MACHRforgot-link">Forgot password?</a>
+          <a href="#" className="MACH-forgot-link">Forgot password?</a>
         </div>
 
-        <button type="submit" className="MACHRbtn MACHR-btn primary" disabled={isLoading}>
+        <button type="submit" className="MACHR-btn primary" disabled={isLoading}>
           {isLoading ? 'Signing In...' : 'Sign In'}
         </button>
       </form>
