@@ -18,7 +18,7 @@
   --amber-600: #d97706;
 }
 
-html, body {
+.MACH-html, .MACH-body {
   background: var(--bg);
   color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
@@ -152,8 +152,8 @@ html, body {
   width: 40px; height: 40px; border-radius: 999px;
   display: grid; place-items: center; background: #eef2ff; color: #3730a3; font-weight: 700;
 }
-.driver-meta { color: var(--muted); font-size: 14px; }
-.btn-circle {
+.MACH-driver-meta { color: var(--muted); font-size: 14px; }
+.MACH-btn-circle {
   width: 40px; height: 40px; border-radius: 999px;
   display: grid; place-items: center; background: var(--emerald-100);
   color: #065f46; text-decoration: none;
@@ -182,53 +182,53 @@ html, body {
 .MACH-track-stats .MACH-label { color: var(--muted); }
 
 /* Sidebar Summary */
-.summary-store {
+.MACH-summary-store {
   display: flex; gap: 12px; margin-top: 14px;
 }
-.store-badge {
+.MACH-store-badge {
   width: 40px; height: 40px; border-radius: 8px; background: var(--rose-600); color: #fff;
   display: grid; place-items: center; font-weight: 700;
 }
-.summary-items { margin-top: 10px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.summary-row {
+.MACH-summary-items { margin-top: 10px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.MACH-summary-row {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 0; border-top: 1px solid var(--border);
 }
-.summary-left { display: flex; align-items: center; gap: 8px; }
-.pill { font-size: 11px; padding: 3px 8px; border-radius: 999px; }
-.pill-pizza { background: #ffe4e6; color: #be123c; }
-.pill-salad { background: #d1fae5; color: #065f46; }
-.pill-dessert { background: #fae8ff; color: #86198f; }
-.price { font-weight: 600; }
-.total-row { font-weight: 700; }
-.total-row .price { color: #3730a3; }
+.MACH-summary-left { display: flex; align-items: center; gap: 8px; }
+.MACH-pill { font-size: 11px; padding: 3px 8px; border-radius: 999px; }
+.MACH-pill-pizza { background: #ffe4e6; color: #be123c; }
+.MACH-pill-salad { background: #d1fae5; color: #065f46; }
+.MACH-pill-dessert { background: #fae8ff; color: #86198f; }
+.MACH-price { font-weight: 600; }
+.MACH-total-row { font-weight: 700; }
+.MACH-total-row .MACH-price { color: #3730a3; }
 
-.btn {
+.MACH-btn {
   width: 100%; padding: 10px 12px; border-radius: 8px; border: 0; cursor: pointer; font-weight: 600;
 }
-.btn-muted { background: #f3f4f6; color: #111827; }
-.btn-prim { background: var(--indigo); color: #fff; }
-.btn-prim:hover { filter: brightness(0.95); }
-.btn-muted:hover { filter: brightness(0.98); }
+.MACH-btn-muted { background: #f3f4f6; color: #111827; }
+.MACH-btn-prim { background: var(--indigo); color: #fff; }
+.MACH-btn-prim:hover { filter: brightness(0.95); }
+.MACH-btn-muted:hover { filter: brightness(0.98); }
 
 /* Delivered callout */
-.callout {
+.MACH-callout {
   border: 1px solid var(--emerald-200); background: var(--emerald-50);
   border-radius: var(--radius-xl); padding: 16px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
-.callout .icon {
+.MACH-callout .icon {
   width: 32px; height: 32px; border-radius: 999px;
   background: var(--emerald-100); color: #065f46;
   display: grid; place-items: center; margin-right: 10px;
 }
-.rate-btn { margin-top: 12px; width: 100%; background: var(--emerald); color: #fff; border: 0; padding: 10px 12px; border-radius: 8px; }
-.rate-btn:hover { filter: brightness(0.95); }
+.MACH-rate-btn { margin-top: 12px; width: 100%; background: var(--emerald); color: #fff; border: 0; padding: 10px 12px; border-radius: 8px; }
+.MACH-rate-btn:hover { filter: brightness(0.95); }
 
 /* Utility */
-.divider { border-top: 1px solid var(--border); margin: 16px 0; }
-.mt-6 { margin-top: 24px; }
-.mb-6 { margin-bottom: 24px; }
+.MACH-divider { border-top: 1px solid var(--border); margin: 16px 0; }
+.MACH-mt-6 { margin-top: 24px; }
+.MACH-mb-6 { margin-bottom: 24px; }
 
 /* Utility color (used in component) */
-.text-emerald-600 { color: #059669; }
+.MACH-text-emerald-600 { color: #059669; }
