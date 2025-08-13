@@ -9,6 +9,8 @@ import authReducer from './authSlice';
 import restaurantProfileReducer from './restaurantProfileSlice';
 
 import orderTrackingReducer from './orderTrackingSlice';
+    import deliveryHistoryReducer from '../pages/5Mohamed/DeliveryHistoryComponents/deliveryHistorySlice';
+
 
 export const store = configureStore({
   reducer: {
@@ -20,8 +22,10 @@ export const store = configureStore({
     restaurantProfile: restaurantProfileReducer,
     orderTracking: orderTrackingReducer,
     cart: CartReducer,
+    deliveryHistory: deliveryHistoryReducer
   },
 });
+
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
