@@ -1,27 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store';
 
-interface DeliveryRecord {
-  orderId: string;
-  customer: string;
-  items: number;
-  restaurant: string;
-  date: string;
-  time: string;
-  status: 'Completed' | 'Canceled';
-  earnings: string;
-  tip: string;
-}
+const DeliveryTable: React.FC = () => {
+  const { filteredRecords } = useSelector((state: RootState) => state.deliveryHistory);
 
-interface DeliveryTableProps {
-  records: DeliveryRecord[];
-}
-
-const DeliveryTable: React.FC<DeliveryTableProps> = ({ records }) => {
-  console.log('DeliveryTable: Rendering table with', records.length, 'records');
-
-  const handleViewDetails = (orderId: string) => {
-    console.log('DeliveryTable: View details clicked for order:', orderId);
-  };
+  if (!filteredRecords?.length) {
+    return (
+      <div className="MA__delivery-table-container">
+        <div className="MA__table-title">Delivery Records</div>
+        <div style={{ textAlign: 'center', padding: 40, color: '#666', fontSize: 16 }}>
+          No delivery data available
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="MA__delivery-table-container">
@@ -39,26 +32,40 @@ const DeliveryTable: React.FC<DeliveryTableProps> = ({ records }) => {
           </tr>
         </thead>
         <tbody>
-          {records.map((rec) => (
-            <tr key={rec.orderId}>
-              <td className="MA__order-id">{rec.orderId}</td>
-              <td>{rec.customer}<br /><span className="MA__customer-info">{rec.items} items</span></td>
-              <td>{rec.restaurant}</td>
-              <td>{rec.date}<br /><span className="MA__customer-info">{rec.time}</span></td>
+          {filteredRecords.map(({ orderId, customer, items, restaurant, date, time, status, earnings, tip }) => (
+            <tr key={orderId}>
+              <td className="MA__order-id">{orderId}</td>
               <td>
-                <span className={`MA__status-badge ${rec.status === 'Completed' ? 'MA__status-completed' : 'MA__status-canceled'}`}>
-                  {rec.status}
+                {customer}<br />
+                <span className="MA__customer-info">{items} items</span>
+              </td>
+              <td>{restaurant}</td>
+              <td>
+                {date}<br />
+                <span className="MA__customer-info">{time}</span>
+              </td>
+              <td>
+                <span
+                  style={{
+                    backgroundColor: statusConfig[status].color,
+                    color: '#fff',
+                    padding: '4px 8px',
+                    borderRadius: 12,
+                    fontSize: 12,
+                    fontWeight: 500,
+                  }}
+                >
+                  {statusConfig[status].text}
                 </span>
               </td>
               <td>
-                ${rec.earnings}
-                <br />
-                <span className="MA__earnings-amount">+${rec.tip} tip</span>
+                ${earnings}<br />
+                <span className="MA__earnings-amount">+${tip} tip</span>
               </td>
               <td>
-                <button 
-                  className="MA__view-details" 
-                  onClick={() => handleViewDetails(rec.orderId)}
+                <button
+                  className="MA__view-details"
+                  onClick={() => console.log('View details for:', orderId)}
                 >
                   View Details
                 </button>
@@ -71,4 +78,13 @@ const DeliveryTable: React.FC<DeliveryTableProps> = ({ records }) => {
   );
 };
 
-export default DeliveryTable; 
+const statusConfig = {
+  PENDING: { text: 'Pending', color: '#fbbf24' },
+  CONFIRMED: { text: 'Confirmed', color: '#6366f1' },
+  PREPARING: { text: 'Preparing', color: '#8b5cf6' },
+  OUT_FOR_DELIVERY: { text: 'Out for Delivery', color: '#06b6d4' },
+  COMPLETED: { text: 'Completed', color: '#22c55e' },
+  CANCELLED: { text: 'Cancelled', color: '#f43f5e' }
+};
+
+export default DeliveryTable;

@@ -1,0 +1,150 @@
+.MA__filter-sort {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.MA__filter-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #111827;
+}
+
+.MA__filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.MA__filter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #222222a1;
+  font-weight: 500;
+}
+
+.MA__filter-select {
+  height: 56px;
+  min-width: 220px;
+  padding: 0 16px;
+  border: 1px solid #E6E6E6;
+  border-radius: 14px;
+  background: #E5E7EB;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.MA__filter-select:hover {
+  background: #DDE0E5;
+}
+
+.MA__filter-select:focus {
+  outline: none;
+  border-color: #5B21B6;
+  box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.15);
+  background: white;
+}
+
+.MA__filter-select::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #111827;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.MA__sort-controls {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 20px;
+}
+
+.MA__sort-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #374151;
+}
+
+.MA__sort-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.MA__sort-btn {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.MA__sort-btn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+.MA__sort-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.MA__sort-btn.active:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .MA__filter-controls {
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+  }
+  
+  .MA__filter-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .MA__filter-select {
+    min-width: 100%;
+    width: 100%;
+  }
+  
+  .MA__sort-buttons {
+    gap: 8px;
+  }
+  
+  .MA__sort-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
