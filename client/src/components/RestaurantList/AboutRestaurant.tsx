@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import type { AboutCardProps } from '../../types/mc_Types';
 import axios from "axios";
-
+import type { RootState } from "../../store";
+import { useSelector } from "react-redux";
 export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string }> = ({
   description,
   rating,
@@ -12,13 +13,16 @@ export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string 
   restaurantId,
 }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const reviews = useSelector((state: RootState) => state.restaurantDetails.reviews ?? []);
   const [reviewRating, setReviewRating] = useState(0);
   const [comment, setComment] = useState("");
+
 
   const handleSubmitReview = async () => {
     if (!reviewRating || reviewRating < 0 || reviewRating > 5) {
       return alert("Rating must be 0–5");
     }
+    
 
     try {
       const token = localStorage.getItem("token");
@@ -35,6 +39,7 @@ export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string 
       console.error(err);
       alert("Failed to submit review");
     }
+    
   };
 
   return (
@@ -129,6 +134,7 @@ export const AboutRestaurant: React.FC<AboutCardProps & { restaurantId?: string 
       >
         Review
       </button>
+  
 
      {showReviewForm && (
   <div className="fixed inset-0 bg-black/30 flex justify-center items-center z-50">

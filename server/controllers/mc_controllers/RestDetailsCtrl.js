@@ -112,7 +112,7 @@ const getOrderHistoryByUser = async (req, res) => {
 
 const addRestaurantReview = async (req, res) => {
   try {
-    const { restId } = req.params.restId;
+    const restId = req.params.restId;
     const { rating, comment } = req.body;
     const userId = req.user?.userId;
 
@@ -120,24 +120,23 @@ const addRestaurantReview = async (req, res) => {
     if (!rating || rating < 0 || rating > 5)
       return res.status(400).json({ error: "Rating must be between 0 and 5" });
 
-    const review = await prisma.review.upsert({
-      where: {
-        userId_restaurantId: { userId, restaurantId: restId }
-      },
-      update: {
-        rating,
-        comment
-      },
-      create: {
-        rating,
-        comment,
-        restaurantId: restId,
-        userId
-      },
-      include: {
-        user: { select: { id: true, fullName: true } }
-      }
+    const existingReview = await prisma.review.findFirst({
+      where: { userId, restaurantId: restId }
     });
+
+    let review;
+    if (existingReview) {
+      review = await prisma.review.update({
+        where: { id: existingReview.id },
+        data: { rating, comment },
+        include: { user: { select: { id: true, fullName: true } } }
+      });
+    } else {
+      review = await prisma.review.create({
+        data: { userId, restaurantId: restId, rating, comment },
+        include: { user: { select: { id: true, fullName: true } } }
+      });
+    }
 
     return res.status(200).json({ success: true, review });
   } catch (error) {

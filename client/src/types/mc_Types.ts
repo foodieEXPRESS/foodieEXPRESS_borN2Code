@@ -14,7 +14,7 @@ export interface Tag {
 }
 
 //---------------------- Menu & Restaurant ----------------------
-export interface MenuItem {
+export interface  MenuItem {
   id: string;
   name: string;
   description?: string;
@@ -69,7 +69,7 @@ export interface RestaurantDetails {
   contactPhone?: string;     
   media?: Media[];
   menus: Menu[];
-  reviews: Review[];
+  reviews?: Review[];
 }
 
 export interface AboutCardProps {
@@ -95,6 +95,7 @@ export interface RestaurantDetailsState {
   loading: boolean;
   error: string | null;
   imageUrl: string | null;
+  reviews: Review[];
 }
 
 export interface RestaurantListState {

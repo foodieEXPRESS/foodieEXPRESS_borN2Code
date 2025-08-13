@@ -17,7 +17,13 @@ const RestaurantDetails: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error, imageUrl } = useSelector((state: RootState) => state.restaurantDetails);
   const [activeTab, setActiveTab] = useState<string | null>(null);
-  
+  const reviews = useSelector((state: RootState) => state.restaurantDetails.reviews ?? []);
+
+  const averageRating =
+    reviews.length > 0
+      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+      : data?.rating || 0;
+
   
   useEffect(() => {
     if (restId) {
@@ -28,7 +34,7 @@ const RestaurantDetails: React.FC = () => {
 
 
    useEffect(() => {
-    if (data && data.menus.length > 0) {
+    if (data && data.menus?.length > 0) {
       setActiveTab(data.menus[0].name);
     }
   }, [data]);
@@ -65,7 +71,7 @@ const RestaurantDetails: React.FC = () => {
         <AboutRestaurant
           restaurantId={data.id}
           description={data.description || ""}
-          rating={data.rating || 0}
+          rating={averageRating}
           deliveryTime={data.deliveryTime || ""}
           deliveryFee={data.deliveryFee || ""}
           address={data.address || ""}
@@ -77,7 +83,7 @@ const RestaurantDetails: React.FC = () => {
 
       <section className="mb-6">
         <div className="flex flex-wrap gap-2 border-b border-gray-200 mb-4">
-          {data.menus.map((menu: any) => (
+          {data.menus?.map((menu: any) => (
             <button
               key={menu.id}
               onClick={() => setActiveTab(menu.name)}
@@ -97,37 +103,50 @@ const RestaurantDetails: React.FC = () => {
       
       <section>
         <h2 className="text-2xl font-bold text-gray-800 mb-2">{activeTab}</h2>
-        {data.menus
-          .filter((menu: any) => menu.name === activeTab)
-          .map((menu: any) => (
-            <div
-              key={menu.id}
-              className="mb-8"
-              style={{
-                boxShadow: "0px 4px 20px 0px #00000014"
-              }}
-            >
-              <div className="flex flex-col gap-4">
-                {menu.items.length > 0 ? (
-                  menu.items.map((item: any) => (
-                    <MenuItem
-                      key={item.id}
-                      id={item.id}
-                      name={item.name}
-                      description={item.description}
-                      price={item.price}
-                      available={item.available} // ✅ Add this
-                      tags={item.tags?.map((t: any) => t.tag.name) || []}
-                      restaurantName={data.name}
-                    />
-                  ))
-                ) : (
-                  <p className="text-gray-500">No items in this category.</p>
-                )}
-              </div>
-            </div>
-          ))}
+        {data.menus?.filter((menu: any) => menu.name === activeTab).map((menu: any) => (
+  <div
+    key={menu.id}
+    className="mb-8"
+    style={{ boxShadow: "0px 4px 20px 0px #00000014" }}
+  >
+    <div className="flex flex-col gap-4">
+      {menu.items?.length > 0 ? (
+        menu.items.map((item: any) => (
+          <MenuItem
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            description={item.description}
+            price={item.price}
+            available={item.available}
+            tags={item.tags?.map((t: any) => t.tag.name) || []}
+            restaurantName={data.name}
+          />
+        ))
+      ) : (
+        <p className="text-gray-500">No items in this category.</p>
+      )}
+    </div>
+  </div>
+))}
       </section>
+
+      <section className="mt-10 w-full ">
+  <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+  {reviews.length > 0 ? (
+    reviews.map((review) => (
+      <div key={review.id} className="border-b py-3">
+        <div className="flex justify-between">
+          <span className="font-semibold">{review.user.fullName}</span>
+          <span className="text-yellow-400">{'★'.repeat(review.rating)}</span>
+        </div>
+        <p>{review.comment}</p>
+      </div>
+    ))
+  ) : (
+    <p className="text-gray-500">No reviews yet.</p>
+  )}
+</section>
     </main>
   );
 };
@@ -175,7 +194,7 @@ const MenuItem: React.FC<MenuItem & {}> = ({
         <div className="flex flex-col justify-between">
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="text-lg font-semibold">{name}</h3>
-            {tags.map((tag) => (
+            {tags?.map((tag) => (
               <span
                 key={tag}
                 className={`${getTagClasses(tag)} text-xs font-semibold px-2 py-1 rounded select-none`}
@@ -205,6 +224,7 @@ const MenuItem: React.FC<MenuItem & {}> = ({
         <p className="text-indigo-500 font-extrabold text-2xl">${price.toFixed(2)}</p>
       </div>
     </article>
+    
   );
 };
 

@@ -3,7 +3,7 @@ import type { RestaurantDetailsState } from '../types/mc_Types';
 import axios from 'axios';
 
 
-// mc : refactor to use auth
+// mc :Fetch restaurant by ID
 
 export const fetchRestaurantById = createAsyncThunk(
   'restaurant/fetchById',
@@ -12,8 +12,10 @@ export const fetchRestaurantById = createAsyncThunk(
       const token = localStorage.getItem('token');
       const res = await axios.get(`http://localhost:8080/api/details/${restId}`, {
         ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
+        
       });
       if (!res) throw new Error('Failed to fetch restaurant');
+      console.log('fetchRestaurantById response:', res.data);
       return res.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -21,8 +23,8 @@ export const fetchRestaurantById = createAsyncThunk(
   }
 );
 
+// mc: Fetch restaurant image
 
-// mc : refactor to use auth
 export const fetchRestaurantImage = createAsyncThunk(
   'restaurant/fetchImage',
    async (restId: string, { rejectWithValue }) => {
@@ -37,6 +39,8 @@ export const fetchRestaurantImage = createAsyncThunk(
     }
   }
 );
+
+// mc :Submit or update review
 
 export const submitRestaurantReview = createAsyncThunk(
   'restaurant/submitReview',
@@ -63,6 +67,7 @@ export const initialState: RestaurantDetailsState = {
   loading: false,
   error: null,
   imageUrl: null,
+  reviews: [],
 };
 
 const restaurantDetailsSlice = createSlice({
@@ -78,6 +83,7 @@ const restaurantDetailsSlice = createSlice({
       .addCase(fetchRestaurantById.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
+        state.reviews = action.payload.reviews || [];
       })
       .addCase(fetchRestaurantById.rejected, (state, action) => {
         state.loading = false;
@@ -85,7 +91,15 @@ const restaurantDetailsSlice = createSlice({
       })
       .addCase(fetchRestaurantImage.fulfilled, (state, action) => {
         state.imageUrl = action.payload;
-      })
+      })   .addCase(submitRestaurantReview.fulfilled, (state, action) => {
+        //mc : Add or update review in state
+        const existingIndex = state.reviews.findIndex((r) => r.id === action.payload.id);
+        if (existingIndex >= 0) {
+          state.reviews[existingIndex] = action.payload;
+        } else {
+          state.reviews.push(action.payload);
+        }
+      });
 
   },
 });
