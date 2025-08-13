@@ -1,12 +1,16 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../../../store';
+import { setFilters } from './deliveryHistorySlice';
+import './FilterSort.css';
 
 const FilterSort: React.FC = () => {
-  const handleDateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('FilterSort: Date filter changed to:', e.target.value);
-  };
+  const dispatch = useDispatch<AppDispatch>();
+  const filters = useSelector((state: RootState) => state.deliveryHistory.filters);
 
-  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('FilterSort: Status filter changed to:', e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const updated = { ...filters, [e.target.name]: e.target.value };
+    dispatch(setFilters(updated));
   };
 
   return (
@@ -15,18 +19,28 @@ const FilterSort: React.FC = () => {
       <div className="MA__filter-controls">
         <label className="MA__filter-label">
           Date:
-          <select className="MA__filter-select" onChange={handleDateChange}>
-            <option>All Time</option>
-            <option>Last 7 Days</option>
-            <option>Last 30 Days</option>
+          <select
+            name="dateRange"
+            className="MA__filter-select"
+            value={filters.dateRange}
+            onChange={handleChange}
+          >
+            <option value="all">All Time</option>
+            <option value="last7days">Last 7 Days</option>
+            <option value="last30days">Last 30 Days</option>
           </select>
         </label>
         <label className="MA__filter-label">
           Status:
-          <select className="MA__filter-select" onChange={handleStatusChange}>
-            <option>All Status</option>
-            <option>Completed</option>
-            <option>Canceled</option>
+          <select
+            name="status"
+            className="MA__filter-select"
+            value={filters.status}
+            onChange={handleChange}
+          >
+            <option value="all">All Status</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Canceled</option>
           </select>
         </label>
       </div>
@@ -34,4 +48,4 @@ const FilterSort: React.FC = () => {
   );
 };
 
-export default FilterSort; 
+export default FilterSort;

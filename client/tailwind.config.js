@@ -1,10 +1,18 @@
-    // tailwind.config.js
-    module.exports = {
-      content: [
-        "./index.html",
-        "./src/**/*.{js,ts,jsx,tsx}",
-      ],
-     theme: {
+// tailwind.config.js
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
         primary: {
@@ -16,10 +24,20 @@
           gray: "#666666",
           light: "#E5E5E5",
           lighter: "#FAFAFA",
-        }
+        },
+        foodie: {
+          primary: "#4318D1",
+          bg: "#FAFAFA",
+          text: "#1A1A1A",
+          gray: "#666666",
+          placeholder: "#999999",
+          border: "#E5E5E5",
+          filter: "#D9D9D9",
+        },
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
         brand: ['Italiana', 'serif'],
       },
       fontSize: {
@@ -38,18 +56,7 @@
         'btn-lg': '1rem 2rem',
         'btn-xl': '1.25rem 2.5rem',
       },
-      backgroundColor: {
-        'primary-DEFAULT': '#4318D1',
-        'primary-alt': '#10B981',
-        'secondary-dark': '#1A1A1A',
-        'secondary-gray': '#666666',
-        'secondary-light': '#E5E5E5',
-        'secondary-lighter': '#FAFAFA'
-      }
-    
-    }
-
-    
+    },
   },
-      plugins: [],
-    }
+  plugins: [],
+}
