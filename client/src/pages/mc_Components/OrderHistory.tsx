@@ -111,10 +111,6 @@ const orderSummary: Record<string, OrderSummaryCard> = {
               className="ml-2 bg-gray-200 text-gray-900 font-semibold text-sm rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option>All Status</option>
-              <option>PENDING</option>
-              <option>CONFIRMED</option>
-              <option>PREPARING</option>
-              <option>OUT_FOR_DELIVERY</option>
               <option>DELIVERED</option>
               <option>CANCELLED</option>
             </select>
@@ -130,7 +126,8 @@ const orderSummary: Record<string, OrderSummaryCard> = {
             <tr>
               {[
                 'Order ID',
-                'Customer ID',
+                'Driver ID',
+                'Items',
                 'Date',
                 'Status',
                 'Total Amount',
@@ -159,7 +156,14 @@ const orderSummary: Record<string, OrderSummaryCard> = {
                 className="border-b border-gray-200 last:border-b-0 hover:bg-indigo-50 cursor-pointer"
               >
                 <td className="text-indigo-700 font-bold underline px-8 py-4">{rec.id}</td>
-                <td className="px-8 py-4">{rec.customerId}</td>
+                <td className="px-8 py-4">{rec.driverId || 'N/A'}</td>
+                 <td className="px-8 py-4">
+                {rec.items?.map((item, idx) => (
+                  <div key={idx}>
+                {item.quantity} × {item.name}
+                </div>
+                  ))}
+                  </td>
                 <td className="px-8 py-4">
                   {new Date(rec.createdAt).toLocaleDateString()}
                   <br />

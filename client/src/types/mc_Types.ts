@@ -163,12 +163,18 @@ export interface OrderSummary {
   totalPrice: OrderSummaryCard;
 }
 
+export interface OrderItem {
+  name: string;
+  quantity: number;
+}
+
 export interface OrderRecord {
   id: string;
   status: string;
   totalAmount: number | null;
   createdAt: string;
-  customerId: string;
+  driverId: string | null; // driver ID
+  items: OrderItem[]; 
 }
 
 export interface OrderHistoryState {

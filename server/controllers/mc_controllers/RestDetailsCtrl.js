@@ -99,7 +99,7 @@ const menuItemIdImage = async (req, res) => {
 
 const getOrderHistoryByUser = async (req, res) => {
   try {
-    const userId = req.user?.userId;
+    // const userId = req.user?.userId;
     if (!userId) {
       return res.status(400).json({ success: false, error: "User ID required" });
     }
@@ -107,28 +107,21 @@ const getOrderHistoryByUser = async (req, res) => {
     const orders = await prisma.order.findMany({
       where: { customerId: userId },
       select: {
-        id: true,
-        status: true,
-        totalAmount: true,
-        orderItems: {
-          select: {
-            id: true,
-            quantity: true,
-            price: true,
-            menu: {
-              select: {
-                id: true,
-                name: true,
-                description: true,
-              },
-            },
-          },
-        },
-        restaurantId: true,
-        driverId: true,
-      },
-      orderBy: { id: "desc" },
-    });
+       id: true,
+       status: true,
+       totalAmount: true,
+       driverId: true,
+       orderItems: {
+       select: {
+        quantity: true,
+        menu: {
+          select: { name: true }
+        }
+      }
+    }
+  },
+  orderBy: { id: "desc" }
+});
     
 
     return res.status(200).json({
