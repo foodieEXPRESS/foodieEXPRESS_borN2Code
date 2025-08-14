@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
 import { fetchOrderHistory } from '../../store/orderHistorySlice';
 import type {OrderSummaryCard } from '../../types/mc_Types';
+import Navbar from '../5Mohamed/LandingPage/Navbar';
 
 const colorMap: Record<string, string> = {
   green: 'bg-green-500',
@@ -29,23 +30,23 @@ useEffect(() => {
     return typeof price === 'string' ? parseFloat(price).toFixed(2) : price.toFixed(2);
   };
 
-  const totalOrders = Array.isArray(records) ? records.length : 0;
-
- const totalPrice = Array.isArray(records)
-  ? records
-      .filter(rec => rec.status !== 'CANCELLED') 
-      .reduce((sum, rec) => sum + (rec.totalAmount || 0), 0)
-  : 0;
-const orderSummary: Record<string, OrderSummaryCard> = {
-  totalOrders: { icon: '📦', label: 'Total Orders', value: totalOrders, color: 'red' },
-  totalPrice: { icon: '💰', label: 'Total Price', value: totalPrice, color: 'blue' },
-};
 
 const filteredRecords = useMemo(() => {
 return records.filter(rec => 
     (statusFilter === 'All Status' || rec.status === statusFilter)
   );
 }, [records, statusFilter]);
+const totalOrders = new Set(filteredRecords.map(rec => rec.id)).size;
+
+const seenOrderIds = new Set();
+const totalPrice = filteredRecords
+  .filter(rec => rec.status !== 'CANCELLED' && !seenOrderIds.has(rec.id) && seenOrderIds.add(rec.id))
+  .reduce((sum, rec) => sum + (rec.totalAmount || 0), 0);
+const orderSummary: Record<string, OrderSummaryCard> = {
+  totalOrders: { icon: '📦', label: 'Total Orders', value: totalOrders, color: 'red' },
+  totalPrice: { icon: '💰', label: 'Total Price', value: totalPrice, color: 'blue' },
+};
+
 
   if (loading) return <div className="p-8 text-center text-xl">Loading order history...</div>;
   if (error) return <div className="p-8 text-center text-red-600">Error: {error}</div>;
@@ -53,6 +54,7 @@ return records.filter(rec =>
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-6 md:px-12">
       {/* Title */}
+      <Navbar/>
       <header className="mb-6">
         <h1 className="text-4xl font-extrabold text-gray-900">Order History</h1>
         <p className="text-gray-600 mt-1 text-lg">Track your past orders and earnings</p>
@@ -140,18 +142,19 @@ return records.filter(rec =>
               </tr>
             )}
 
-            {filteredRecords.map((rec) => (
-              <tr
-                key={rec.id}
-                className="border-b border-gray-200 last:border-b-0 hover:bg-indigo-50 cursor-pointer"
-              >
+           {filteredRecords.map((rec) => (
+  <tr key={`${rec.id}-${rec.restaurantName}`} className="border-b ...">
+
                 <td className="text-indigo-700 font-bold underline px-8 py-4">{rec.id}</td>
 
 {/* Items */}
 <td className="px-8 py-4">
-    <div className="text-sm text-gray-500">
-        {rec.items?.reduce((sum, item) => sum + item.quantity, 0)} items
-    </div>
+  {rec.items?.map((item, idx) => (
+  <div key={idx}>
+    {item.quantity} × {item.name}
+  </div>
+))}
+<div className="text-sm text-gray-500">{rec.items.length} items from {rec.restaurantName}</div>
 </td>
 
 {/* Date */}

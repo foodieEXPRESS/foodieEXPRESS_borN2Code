@@ -1,6 +1,6 @@
 const prisma = require("../../database");
 // const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501"; // mc : not needed anymore
-const userId = "9db4809c-ae36-4562-ba94-0bb74ca1007f";
+// const userId = "9db4809c-ae36-4562-ba94-0bb74ca1007f";
 
 const getRestbyId = async (req, res) => {
   const restId = req.params.restId;
@@ -99,51 +99,64 @@ const menuItemIdImage = async (req, res) => {
 
 const getOrderHistoryByUser = async (req, res) => {
   try {
-    // const userId = req.user?.userId;
+    const userId = req.user?.userId;
+
     if (!userId) {
       return res.status(400).json({ success: false, error: "User ID required" });
     }
 
     const orders = await prisma.order.findMany({
-         where: {
+      where: {
         customerId: userId,
-        status: { in: ["DELIVERED", "CANCELLED"] }
+        status: { in: ["DELIVERED", "CANCELLED"] },
       },
-
       select: {
         id: true,
         status: true,
-        totalAmount: true,
+        totalAmount: true, // use this
         driverId: true,
         orderItems: {
           select: {
             quantity: true,
-            menu: { select: { name: true } },
+            menu: {
+              select: {
+                id: true,
+                name: true,
+                restaurant: { select: { name: true } },
+              }
+            }
           }
         }
       },
       orderBy: { id: "desc" }
     });
 
+    const mappedOrders = orders.flatMap(order => {
+      const itemsByRestaurant = order.orderItems.reduce((acc, item) => {
+        const restName = item.menu?.restaurant?.name ?? 'Unknown';
+        if (!acc[restName]) acc[restName] = [];
+        acc[restName].push({
+          name: item.menu?.name ?? 'Unknown',
+          quantity: item.quantity
+        });
+        return acc;
+      }, {});
 
-    const mappedOrders = orders.map(order => ({
-  id: order.id,
-  status: order.status,
-  totalAmount: order.totalAmount,
-  driverId: order.driverId || null,
-  items: order.orderItems.map(item => ({
-  name: item.menuId ?? "Unknown Menu",
-  quantity: item.quantity,
-  })),
-}));
+      return Object.entries(itemsByRestaurant).map(([restaurantName, items]) => ({
+        id: order.id,
+        status: order.status,
+        driverId: order.driverId || null,
+        restaurantName,
+        items,
+        totalAmount: order.totalAmount ?? 0 
+      }));
+    });
 
-console.log("Mapped Orders:", JSON.stringify(mappedOrders, null, 2));
-
-res.json({
-  success: true,
-  totalOrders: mappedOrders.length,
-  orders: mappedOrders,
-});
+    res.json({
+      success: true,
+      totalOrders: mappedOrders.length,
+      orders: mappedOrders,
+    });
 
   } catch (error) {
     console.error("Error in getOrderHistoryByUser:", error);

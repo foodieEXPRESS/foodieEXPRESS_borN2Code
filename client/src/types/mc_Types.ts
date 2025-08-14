@@ -166,6 +166,7 @@ export interface OrderSummary {
 export interface OrderItem {
   name: string;
   quantity: number;
+  restaurantName?: string;
 }
 
 export interface OrderRecord {
@@ -173,8 +174,10 @@ export interface OrderRecord {
   status: string;
   totalAmount: number | null;
   createdAt: string;
-  driverId: string | null; // driver ID
+  driverId: string | null; 
+  restaurantName?: string;  
   items: OrderItem[]; 
+  
 }
 
 export interface OrderHistoryState {
