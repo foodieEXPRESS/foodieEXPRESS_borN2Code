@@ -4,7 +4,7 @@ const router = express.Router()
 const { authenticateToken } = require('../../middleware/auth');
     
 
-router.get('/OrderH',authenticateToken, getOrderHistoryByUser);
+router.get('/OrderH', getOrderHistoryByUser);
 router.put('/review/:restId', authenticateToken, addRestaurantReview);
 router.get('/image/:restId',authenticateToken, getImageById)
 router.get('/image/menuitems/:menuItemId', menuItemIdImage)
