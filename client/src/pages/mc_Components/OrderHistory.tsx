@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
 import { fetchOrderHistory } from '../../store/orderHistorySlice';
 import type {OrderSummaryCard } from '../../types/mc_Types';
+import Navbar from '../5Mohamed/LandingPage/Navbar';
 
 const colorMap: Record<string, string> = {
   green: 'bg-green-500',
@@ -19,40 +20,33 @@ const OrderHistory: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('All Status');
   const dispatch = useDispatch<AppDispatch>();
 
-  const userId = "53b1bef6-b6dd-40eb-bd39-e72a5e3e0632"; 
 
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchOrderHistory(userId));
-      console.log('Order history fetched:', records);
-    }
-  }, [dispatch, userId]);
+useEffect(() => {
+  dispatch(fetchOrderHistory()); 
+}, [dispatch]);
 
   const formatPrice = (price?: number | string | null) => {
     if (price == null) return '0.00';
     return typeof price === 'string' ? parseFloat(price).toFixed(2) : price.toFixed(2);
   };
 
-  const totalOrders = Array.isArray(records) ? records.length : 0;
 
-  const totalPrice = Array.isArray(records)
-    ? records.reduce((sum, rec) => sum + (rec.totalAmount || 0), 0)
-    : 0;
+const filteredRecords = useMemo(() => {
+return records.filter(rec => 
+    (statusFilter === 'All Status' || rec.status === statusFilter)
+  );
+}, [records, statusFilter]);
+const totalOrders = new Set(filteredRecords.map(rec => rec.id)).size;
+
+const seenOrderIds = new Set();
+const totalPrice = filteredRecords
+  .filter(rec => rec.status !== 'CANCELLED' && !seenOrderIds.has(rec.id) && seenOrderIds.add(rec.id))
+  .reduce((sum, rec) => sum + (rec.totalAmount || 0), 0);
 const orderSummary: Record<string, OrderSummaryCard> = {
   totalOrders: { icon: '📦', label: 'Total Orders', value: totalOrders, color: 'red' },
   totalPrice: { icon: '💰', label: 'Total Price', value: totalPrice, color: 'blue' },
 };
 
-
-  const filteredRecords = useMemo(() => {
-    let filtered = [...records];
-
-    if (statusFilter !== 'All Status') {
-      filtered = filtered.filter((r) => r.status === statusFilter);
-    }
-
-    return filtered;
-  }, [dateFilter, statusFilter, records]);
 
   if (loading) return <div className="p-8 text-center text-xl">Loading order history...</div>;
   if (error) return <div className="p-8 text-center text-red-600">Error: {error}</div>;
@@ -60,6 +54,7 @@ const orderSummary: Record<string, OrderSummaryCard> = {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-6 md:px-12">
       {/* Title */}
+      <Navbar/>
       <header className="mb-6">
         <h1 className="text-4xl font-extrabold text-gray-900">Order History</h1>
         <p className="text-gray-600 mt-1 text-lg">Track your past orders and earnings</p>
@@ -111,10 +106,6 @@ const orderSummary: Record<string, OrderSummaryCard> = {
               className="ml-2 bg-gray-200 text-gray-900 font-semibold text-sm rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option>All Status</option>
-              <option>PENDING</option>
-              <option>CONFIRMED</option>
-              <option>PREPARING</option>
-              <option>OUT_FOR_DELIVERY</option>
               <option>DELIVERED</option>
               <option>CANCELLED</option>
             </select>
@@ -128,20 +119,18 @@ const orderSummary: Record<string, OrderSummaryCard> = {
         <table className="min-w-full border-separate border-spacing-0 text-base bg-transparent">
           <thead>
             <tr>
-              {[
-                'Order ID',
-                'Customer ID',
-                'Date',
-                'Status',
-                'Total Amount',
-              ].map((header) => (
-                <th
-                  key={header}
-                  className="text-left px-8 pt-4 pb-3 font-bold text-gray-600 text-sm border-b-2 border-gray-200"
-                >
-                  {header}
-                </th>
-              ))}
+            {[
+  'Order ID',
+  'Items',
+  'Date',
+  'Status',
+  'Total Amount',
+  'Driver ID', 
+].map((header) => (
+  <th key={header} className="text-left px-8 pt-4 pb-3 font-bold text-gray-600 text-sm border-b-2 border-gray-200">
+    {header}
+  </th>
+))}
             </tr>
           </thead>
           <tbody>
@@ -153,36 +142,51 @@ const orderSummary: Record<string, OrderSummaryCard> = {
               </tr>
             )}
 
-            {filteredRecords.map((rec) => (
-              <tr
-                key={rec.id}
-                className="border-b border-gray-200 last:border-b-0 hover:bg-indigo-50 cursor-pointer"
-              >
+           {filteredRecords.map((rec) => (
+  <tr key={`${rec.id}-${rec.restaurantName}`} className="border-b ...">
+
                 <td className="text-indigo-700 font-bold underline px-8 py-4">{rec.id}</td>
-                <td className="px-8 py-4">{rec.customerId}</td>
-                <td className="px-8 py-4">
-                  {new Date(rec.createdAt).toLocaleDateString()}
-                  <br />
-                  <span className="text-gray-500 text-xs font-normal">
-                    {new Date(rec.createdAt).toLocaleTimeString()}
-                  </span>
-                </td>
-                <td className="px-8 py-4">
-                  <span
-                    className={`inline-block rounded-lg px-4 py-1 text-sm font-semibold ${
-                      rec.status === 'DELIVERED' 
-                        ? 'text-green-600 bg-green-100' 
-                        : rec.status === 'CANCELLED'
-                        ? 'text-red-600 bg-red-100'
-                        : 'text-blue-600 bg-blue-100'
-                    }`}
-                  >
-                    {rec.status}
-                  </span>
-                </td>
-                <td className="px-8 py-4">
-                  ${formatPrice(rec.totalAmount)}
-                </td>
+
+{/* Items */}
+<td className="px-8 py-4">
+  {rec.items?.map((item, idx) => (
+  <div key={idx}>
+    {item.quantity} × {item.name}
+  </div>
+))}
+<div className="text-sm text-gray-500">{rec.items.length} items from {rec.restaurantName}</div>
+</td>
+
+{/* Date */}
+<td className="px-8 py-4">
+    {new Date(rec.createdAt).toLocaleDateString()}
+    <br />
+    <span className="text-gray-500 text-xs font-normal">
+        {new Date(rec.createdAt).toLocaleTimeString()}
+    </span>
+</td>
+
+{/* Status */}
+<td className="px-8 py-4">
+    <span
+        className={`inline-block rounded-lg px-4 py-1 text-sm font-semibold ${
+            rec.status === 'DELIVERED' 
+            ? 'text-green-600 bg-green-100' 
+            : rec.status === 'CANCELLED'
+            ? 'text-red-600 bg-red-100'
+            : 'text-blue-600 bg-blue-100'
+        }`}
+    >
+        {rec.status}
+    </span>
+</td>
+
+{/* Total Amount */}
+<td className="px-8 py-4">${formatPrice(rec.totalAmount)}</td>
+
+{/* Driver ID */}
+<td className="px-8 py-4">{rec.driverId ? rec.driverId : 'No Driver'}</td>
+
               </tr>
             ))}
           </tbody>

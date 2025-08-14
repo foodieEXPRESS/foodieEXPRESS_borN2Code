@@ -163,12 +163,21 @@ export interface OrderSummary {
   totalPrice: OrderSummaryCard;
 }
 
+export interface OrderItem {
+  name: string;
+  quantity: number;
+  restaurantName?: string;
+}
+
 export interface OrderRecord {
   id: string;
   status: string;
   totalAmount: number | null;
   createdAt: string;
-  customerId: string;
+  driverId: string | null; 
+  restaurantName?: string;  
+  items: OrderItem[]; 
+  
 }
 
 export interface OrderHistoryState {
@@ -179,9 +188,16 @@ export interface OrderHistoryState {
 }
 
 export interface FetchOrderHistoryResponse {
-  success: boolean;
-  totalOrders: number;
-  orders: OrderRecord[];
+    success: boolean;
+    totalOrders: number;
+    orders: {
+    id: string;
+    status: string;
+    totalAmount: number | null;
+    createdAt: string;
+    driverId: string | null;
+    items: { name: string; quantity: number }[];
+  }[];
 }
 
 //---------------------- Cart Types ----------------------
