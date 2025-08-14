@@ -1,6 +1,6 @@
 const prisma = require("../../database");
 // const restId = "8c5955c9-de47-4920-bcdd-47f05f3ce501"; // mc : not needed anymore
-const userId = "a1494056-46fc-469d-9c7c-70609d034d6d";
+const userId = "9db4809c-ae36-4562-ba94-0bb74ca1007f";
 
 const getRestbyId = async (req, res) => {
   const restId = req.params.restId;
@@ -105,30 +105,46 @@ const getOrderHistoryByUser = async (req, res) => {
     }
 
     const orders = await prisma.order.findMany({
-      where: { customerId: userId },
-      select: {
-       id: true,
-       status: true,
-       totalAmount: true,
-       driverId: true,
-       orderItems: {
-       select: {
-        quantity: true,
-        menu: {
-          select: { name: true }
-        }
-      }
-    }
-  },
-  orderBy: { id: "desc" }
-});
-    
+         where: {
+        customerId: userId,
+        status: { in: ["DELIVERED", "CANCELLED"] }
+      },
 
-    return res.status(200).json({
-      success: true,
-      totalOrders: orders.length,
-      orders,
+      select: {
+        id: true,
+        status: true,
+        totalAmount: true,
+        driverId: true,
+        orderItems: {
+          select: {
+            quantity: true,
+            menu: { select: { name: true } },
+          }
+        }
+      },
+      orderBy: { id: "desc" }
     });
+
+
+    const mappedOrders = orders.map(order => ({
+  id: order.id,
+  status: order.status,
+  totalAmount: order.totalAmount,
+  driverId: order.driverId || null,
+  items: order.orderItems.map(item => ({
+  name: item.menuId ?? "Unknown Menu",
+  quantity: item.quantity,
+  })),
+}));
+
+console.log("Mapped Orders:", JSON.stringify(mappedOrders, null, 2));
+
+res.json({
+  success: true,
+  totalOrders: mappedOrders.length,
+  orders: mappedOrders,
+});
+
   } catch (error) {
     console.error("Error in getOrderHistoryByUser:", error);
     return res.status(500).json({

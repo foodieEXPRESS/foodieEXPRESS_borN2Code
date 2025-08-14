@@ -185,9 +185,16 @@ export interface OrderHistoryState {
 }
 
 export interface FetchOrderHistoryResponse {
-  success: boolean;
-  totalOrders: number;
-  orders: OrderRecord[];
+    success: boolean;
+    totalOrders: number;
+    orders: {
+    id: string;
+    status: string;
+    totalAmount: number | null;
+    createdAt: string;
+    driverId: string | null;
+    items: { name: string; quantity: number }[];
+  }[];
 }
 
 //---------------------- Cart Types ----------------------

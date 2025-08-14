@@ -7,11 +7,11 @@ import type { OrderHistoryState } from '../types/mc_Types';
 
 export const fetchOrderHistory = createAsyncThunk<
   FetchOrderHistoryResponse,
-  string,
+  void,
   { rejectValue: string }
 >(
   'orderHistory/fetchOrderHistory',
-  async (_: string, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(`http://localhost:8080/api/details/OrderH`, {

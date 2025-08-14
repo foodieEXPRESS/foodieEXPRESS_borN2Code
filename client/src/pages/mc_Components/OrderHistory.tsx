@@ -19,14 +19,10 @@ const OrderHistory: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState('All Status');
   const dispatch = useDispatch<AppDispatch>();
 
-  const userId = "53b1bef6-b6dd-40eb-bd39-e72a5e3e0632"; 
 
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchOrderHistory(userId));
-      console.log('Order history fetched:', records);
-    }
-  }, [dispatch, userId]);
+useEffect(() => {
+  dispatch(fetchOrderHistory()); 
+}, [dispatch]);
 
   const formatPrice = (price?: number | string | null) => {
     if (price == null) return '0.00';
@@ -35,24 +31,21 @@ const OrderHistory: React.FC = () => {
 
   const totalOrders = Array.isArray(records) ? records.length : 0;
 
-  const totalPrice = Array.isArray(records)
-    ? records.reduce((sum, rec) => sum + (rec.totalAmount || 0), 0)
-    : 0;
+ const totalPrice = Array.isArray(records)
+  ? records
+      .filter(rec => rec.status !== 'CANCELLED') 
+      .reduce((sum, rec) => sum + (rec.totalAmount || 0), 0)
+  : 0;
 const orderSummary: Record<string, OrderSummaryCard> = {
   totalOrders: { icon: '📦', label: 'Total Orders', value: totalOrders, color: 'red' },
   totalPrice: { icon: '💰', label: 'Total Price', value: totalPrice, color: 'blue' },
 };
 
-
-  const filteredRecords = useMemo(() => {
-    let filtered = [...records];
-
-    if (statusFilter !== 'All Status') {
-      filtered = filtered.filter((r) => r.status === statusFilter);
-    }
-
-    return filtered;
-  }, [dateFilter, statusFilter, records]);
+const filteredRecords = useMemo(() => {
+return records.filter(rec => 
+    (statusFilter === 'All Status' || rec.status === statusFilter)
+  );
+}, [records, statusFilter]);
 
   if (loading) return <div className="p-8 text-center text-xl">Loading order history...</div>;
   if (error) return <div className="p-8 text-center text-red-600">Error: {error}</div>;
@@ -124,21 +117,18 @@ const orderSummary: Record<string, OrderSummaryCard> = {
         <table className="min-w-full border-separate border-spacing-0 text-base bg-transparent">
           <thead>
             <tr>
-              {[
-                'Order ID',
-                'Driver ID',
-                'Items',
-                'Date',
-                'Status',
-                'Total Amount',
-              ].map((header) => (
-                <th
-                  key={header}
-                  className="text-left px-8 pt-4 pb-3 font-bold text-gray-600 text-sm border-b-2 border-gray-200"
-                >
-                  {header}
-                </th>
-              ))}
+            {[
+  'Order ID',
+  'Items',
+  'Date',
+  'Status',
+  'Total Amount',
+  'Driver ID', 
+].map((header) => (
+  <th key={header} className="text-left px-8 pt-4 pb-3 font-bold text-gray-600 text-sm border-b-2 border-gray-200">
+    {header}
+  </th>
+))}
             </tr>
           </thead>
           <tbody>
@@ -156,37 +146,44 @@ const orderSummary: Record<string, OrderSummaryCard> = {
                 className="border-b border-gray-200 last:border-b-0 hover:bg-indigo-50 cursor-pointer"
               >
                 <td className="text-indigo-700 font-bold underline px-8 py-4">{rec.id}</td>
-                <td className="px-8 py-4">{rec.driverId || 'N/A'}</td>
-                 <td className="px-8 py-4">
-                {rec.items?.map((item, idx) => (
-                  <div key={idx}>
-                {item.quantity} × {item.name}
-                </div>
-                  ))}
-                  </td>
-                <td className="px-8 py-4">
-                  {new Date(rec.createdAt).toLocaleDateString()}
-                  <br />
-                  <span className="text-gray-500 text-xs font-normal">
-                    {new Date(rec.createdAt).toLocaleTimeString()}
-                  </span>
-                </td>
-                <td className="px-8 py-4">
-                  <span
-                    className={`inline-block rounded-lg px-4 py-1 text-sm font-semibold ${
-                      rec.status === 'DELIVERED' 
-                        ? 'text-green-600 bg-green-100' 
-                        : rec.status === 'CANCELLED'
-                        ? 'text-red-600 bg-red-100'
-                        : 'text-blue-600 bg-blue-100'
-                    }`}
-                  >
-                    {rec.status}
-                  </span>
-                </td>
-                <td className="px-8 py-4">
-                  ${formatPrice(rec.totalAmount)}
-                </td>
+
+{/* Items */}
+<td className="px-8 py-4">
+    <div className="text-sm text-gray-500">
+        {rec.items?.reduce((sum, item) => sum + item.quantity, 0)} items
+    </div>
+</td>
+
+{/* Date */}
+<td className="px-8 py-4">
+    {new Date(rec.createdAt).toLocaleDateString()}
+    <br />
+    <span className="text-gray-500 text-xs font-normal">
+        {new Date(rec.createdAt).toLocaleTimeString()}
+    </span>
+</td>
+
+{/* Status */}
+<td className="px-8 py-4">
+    <span
+        className={`inline-block rounded-lg px-4 py-1 text-sm font-semibold ${
+            rec.status === 'DELIVERED' 
+            ? 'text-green-600 bg-green-100' 
+            : rec.status === 'CANCELLED'
+            ? 'text-red-600 bg-red-100'
+            : 'text-blue-600 bg-blue-100'
+        }`}
+    >
+        {rec.status}
+    </span>
+</td>
+
+{/* Total Amount */}
+<td className="px-8 py-4">${formatPrice(rec.totalAmount)}</td>
+
+{/* Driver ID */}
+<td className="px-8 py-4">{rec.driverId ? rec.driverId : 'No Driver'}</td>
+
               </tr>
             ))}
           </tbody>
